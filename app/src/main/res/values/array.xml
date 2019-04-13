@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="reviewtType">
+        <item>计网</item>
+        <item>英语单词</item>
+        <item>数学公式</item>
+    </string-array>
+</resources>

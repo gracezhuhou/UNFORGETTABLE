@@ -1,16 +1,15 @@
 package com.example.unforgettable;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.litepal.LitePal;
 
-
-public class ReviewActivity extends AppCompatActivity {
+public class RecordActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
 
@@ -38,10 +37,9 @@ public class ReviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LitePal.initialize(this);   // 初始化
-        setContentView(R.layout.activity_review);
+        setContentView(R.layout.activity_record);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
-
 }
