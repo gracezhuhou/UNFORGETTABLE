@@ -12,13 +12,15 @@ public class MemoryCardsList extends LitePalSupport {
 
     //忽略即是不在数据库中创建该属性对应的字段
     @Column(ignore = true)
-    private String source;  //来源
-    private String author;  //作者
+    private String source;  // 来源
+    private String author;  // 作者
 
     //不为空
     @Column(nullable = false)
-    private String heading; //正面 标题
-    private String content; //背面 内容
+    private String heading; // 正面 标题
+    private String content; // 背面 内容
+    private boolean like;   // 收藏
+    private String tab;     // 标签
 
     //记得添加所有字段的getter和setter方法
     public int getId(){
@@ -59,5 +61,21 @@ public class MemoryCardsList extends LitePalSupport {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public boolean isLike() {
+        return like;
+    }
+
+    public void setLike(boolean like) {
+        this.like = like;
+    }
+
+    public String getTab() {
+        return tab;
+    }
+
+    public void setTab(String tab) {
+        this.tab = tab;
     }
 }
