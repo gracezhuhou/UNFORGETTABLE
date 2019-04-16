@@ -24,7 +24,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Button1"
+        android:text="归档"
         app:layout_constraintEnd_toStartOf="@+id/EditButton"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
@@ -35,7 +35,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Button2"
+        android:text="编辑"
         app:layout_constraintEnd_toStartOf="@+id/StarButton"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
@@ -46,7 +46,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Button3"
+        android:text="❤"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
