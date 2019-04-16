@@ -13,8 +13,8 @@ public class Dbhelper {
     }
 
 
-    //增加
-    public MemoryCardsList addCard(String source, String author, String heading, String content, boolean like, String tab){
+    // 增加
+    public MemoryCardsList addCard(String source, String author, String heading, String content, boolean like, String[] tab){
         //不可重复Heading
         if (LitePal.where("heading = ?", heading).find(MemoryCardsList.class).size() != 0){
             return null;
@@ -34,7 +34,7 @@ public class Dbhelper {
 
     //更新（修改）
     //点入修改界面时，oldHeading=此时的标题，再跳转页面
-    public boolean updateCard(String oldHeading, String source, String author, String heading, String content, boolean like, String tab){
+    public boolean updateCard(String oldHeading, String source, String author, String heading, String content, boolean like, String[] tab){
         //检测重名,不可重复Heading
         if (!oldHeading.equals(heading))
             if (LitePal.where("heading = ?", heading).find(MemoryCardsList.class).size() != 0)

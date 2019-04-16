@@ -32,7 +32,7 @@ public class RecordActivity extends AppCompatActivity {
     private String heading; // 正面 标题
     private String content; // 背面 内容
     private boolean like;   // 收藏
-    private String tab;     // 标签
+    private String[] tab;     // 标签
 
     private TextView mTextMessage;
 
@@ -95,11 +95,13 @@ public class RecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 getInput(); //获取用户输入内容
-                //暂时：
-                like = false;
-                tab = "计网";
+
+                // TODO: 是否收藏 & 选择标签（标签最多选择5个）
+                like = false;   //暂时
+                tab = new String[]{"计网", "英语"}; //暂时
+
                 dbhelper.addCard(source, author, heading, content, like, tab);  //添加记录
-                //清空页面
+                // TODO: 清空页面
             }
         });
     }

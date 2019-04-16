@@ -5,12 +5,27 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.litepal.LitePal;
 
 
 public class ReviewActivity extends AppCompatActivity {
+    // 前端相关变量
+    private Spinner spinner;
+    private Button fileButton;
+    private Button EditButton;
+    private Button StarButton;
+    private TextView typeText;
+    private TextView headingText;
+    private TextView detailText;
+    private TextView contentText;
+    private TextView passDayText;
+    private TextView forgetDayText;
+    private Button passButton;
+    private Button forgetButton;
 
     private TextView mTextMessage;
 
@@ -48,6 +63,24 @@ public class ReviewActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        setID();    //设置id
+    }
+
+    //设置Id
+    private void setID(){
+        spinner = (Spinner) findViewById(R.id.spinner);
+        fileButton = (Button)findViewById(R.id.fileButton);
+        EditButton = (Button)findViewById(R.id.EditButton);
+        StarButton = (Button)findViewById(R.id.StarButton);
+        typeText = (TextView) findViewById(R.id.typeText);
+        headingText = (TextView) findViewById(R.id.headingText);
+        detailText = (TextView) findViewById(R.id.detailText);
+        contentText = (TextView) findViewById(R.id.contentText);
+        passDayText = (TextView)findViewById(R.id.passDayText);
+        forgetDayText = (TextView)findViewById(R.id.forgetDayText);
+        passButton = (Button)findViewById(R.id.passButton);
+        forgetButton = (Button)findViewById(R.id.forgetButton);
     }
 
 }
