@@ -10,9 +10,9 @@
         android:id="@+id/submitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:layout_marginRight="@dimen/dp_8"
         android:text="完成"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,9 +20,9 @@
     <!--来源-->
     <EditText
         android:id="@+id/sourceInput"
-        android:layout_width="199dp"
-        android:layout_height="62dp"
-        android:layout_marginStart="20dp"
+        android:layout_width="177dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="@dimen/dp_20"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,8 +31,10 @@
     <!--作者-->
     <EditText
         android:id="@+id/authorInput"
-        android:layout_width="199dp"
-        android:layout_height="61dp"
+        android:layout_width="177dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toEndOf="@+id/sourceInput"
         app:layout_constraintTop_toBottomOf="@+id/submitButton" />
