@@ -20,7 +20,7 @@
     <!--来源-->
     <EditText
         android:id="@+id/sourceInput"
-        android:layout_width="177dp"
+        android:layout_width="@dimen/dp_177"
         android:layout_height="45dp"
         android:layout_marginStart="@dimen/dp_20"
         android:layout_marginLeft="20dp"
@@ -31,7 +31,7 @@
     <!--作者-->
     <EditText
         android:id="@+id/authorInput"
-        android:layout_width="177dp"
+        android:layout_width="@dimen/dp_177"
         android:layout_height="44dp"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
@@ -102,17 +102,5 @@
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/typeButton" />
 
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation" />
 
 </android.support.constraint.ConstraintLayout>
