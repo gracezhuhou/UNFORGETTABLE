@@ -1,7 +1,10 @@
 package com.example.unforgettable;
 
+import org.litepal.LitePal;
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
+
+import java.util.Date;
 
 public class MemoryCardsList extends LitePalSupport {
     //运用注解来为字段添加index标签
@@ -22,7 +25,11 @@ public class MemoryCardsList extends LitePalSupport {
     private boolean like;   // 收藏
     private String[] tab;     // 标签, 最多选择5个
     private boolean finish = false; // 归档
+
     // TODO: 背诵时间
+    private Date recordDate = new Date(System.currentTimeMillis());
+    private Date reciteDate = new Date(System.currentTimeMillis());
+    private int stage = 0;  // 背诵阶段
 
     //记得添加所有字段的getter和setter方法
     public int getId(){
@@ -87,5 +94,29 @@ public class MemoryCardsList extends LitePalSupport {
 
     public void setFinish(boolean finish) {
         this.finish = finish;
+    }
+
+    public Date getRecordDate() {
+        return recordDate;
+    }
+
+    public void setRecordDate(Date recordDate) {
+        this.recordDate = recordDate;
+    }
+
+    public Date getReciteDate() {
+        return reciteDate;
+    }
+
+    public void setReciteDate(Date reciteDate) {
+        this.reciteDate = reciteDate;
+    }
+
+    public int getStage() {
+        return stage;
+    }
+
+    public void setStage(int stage) {
+        this.stage = stage;
     }
 }
