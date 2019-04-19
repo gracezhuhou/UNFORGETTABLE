@@ -40,177 +40,61 @@ public class ReviewActivity extends Fragment{
     // 数据库相关变量
     private Dbhelper dbhelper = new Dbhelper();
     private List<MemoryCardsList> reciteCardList;    //背诵卡片列表
-    //private int cardIndex = 0;  // 背诵卡片index
     private String heading; // 正面 标题
     private boolean like;   // 收藏
-
-    private TextView mTextMessage;
-
-//    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-//            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-//
-//        @Override
-//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//            switch (item.getItemId()) {
-//                case R.id.navigation_review:
-//                    mTextMessage.setText(R.string.title_home);
-//                    return true;
-//                case R.id.navigation_list:
-//                    mTextMessage.setText(R.string.title_dashboard);
-//                    return true;
-//                case R.id.navigation_record:
-//                    mTextMessage.setText(R.string.title_notifications);
-//                    return true;
-//                case R.id.navigation_statisitc:
-//                    mTextMessage.setText(R.string.title_notifications);
-//                    return true;
-//                case R.id.navigation_personal:
-//                    mTextMessage.setText(R.string.title_notifications);
-//                    return true;
-//            }
-//            return false;
-//        }
-//    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_review);
         View view = inflater.inflate(R.layout.activity_review, container, false);
-
-//        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-//        //navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-//        BottomNavigationViewHelper.disableShiftMode(navigation);
-//
-//        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                switch(item.getItemId())
-//                {
-//                    case R.id.navigation_list:
-//                        Intent intent2 = new Intent(ReviewActivity.this, MemoryCardsList.class);
-//                        //intent2.putExtra("user_phone", myPhone);
-//                        startActivity(intent2);
-//                        break;
-//                    case R.id.navigation_record:
-//                        Intent intent3 = new Intent(ReviewActivity.this, RecordActivity.class);
-//                        //intent3.putExtra("user_phone", myPhone);
-//                        startActivity(intent3);
-//                        break;
-//                    case R.id.navigation_statisitc:
-//                        Intent intent4 = new Intent(ReviewActivity.this, StatisticActivity.class);
-//                        //intent4.putExtra("user_phone", myPhone);
-//                        startActivity(intent4);
-//                        break;
-//                    case R.id.navigation_personal:
-//                        Intent intent5 = new Intent(ReviewActivity.this, SetActivity.class);
-//                        //intent5.putExtra("user_phone", myPhone);
-//                        startActivity(intent5);
-//                        break;
-//                }
-//                return true;
-//            }
-//        });
 
         LitePal.initialize(this.getActivity());   // 初始化
 
-        setID();    // 设置id
+        // 设置id
+        spinner = (Spinner)view.findViewById(R.id.spinner);
+        fileButton = (Button)view.findViewById(R.id.fileButton);
+        editButton = (Button)view.findViewById(R.id.editButton);
+        starButton = (Button)view.findViewById(R.id.starButton);
+        typeText = (TextView)view.findViewById(R.id.typeText);
+        headingText = (TextView)view.findViewById(R.id.headingText);
+        detailText = (TextView)view.findViewById(R.id.detailText);
+        contentText = (TextView)view.findViewById(R.id.contentText);
+        passDayText = (TextView)view.findViewById(R.id.passDayText);
+        forgetDayText = (TextView)view.findViewById(R.id.forgetDayText);
+        passButton = (Button)view.findViewById(R.id.passButton);
+        forgetButton = (Button)view.findViewById(R.id.forgetButton);
+        remindButton = (Button)view.findViewById(R.id.remindButton);
+
         init();  // 初始化背诵列表&初始界面
 
         return view;
     }
 
-    //设置Id
-    private void setID(){
-        spinner = (Spinner) getActivity().findViewById(R.id.spinner);
-        fileButton = (Button)getActivity().findViewById(R.id.fileButton);
-        EditButton = (Button)getActivity().findViewById(R.id.EditButton);
-        StarButton = (Button)getActivity().findViewById(R.id.StarButton);
-        typeText = (TextView) getActivity().findViewById(R.id.typeText);
-        headingText = (TextView) getActivity().findViewById(R.id.headingText);
-        detailText = (TextView) getActivity().findViewById(R.id.detailText);
-        contentText = (TextView) getActivity().findViewById(R.id.contentText);
-        passDayText = (TextView)getActivity().findViewById(R.id.passDayText);
-        forgetDayText = (TextView)getActivity().findViewById(R.id.forgetDayText);
-        passButton = (Button)getActivity().findViewById(R.id.passButton);
-        forgetButton = (Button)getActivity().findViewById(R.id.forgetButton);
-        remindText = (TextView) getActivity().findViewById(R.id.remindText);
-    }
-
-    // 初始化背诵列表 & 初始界面
-    private void init() {
-        reciteCardList = dbhelper.getReciteCards();
-        showHeading();
-        Log.v("复习界面","初始化界面完成");
-    }
-
-    // 显示卡片正面
-    private void showHeading() {
-        if (reciteCardList.size() == 0) {
-            headingText.setText("无背诵卡片");
-            remindButton.setVisibility(View.INVISIBLE); // 隐藏
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            //now invisible to user
+            Log.v("复习界面", "页面隐藏");
+        } else {
+            init();
+            //now visible to user
+            Log.v("复习界面", "刷新页面");
         }
-        else {
-            headingText.setText(reciteCardList.get(0).getHeading());    // 当前卡片标题
-            remindButton.setVisibility(View.VISIBLE);   // 显示
-            // TODO: 改按键颜色状态    @前端
-            like = reciteCardList.get(0).isLike();
-            if (like) {
-                starButton.setText("已收藏"); //暂时
-            }
-            else {
-                starButton.setText("❤"); //暂时
-            }
-        }
-        // 隐藏
-        fileButton.setVisibility(View.INVISIBLE);
-        editButton.setVisibility(View.INVISIBLE);
-        starButton.setVisibility(View.INVISIBLE);
-        contentText.setVisibility(View.INVISIBLE);
-        detailText.setVisibility(View.INVISIBLE);
-        passDayText.setVisibility(View.INVISIBLE);
-        forgetDayText.setVisibility(View.INVISIBLE);
-        passButton.setVisibility(View.INVISIBLE);
-        forgetButton.setVisibility(View.INVISIBLE);
-        Log.v("复习界面","卡片正面显示");
     }
-
-    // 显示卡片背面
-    private void showContent() {
-        // 显示内容部分
-        fileButton.setVisibility(View.VISIBLE);
-        editButton.setVisibility(View.VISIBLE);
-        starButton.setVisibility(View.VISIBLE);
-        contentText.setVisibility(View.VISIBLE);
-        detailText.setVisibility(View.VISIBLE);
-        passDayText.setVisibility(View.VISIBLE);
-        forgetDayText.setVisibility(View.VISIBLE);
-        passButton.setVisibility(View.VISIBLE);
-        forgetButton.setVisibility(View.VISIBLE);
-        // 隐藏
-        remindButton.setVisibility(View.INVISIBLE);
-
-        MemoryCardsList recentCard = dbhelper.findCard((String)headingText.getText());
-        int stage = recentCard.getStage();
-        contentText.setText(recentCard.getContent());
-        String cardDetail = "记录于"+ recentCard.getRecordDate() + " 第" + stage + "此重复";
-        detailText.setText(cardDetail);
-        String addDay[] = new String[]{"+1天", "+2天", "+4天", "+7天", "+15天", "+1个月", "+3个月", "+6个月", "+1年"};
-        passDayText.setText(addDay[stage]);
-        Log.v("复习界面","卡片背面显示");
-    }
-
 
     // 按键监听
-    private void buttonListener(){
+    //控件的点击事件写在onActivityCreated中
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         // 收藏按钮监听
         starButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 like = dbhelper.changeLike((String)headingText.getText());
 
-                // TODO: 改按键颜色状态    @前端
+                // TODO: 改按键颜色状态    @大冬瓜 @母后
                 if (like) {
                     starButton.setText("已收藏"); //暂时
                 }
@@ -263,20 +147,66 @@ public class ReviewActivity extends Fragment{
         Log.v("复习界面","按钮监听完成");
     }
 
-    //设置Id
-    private void setID(){
-        spinner = (Spinner) findViewById(R.id.spinner);
-        fileButton = (Button)findViewById(R.id.fileButton);
-        editButton = (Button)findViewById(R.id.editButton);
-        starButton = (Button)findViewById(R.id.starButton);
-        typeText = (TextView) findViewById(R.id.typeText);
-        headingText = (TextView) findViewById(R.id.headingText);
-        detailText = (TextView) findViewById(R.id.detailText);
-        contentText = (TextView) findViewById(R.id.contentText);
-        passDayText = (TextView)findViewById(R.id.passDayText);
-        forgetDayText = (TextView)findViewById(R.id.forgetDayText);
-        passButton = (Button)findViewById(R.id.passButton);
-        forgetButton = (Button)findViewById(R.id.forgetButton);
-        remindButton = (Button) findViewById(R.id.remindButton);
+    // 初始化背诵列表 & 初始界面
+    private void init() {
+        reciteCardList = dbhelper.getReciteCards();
+        showHeading();
+        Log.v("复习界面","初始化界面完成");
+    }
+
+    // 显示卡片正面
+    private void showHeading() {
+        if (reciteCardList.size() == 0) {
+            headingText.setText("无背诵卡片");
+            remindButton.setVisibility(View.INVISIBLE); // 隐藏
+        }
+        else {
+            headingText.setText(reciteCardList.get(0).getHeading());    // 当前卡片标题
+            remindButton.setVisibility(View.VISIBLE);   // 显示
+            // TODO: 改按键颜色状态    @大冬瓜 @母后
+            like = reciteCardList.get(0).isLike();
+            if (like) {
+                starButton.setText("已收藏"); //暂时
+            }
+            else {
+                starButton.setText("❤"); //暂时
+            }
+        }
+        // 隐藏
+        fileButton.setVisibility(View.INVISIBLE);
+        editButton.setVisibility(View.INVISIBLE);
+        starButton.setVisibility(View.INVISIBLE);
+        contentText.setVisibility(View.INVISIBLE);
+        detailText.setVisibility(View.INVISIBLE);
+        passDayText.setVisibility(View.INVISIBLE);
+        forgetDayText.setVisibility(View.INVISIBLE);
+        passButton.setVisibility(View.INVISIBLE);
+        forgetButton.setVisibility(View.INVISIBLE);
+        Log.v("复习界面","卡片正面显示");
+    }
+
+    // 显示卡片背面
+    private void showContent() {
+        // 显示内容部分
+        fileButton.setVisibility(View.VISIBLE);
+        editButton.setVisibility(View.VISIBLE);
+        starButton.setVisibility(View.VISIBLE);
+        contentText.setVisibility(View.VISIBLE);
+        detailText.setVisibility(View.VISIBLE);
+        passDayText.setVisibility(View.VISIBLE);
+        forgetDayText.setVisibility(View.VISIBLE);
+        passButton.setVisibility(View.VISIBLE);
+        forgetButton.setVisibility(View.VISIBLE);
+        // 隐藏
+        remindButton.setVisibility(View.INVISIBLE);
+
+        MemoryCardsList recentCard = dbhelper.findCard((String)headingText.getText());
+        int stage = recentCard.getStage();
+        contentText.setText(recentCard.getContent());
+        String cardDetail = "记录于"+ recentCard.getRecordDate() + " 第" + stage + "此重复";
+        detailText.setText(cardDetail);
+        String addDay[] = new String[]{"+1天", "+2天", "+4天", "+7天", "+15天", "+1个月", "+3个月", "+6个月", "+1年"};
+        passDayText.setText(addDay[stage]);
+        Log.v("复习界面","卡片背面显示");
     }
 }

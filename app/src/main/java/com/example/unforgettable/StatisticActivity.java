@@ -8,20 +8,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class StatisticActivity extends Fragment implements View.OnClickListener{
+public class StatisticActivity extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_review);
         View view = inflater.inflate(R.layout.activity_statistic, container, false);
+
+        // TODO: @陈独秀
 
         return view;
     }
 
     @Override
-    public void onClick(View view) {
-
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // TODO: @陈独秀  这里写监听事件
     }
 }
