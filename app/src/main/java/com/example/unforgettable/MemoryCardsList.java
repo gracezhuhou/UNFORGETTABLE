@@ -6,10 +6,11 @@ import org.litepal.crud.LitePalSupport;
 
 import java.util.Date;
 
+
+// 数据库 - 表名&列名
 public class MemoryCardsList extends LitePalSupport {
     //运用注解来为字段添加index标签
 
-    //name是唯一的，且默认值为unknown
     @Column(unique = true)
     private int id;
 
@@ -28,7 +29,7 @@ public class MemoryCardsList extends LitePalSupport {
 
     // TODO: 背诵时间
     private Date recordDate = new Date(System.currentTimeMillis());
-    private Date reciteDate = new Date(System.currentTimeMillis());
+    private Date reciteDate;
     private int stage = 0;  // 背诵阶段
 
     //记得添加所有字段的getter和setter方法
