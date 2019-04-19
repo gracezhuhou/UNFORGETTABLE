@@ -25,22 +25,22 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="归档"
-        app:layout_constraintEnd_toStartOf="@+id/EditButton"
+        app:layout_constraintEnd_toStartOf="@+id/editButton"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <Button
-        android:id="@+id/EditButton"
+        android:id="@+id/editButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="编辑"
-        app:layout_constraintEnd_toStartOf="@+id/StarButton"
+        app:layout_constraintEnd_toStartOf="@+id/starButton"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <Button
-        android:id="@+id/StarButton"
+        android:id="@+id/starButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -59,7 +59,7 @@
         android:layout_marginRight="8dp"
         android:text="计网"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/StarButton" />
+        app:layout_constraintTop_toBottomOf="@+id/starButton" />
 
     <TextView
         android:id="@+id/headingText"
@@ -109,7 +109,7 @@
         android:layout_marginStart="112dp"
         android:layout_marginLeft="112dp"
         android:layout_marginTop="8dp"
-        android:text="马上"
+        android:text="今天"
         app:layout_constraintStart_toEndOf="@+id/passDayText"
         app:layout_constraintTop_toBottomOf="@+id/contentText" />
 
@@ -134,8 +134,8 @@
         app:layout_constraintStart_toEndOf="@+id/passButton"
         app:layout_constraintTop_toBottomOf="@+id/forgetDayText" />
 
-    <TextView
-        android:id="@+id/remindText"
+    <Button
+        android:id="@+id/remindButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

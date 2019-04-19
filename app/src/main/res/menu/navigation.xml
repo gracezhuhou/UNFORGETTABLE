@@ -14,7 +14,7 @@
     <item
         android:id="@+id/navigation_record"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="" />
+        android:title="+" />
 
     <item
         android:id="@+id/navigation_statisitc"

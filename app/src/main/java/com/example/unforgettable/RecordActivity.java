@@ -31,7 +31,7 @@ public class RecordActivity extends AppCompatActivity {
     private String author;  // 作者
     private String heading; // 正面 标题
     private String content; // 背面 内容
-    private boolean like;   // 收藏
+    private boolean like = false;   // 收藏
     private String[] tab;     // 标签
 
     private TextView mTextMessage;
@@ -73,7 +73,47 @@ public class RecordActivity extends AppCompatActivity {
 
 
         setID();    //设置id
-        submitListener();   //按下确认键
+        buttonListener();   //按下确认键
+    }
+
+    //确认键监听
+    private void buttonListener(){
+        // 提交按钮响应
+        submitButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                getInput(); //获取用户输入内容
+
+                // TODO: 选择标签（标签最多选择5个）
+                tab = new String[]{"计网", "英语"}; //暂时
+
+                dbhelper.addCard(source, author, heading, content, like, tab);  //添加记录
+                // TODO: 清空页面
+            }
+        });
+
+        // 收藏按钮响应
+        starButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                like = !like;
+                // TODO: 改收藏按键颜色状态  @ 前端 _(:3  L)_
+                if (like) {
+                    starButton.setText("已收藏"); //暂时
+                }
+                else {
+                    starButton.setText("❤"); //暂时
+                }
+            }
+        });
+    }
+
+    //获取用户输入内容
+    private void getInput(){
+        source = sourceInput.getText().toString();
+        author = authorInput.getText().toString();
+        heading = headingInput.getText().toString();
+        content = contentInput.getText().toString();
     }
 
     //设置Id
@@ -87,30 +127,5 @@ public class RecordActivity extends AppCompatActivity {
         soundButton = (Button) findViewById(R.id.soundButton);
         starButton = (Button) findViewById(R.id.starButton);
         contentInput = (EditText)findViewById(R.id.contentInput);
-    }
-
-    //确认键监听
-    private void submitListener(){
-        submitButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                getInput(); //获取用户输入内容
-
-                // TODO: 是否收藏 & 选择标签（标签最多选择5个）
-                like = false;   //暂时
-                tab = new String[]{"计网", "英语"}; //暂时
-
-                dbhelper.addCard(source, author, heading, content, like, tab);  //添加记录
-                // TODO: 清空页面
-            }
-        });
-    }
-
-    //获取用户输入内容
-    private void getInput(){
-        source = sourceInput.getText().toString();
-        author = authorInput.getText().toString();
-        heading = headingInput.getText().toString();
-        content = contentInput.getText().toString();
     }
 }
