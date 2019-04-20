@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         setFragmentPosition(3);
                         break;
                     case R.id.navigation_personal:
-                        setFragmentPosition(3);
+                        setFragmentPosition(4);
                         break;
                     default:
                         break;
