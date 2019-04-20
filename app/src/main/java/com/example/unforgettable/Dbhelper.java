@@ -1,5 +1,6 @@
 package com.example.unforgettable;
 
+import android.support.design.widget.TabLayout;
 import android.util.Log;
 
 import org.litepal.LitePal;
@@ -193,4 +194,19 @@ public class Dbhelper {
 
         // TODO: 归档的撤销
     }
+
+    // 获取标签列表
+    List<TabList> getTabList(){
+        List<TabList> tabList = LitePal.order("id").find(TabList.class);
+        Log.v("数据库","获取标签列表" + tabList.size() + "个");
+        return tabList;
+    }
+
+    // 获取stage统计列表
+    List<StageList> getStageList(){
+        List<StageList> stageList = LitePal.order("id").find(StageList.class);
+        Log.v("数据库","获取阶段列表" + stageList.size() + "个");
+        return stageList;
+    }
+
 }

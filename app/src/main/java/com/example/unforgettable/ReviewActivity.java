@@ -203,7 +203,7 @@ public class ReviewActivity extends Fragment{
         MemoryCardsList recentCard = dbhelper.findCard((String)headingText.getText());
         int stage = recentCard.getStage();
         contentText.setText(recentCard.getContent());
-        String cardDetail = "记录于"+ recentCard.getRecordDate() + " 第" + stage + "此重复";
+        String cardDetail = "记录于"+ recentCard.getRecordDate() + " 第" + stage + "次重复";
         detailText.setText(cardDetail);
         String addDay[] = new String[]{"+1天", "+2天", "+4天", "+7天", "+15天", "+1个月", "+3个月", "+6个月", "+1年"};
         passDayText.setText(addDay[stage]);

@@ -80,9 +80,7 @@ public class MemoryCardsList extends LitePalSupport {
         this.like = like;
     }
 
-    public String[] getTab() {
-        return tab;
-    }
+    public String[] getTab() { return tab; }
 
     public void setTab(String[] tab) {
         this.tab = tab;

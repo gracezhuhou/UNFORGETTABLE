@@ -7,8 +7,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import lecho.lib.hellocharts.model.AxisValue;
+import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.view.LineChartView;
 
 public class StatisticActivity extends Fragment {
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -25,4 +35,6 @@ public class StatisticActivity extends Fragment {
         super.onActivityCreated(savedInstanceState);
         // TODO: @陈独秀  这里写监听事件
     }
+
+
 }
