@@ -108,6 +108,13 @@ public class EditCardActivity extends AppCompatActivity {
                 Log.v("卡片编辑界面","收藏按钮点击事件");
             }
         });
+        // 返回按钮响应
+        backButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                finish();
+            }
+        });
     }
 
     //获取用户输入内容
