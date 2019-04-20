@@ -10,9 +10,12 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabMode="scrollable"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:tabGravity="fill"
-        tools:ignore="MissingConstraints"/>
+        app:tabMode="scrollable" />
         <!--android:background="@color/colorPrimaryDark"-->
         <!--app:tabIndicatorColor="@color/colorPrimary"-->
         <!--app:tabSelectedTextColor="@color/black"-->
@@ -22,6 +25,11 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
 </android.support.constraint.ConstraintLayout>

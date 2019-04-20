@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatisticActivity extends Fragment {
-    private TabLayout tab_Layout;                            //定义TabLayout
+    private TabLayout tabLayout;                            //定义TabLayout
     private ViewPager vp_pager;                             //定义viewPager
     private FragmentPagerAdapter fAdapter;                               //定义adapter
 
@@ -23,11 +23,9 @@ public class StatisticActivity extends Fragment {
     private List<String> list_title;                                     //tab名称列表
 
     //定义fragment
-//    private Find_hotRecommendFragment hotRecommendFragment;              //热门推荐fragment
-//    private Find_hotCollectionFragment hotCollectionFragment;            //热门收藏fragment
-//    private Find_hotMonthFragment hotMonthFragment;                      //本月热榜fragment
-//    private Find_hotToday hotToday;
-
+    private fragment1 f1;
+    private fragment2 f2;
+    private fragment3 f3;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -52,7 +50,7 @@ public class StatisticActivity extends Fragment {
      */
     private void initControls(View view) {
 
-        tab_Layout = (TabLayout)view.findViewById(R.id.tabLayout);
+        tabLayout = (TabLayout)view.findViewById(R.id.tabLayout);
         vp_pager = (ViewPager)view.findViewById(R.id.viewPager);
 
         //初始化各fragment
@@ -63,10 +61,12 @@ public class StatisticActivity extends Fragment {
 
         //将fragment装进列表中
         list_fragment = new ArrayList<>();
-        list_fragment.add(hotRecommendFragment);
-        list_fragment.add(hotCollectionFragment);
-        list_fragment.add(hotMonthFragment);
-        list_fragment.add(hotToday);
+        f1 = new fragment1();
+        f2 = new fragment2();
+        f3 = new fragment3();
+        list_fragment.add(f1);
+        list_fragment.add(f2);
+        list_fragment.add(f3);
 
         //将名称加载tab名字列表，正常情况下，我们应该在values/arrays.xml中进行定义然后调用
         list_title = new ArrayList<>();
@@ -75,12 +75,11 @@ public class StatisticActivity extends Fragment {
         list_title.add("记忆持久度");
 
         //设置TabLayout的模式
-        tab_FindFragment_title.setTabMode(TabLayout.MODE_FIXED);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
         //为TabLayout添加tab名称
-        tab_FindFragment_title.addTab(tab_FindFragment_title.newTab().setText(list_title.get(0)));
-        tab_FindFragment_title.addTab(tab_FindFragment_title.newTab().setText(list_title.get(1)));
-        tab_FindFragment_title.addTab(tab_FindFragment_title.newTab().setText(list_title.get(2)));
-        tab_FindFragment_title.addTab(tab_FindFragment_title.newTab().setText(list_title.get(3)));
+        tabLayout.addTab(tabLayout.newTab().setText(list_title.get(0)));
+        tabLayout.addTab(tabLayout.newTab().setText(list_title.get(1)));
+        tabLayout.addTab(tabLayout.newTab().setText(list_title.get(2)));
 
         fAdapter = new TabLayoutAdapter(getActivity().getSupportFragmentManager(),list_fragment,list_title);
 
@@ -88,7 +87,7 @@ public class StatisticActivity extends Fragment {
         vp_pager.setAdapter(fAdapter);
         //tab_FindFragment_title.setViewPager(vp_FindFragment_pager);
         //TabLayout加载viewpager
-        tab_Layout.setupWithViewPager(vp_pager);
+        tabLayout.setupWithViewPager(vp_pager);
         //tab_FindFragment_title.set
     }
 
