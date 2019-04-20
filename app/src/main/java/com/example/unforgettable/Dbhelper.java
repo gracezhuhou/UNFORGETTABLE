@@ -64,8 +64,11 @@ public class Dbhelper {
         card.setAuthor(author);
         card.setHeading(heading);
         card.setContent(content);
-        card.setLike(like);
         card.setTab(tab);
+        if (like)
+            card.setLike(like);
+        else
+            card.setToDefault("like");
         card.updateAll("heading = ?", oldHeading);
         Log.v("数据库","更改卡片--" + heading);
         return true;

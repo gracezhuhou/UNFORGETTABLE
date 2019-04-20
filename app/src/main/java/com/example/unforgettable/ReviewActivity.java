@@ -2,14 +2,10 @@ package com.example.unforgettable;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -83,6 +79,12 @@ public class ReviewActivity extends Fragment{
         }
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        init();
+    }
+
     // 按键监听
     //控件的点击事件写在onActivityCreated中
     @Override
@@ -141,6 +143,17 @@ public class ReviewActivity extends Fragment{
                 reciteCardList.remove(0);
                 showHeading();
                 Log.v("复习界面","归档按钮点击事件");
+            }
+        });
+        // 编辑按钮点击
+        editButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Log.v("复习界面","编辑按钮点击事件");
+                String heading = (String)headingText.getText();
+                Intent intent = new Intent(v.getContext(), EditCardActivity.class);
+                intent.putExtra("heading_extra", heading);
+                v.getContext().startActivity(intent);
             }
         });
 
@@ -209,4 +222,5 @@ public class ReviewActivity extends Fragment{
         passDayText.setText(addDay[stage]);
         Log.v("复习界面","卡片背面显示");
     }
+
 }
