@@ -96,18 +96,19 @@ public class RecordActivity extends Fragment {
             @Override
             public void onClick(View v){
                 // TODO: 改收藏按键颜色状态  @大冬瓜 @母后
-                String starText = (String)starButton.getText();
-                if (starText.equals("❤")) {
-                    starButton.setText("已收藏"); //暂时
+                int starColor = starButton.getCurrentTextColor();
+                if (starColor == R.color.bottom_navigation_selected) {
+                    starButton.setTextColor(getResources().getColor(R.color.pink));
                     like = true;
                 }
                 else {
-                    starButton.setText("❤"); //暂时
+                    starButton.setTextColor(getResources().getColor(R.color.bottom_navigation_selected));
                     like = false;
                 }
             }
         });
     }
+
 
     //获取用户输入内容
     private void getInput(){

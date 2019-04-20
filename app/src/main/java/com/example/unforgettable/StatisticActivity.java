@@ -23,9 +23,9 @@ public class StatisticActivity extends Fragment {
     private List<String> list_title;                                     //tab名称列表
 
     //定义fragment
-    private fragment1 f1;
-    private fragment2 f2;
-    private fragment3 f3;
+//    private fragment1 f1;
+//    private fragment2 f2;
+//    private fragment3 f3;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -61,12 +61,14 @@ public class StatisticActivity extends Fragment {
 
         //将fragment装进列表中
         list_fragment = new ArrayList<>();
-        f1 = new fragment1();
-        f2 = new fragment2();
-        f3 = new fragment3();
-        list_fragment.add(f1);
-        list_fragment.add(f2);
-        list_fragment.add(f3);
+
+//        f1 = new fragment1();
+//        f2 = new fragment2();
+//        f3 = new fragment3();
+        //报错注先释掉了 WKW 2019-4-20
+//        list_fragment.add(f1);
+//        list_fragment.add(f2);
+//        list_fragment.add(f3);
 
         //将名称加载tab名字列表，正常情况下，我们应该在values/arrays.xml中进行定义然后调用
         list_title = new ArrayList<>();
