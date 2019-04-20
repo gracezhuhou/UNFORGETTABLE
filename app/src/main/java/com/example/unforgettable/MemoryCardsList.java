@@ -12,9 +12,6 @@ public class MemoryCardsList extends LitePalSupport {
     //运用注解来为字段添加index标签
 
     private int id;
-
-    //忽略即是不在数据库中创建该属性对应的字段
-    @Column(ignore = true)
     private String source;  // 来源
     private String author;  // 作者
 

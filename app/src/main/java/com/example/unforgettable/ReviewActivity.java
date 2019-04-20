@@ -2,14 +2,10 @@ package com.example.unforgettable;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -32,8 +28,10 @@ public class ReviewActivity extends Fragment{
     private TextView detailText;
     private TextView contentText;
     private TextView passDayText;
+    private TextView dimDayText;
     private TextView forgetDayText;
     private Button passButton;
+    private Button dimButton;
     private Button forgetButton;
     private Button remindButton;
 
@@ -60,8 +58,10 @@ public class ReviewActivity extends Fragment{
         detailText = (TextView)view.findViewById(R.id.detailText);
         contentText = (TextView)view.findViewById(R.id.contentText);
         passDayText = (TextView)view.findViewById(R.id.passDayText);
+        dimDayText = (TextView)view.findViewById(R.id.dimDayText);
         forgetDayText = (TextView)view.findViewById(R.id.forgetDayText);
         passButton = (Button)view.findViewById(R.id.passButton);
+        dimButton = (Button)view.findViewById(R.id.dimButton);
         forgetButton = (Button)view.findViewById(R.id.forgetButton);
         remindButton = (Button)view.findViewById(R.id.remindButton);
 
@@ -81,6 +81,12 @@ public class ReviewActivity extends Fragment{
             //now visible to user
             Log.v("复习界面", "刷新页面");
         }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        init();
     }
 
     // 按键监听
@@ -115,17 +121,29 @@ public class ReviewActivity extends Fragment{
         passButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                dbhelper.updateReciteDate((String)headingText.getText(), true);
+                dbhelper.updateReciteDate((String)headingText.getText(), 1);
                 reciteCardList.remove(0);
                 showHeading();
                 Log.v("复习界面","记住按钮点击事件");
+            }
+        });
+        // 模糊按钮监听
+        dimButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                dbhelper.updateReciteDate((String)headingText.getText(), 0);
+                MemoryCardsList forgetCard = reciteCardList.get(0);
+                reciteCardList.remove(0);
+                reciteCardList.add(forgetCard);
+                showHeading();
+                Log.v("复习界面","模糊按钮点击事件");
             }
         });
         // 忘记按钮监听
         forgetButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                dbhelper.updateReciteDate((String)headingText.getText(), false);
+                dbhelper.updateReciteDate((String)headingText.getText(), -1);
                 MemoryCardsList forgetCard = reciteCardList.get(0);
                 reciteCardList.remove(0);
                 reciteCardList.add(forgetCard);
@@ -141,6 +159,17 @@ public class ReviewActivity extends Fragment{
                 reciteCardList.remove(0);
                 showHeading();
                 Log.v("复习界面","归档按钮点击事件");
+            }
+        });
+        // 编辑按钮点击
+        editButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Log.v("复习界面","编辑按钮点击事件");
+                String heading = (String)headingText.getText();
+                Intent intent = new Intent(v.getContext(), EditCardActivity.class);
+                intent.putExtra("heading_extra", heading);
+                v.getContext().startActivity(intent);
             }
         });
 
@@ -179,8 +208,10 @@ public class ReviewActivity extends Fragment{
         contentText.setVisibility(View.INVISIBLE);
         detailText.setVisibility(View.INVISIBLE);
         passDayText.setVisibility(View.INVISIBLE);
+        dimDayText.setVisibility(View.INVISIBLE);
         forgetDayText.setVisibility(View.INVISIBLE);
         passButton.setVisibility(View.INVISIBLE);
+        dimButton.setVisibility(View.INVISIBLE);
         forgetButton.setVisibility(View.INVISIBLE);
         Log.v("复习界面","卡片正面显示");
     }
@@ -194,8 +225,10 @@ public class ReviewActivity extends Fragment{
         contentText.setVisibility(View.VISIBLE);
         detailText.setVisibility(View.VISIBLE);
         passDayText.setVisibility(View.VISIBLE);
+        dimDayText.setVisibility(View.VISIBLE);
         forgetDayText.setVisibility(View.VISIBLE);
         passButton.setVisibility(View.VISIBLE);
+        dimButton.setVisibility(View.VISIBLE);
         forgetButton.setVisibility(View.VISIBLE);
         // 隐藏
         remindButton.setVisibility(View.INVISIBLE);
@@ -209,4 +242,5 @@ public class ReviewActivity extends Fragment{
         passDayText.setText(addDay[stage]);
         Log.v("复习界面","卡片背面显示");
     }
+
 }
