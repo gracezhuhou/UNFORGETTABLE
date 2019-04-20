@@ -51,6 +51,15 @@ public class Chart2Fragment extends Fragment {
 //        chartView1.setData(1000,800,5000,"1000");
 
         spinner = view.findViewById(R.id.spinner);
+
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // TODO: @陈独秀  这里写监听事件
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -63,14 +72,6 @@ public class Chart2Fragment extends Fragment {
                 // Another interface callback
             }
         });
-
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // TODO: @陈独秀  这里写监听事件
     }
 
 }
