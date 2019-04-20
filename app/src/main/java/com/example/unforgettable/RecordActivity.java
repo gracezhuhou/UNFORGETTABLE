@@ -88,7 +88,10 @@ public class RecordActivity extends Fragment {
 
                 dbhelper.addCard(source, author, heading, content, like, tab);  //添加记录
                 // TODO: 清空页面
-
+                sourceInput.setText("");
+                authorInput.setText("");
+                headingInput.setText("");
+                contentInput.setText("");
             }
         });
         // 收藏按钮响应

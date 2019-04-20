@@ -97,20 +97,28 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
         android:text="+n天"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contentText" />
+
+    <TextView
+        android:id="@+id/dimDayText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="今天"
+        app:layout_constraintStart_toEndOf="@+id/passDayText"
         app:layout_constraintTop_toBottomOf="@+id/contentText" />
 
     <TextView
         android:id="@+id/forgetDayText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="112dp"
-        android:layout_marginLeft="112dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:text="今天"
-        app:layout_constraintStart_toEndOf="@+id/passDayText"
+        app:layout_constraintStart_toEndOf="@+id/dimDayText"
         app:layout_constraintTop_toBottomOf="@+id/contentText" />
 
 
@@ -125,14 +133,24 @@
         app:layout_constraintTop_toBottomOf="@+id/passDayText" />
 
     <Button
+        android:id="@+id/dimButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="模糊"
+        app:layout_constraintStart_toEndOf="@+id/passButton"
+        app:layout_constraintTop_toBottomOf="@+id/passDayText" />
+
+    <Button
         android:id="@+id/forgetButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:text="忘记"
-        app:layout_constraintStart_toEndOf="@+id/passButton"
-        app:layout_constraintTop_toBottomOf="@+id/forgetDayText" />
+        app:layout_constraintStart_toEndOf="@+id/dimButton"
+        app:layout_constraintTop_toBottomOf="@+id/passDayText" />
 
     <Button
         android:id="@+id/remindButton"
@@ -144,5 +162,6 @@
         android:text="点击显示答案"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passButton" />
+
 
 </android.support.constraint.ConstraintLayout>

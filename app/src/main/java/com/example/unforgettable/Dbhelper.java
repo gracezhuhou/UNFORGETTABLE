@@ -128,12 +128,12 @@ public class Dbhelper {
     }
 
     // 更新下一次背诵时间
-    void updateReciteDate(String heading, boolean isPass) {
+    void updateReciteDate(String heading, int pass) {
         MemoryCardsList card = findCard(heading);
         int stage = card.getStage();
 
         // 记住单词
-        if (isPass){
+        if (pass == 1){
             // 设定下次背诵时间
             Calendar date = Calendar.getInstance();
             date.setTime(card.getReciteDate());
@@ -177,13 +177,25 @@ public class Dbhelper {
             Log.v("数据库","更新已记住卡片的背诵时间至" + reciteDate);
         }
         // 忘记单词
-        else {
+        else if (pass == -1){
             // 更新数据库
             Date reciteDate = new Date(System.currentTimeMillis());
             card.setReciteDate(reciteDate);
             card.setStage(0);
             card.updateAll("heading = ?", heading);
             Log.v("数据库","更新未记住卡片的背诵时间至" + reciteDate);
+        }
+        // 模糊
+        else {
+            // 更新数据库
+            Date reciteDate = new Date(System.currentTimeMillis());
+            card.setReciteDate(reciteDate);
+            if (stage == 0)
+                card.setStage(0);
+            else
+                card.setStage(stage - 1);
+            card.updateAll("heading = ?", heading);
+            Log.v("数据库","更新模糊卡片的背诵时间至" + reciteDate);
         }
     }
 
