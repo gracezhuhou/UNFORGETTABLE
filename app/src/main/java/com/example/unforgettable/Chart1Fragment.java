@@ -59,8 +59,19 @@ public class Chart1Fragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         View view = inflater.inflate(R.layout.activity_statistic, container, false);
 
-        // TODO: @陈独秀
         spinner = view.findViewById(R.id.spinner);
+        // TODO: @陈独秀
+
+        // 图表
+        memoryChart();
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // TODO: @DaiSmallEast  这里写监听事件
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -74,16 +85,6 @@ public class Chart1Fragment extends Fragment {
                 // Another interface callback
             }
         });
-        // 图表
-        memoryChart();
-
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // TODO: @DaiSmallEast  这里写监听事件
     }
 
     //图表
