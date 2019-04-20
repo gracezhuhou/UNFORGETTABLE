@@ -11,7 +11,6 @@ import java.util.Date;
 public class MemoryCardsList extends LitePalSupport {
     //运用注解来为字段添加index标签
 
-    @Column(unique = true)
     private int id;
 
     //忽略即是不在数据库中创建该属性对应的字段

@@ -17,6 +17,11 @@ public class Dbhelper {
         LitePal.getDatabase();
     }
 
+    /*
+    *
+     记忆卡片
+    *
+    */
 
     // 增加
     MemoryCardsList addCard(String source, String author, String heading, String content, boolean like, String[] tab){

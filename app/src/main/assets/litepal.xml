@@ -1,10 +1,11 @@
 <?xml version="0.1" encoding="utf-8"?>
 <litepal>
     <dbname value="MemoryCards" />  <!--数据库名称,默认以 .db 结尾,如未以此结尾,则自动添加。-->
-    <version value="3" />           <!--数据库版本,每次数据库发生变动版本号必须+1-->
+    <version value="4" />           <!--数据库版本,每次数据库发生变动版本号必须+1-->
     <list>                              <!--有几张表就在list之间写几个mapping-->
         <!--list标签中的实体类都应该继承LitePalSupport这个类-->
         <mapping class="com.example.unforgettable.MemoryCardsList"></mapping>
+        <mapping class="com.example.unforgettable.TabList"></mapping>
     </list>
     <!--<storage value="unforgettable/database"/>  storage 定义数据库文件存储的地方,可选 internal(内部) 和 external（外部）, 默认为 internal-->
 </litepal>
