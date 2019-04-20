@@ -6,4 +6,108 @@
     android:layout_height="match_parent"
     tools:context=".SetActivity">
 
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/RelativeLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="159dp"-->
+        <!--android:background="@color/colorPrimary"-->
+        <!--android:orientation="horizontal"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--tools:layout_editor_absoluteX="0dp">-->
+
+        <!---->
+    <!--</RelativeLayout>-->
+    <ImageButton
+        android:id="@+id/sculpture"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginLeft="96dp"
+        android:layout_marginTop="76dp"
+        android:background="@drawable/ic_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="100dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="104dp"
+        android:text="TextView"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20dp"
+        app:layout_constraintStart_toEndOf="@+id/sculpture"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="360dp"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sculpture" />
+
+    <Button
+        android:id="@+id/label_management"
+        android:layout_width="match_parent"
+        android:layout_height="69dp"
+        android:text="标签管理"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+    <Button
+        android:id="@+id/surface_management"
+        android:layout_width="match_parent"
+        android:layout_height="69dp"
+        android:text="换肤"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_management" />
+
+    <Button
+        android:id="@+id/remind_time"
+        android:layout_width="match_parent"
+        android:layout_height="69dp"
+        android:text="设置提醒时间"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/surface_management" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="69dp"
+        android:text="注销账户"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/remind_time" />
 </android.support.constraint.ConstraintLayout>

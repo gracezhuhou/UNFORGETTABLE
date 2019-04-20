@@ -6,5 +6,6 @@
     <color name="bottom_navigation_normal">#D9D9D9</color>
     <color name="bottom_navigation_selected">#C2C2C2</color>
     <color name="white">#FFFFFF</color>
-    <color name="black">	#000000</color>
+    <color name="black">#000000</color>
+    <color name="gray">#DDDDDD</color>
 </resources>
