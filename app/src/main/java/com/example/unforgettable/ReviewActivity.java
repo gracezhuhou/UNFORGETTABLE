@@ -1,6 +1,8 @@
 package com.example.unforgettable;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -102,10 +104,20 @@ public class ReviewActivity extends Fragment{
 
                 // TODO: 改按键颜色状态    @大冬瓜 @母后
                 if (like) {
+                    Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
+                    // 这一步必须要做,否则不会显示.
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    starButton.setCompoundDrawables(null, null, drawable, null);
                     starButton.setText("已收藏"); //暂时
+                    starButton.setTextColor(Color.argb(0, 0, 255, 0));
                 }
                 else {
+                    Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
+                    // 这一步必须要做,否则不会显示.
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    starButton.setCompoundDrawables(null, null, drawable, null);
                     starButton.setText("❤"); //暂时
+                    starButton.setTextColor(Color.argb(0, 0, 255, 0));
                 }
                 Log.v("复习界面","收藏按钮点击事件" + like);
             }

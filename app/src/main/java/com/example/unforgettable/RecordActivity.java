@@ -1,6 +1,8 @@
 package com.example.unforgettable;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -99,13 +101,23 @@ public class RecordActivity extends Fragment {
             @Override
             public void onClick(View v){
                 // TODO: 改收藏按键颜色状态  @大冬瓜 @母后
-                int starColor = starButton.getCurrentTextColor();
-                if (starColor == R.color.bottom_navigation_selected) {
-                    starButton.setTextColor(getResources().getColor(R.color.pink));
+                String starText = (String)starButton.getText();
+                if (starText.equals("❤")) {
+                    Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
+                    // 这一步必须要做,否则不会显示.
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    starButton.setCompoundDrawables(null, null, drawable, null);
+                    starButton.setText("已收藏"); //暂时
+                    starButton.setTextColor(Color.argb(0, 0, 255, 0));
                     like = true;
                 }
                 else {
-                    starButton.setTextColor(getResources().getColor(R.color.bottom_navigation_selected));
+                    Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
+                    // 这一步必须要做,否则不会显示.
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    starButton.setCompoundDrawables(null, null, drawable, null);
+                    starButton.setText("❤"); //暂时
+                    starButton.setTextColor(Color.argb(0, 0, 255, 0));
                     like = false;
                 }
             }
