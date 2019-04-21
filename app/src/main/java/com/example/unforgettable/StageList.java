@@ -13,23 +13,12 @@ public class StageList extends LitePalSupport {
     //忽略即是不在数据库中创建该属性对应的字段
     //不为空
     @Column(nullable = false)
-    private String[] tab;     // 标签, 最多选择5个
+    private Date date;
+    private String tab;     // 标签
     private int remember = 0;
+    private int dim = 0;
     private int forget = 0;
-
-
-    // TODO: 日期
-    private Date date = new Date(System.currentTimeMillis());
-
-    private int stage = 0;  // 背诵阶段
-//    private int stage1 = 0;
-//    private int stage2 = 0;
-//    private int stage3 = 0;
-//    private int stage4 = 0;
-//    private int stage5 = 0;
-//    private int stage6 = 0;
-//    private int stage7 = 0;
-//    private int stage8 = 0;
+    private int stage[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};  // 背诵阶段
 
     //记得添加所有字段的getter和setter方法
 
@@ -41,9 +30,9 @@ public class StageList extends LitePalSupport {
         this.id = id;
     }
 
-    public String[] getTab() { return tab; }
+    public String getTab() { return tab; }
 
-    public void setTab(String[] tab) {
+    public void setTab(String tab) {
         this.tab = tab;
     }
 
@@ -53,11 +42,11 @@ public class StageList extends LitePalSupport {
 
     public void setDate(Date date) { this.date = date; }
 
-    public int getStage0() {
+    public int[] getStage() {
         return stage;
     }
 
-    public void setStage0(int stage) {
+    public void setStage(int[] stage) {
         this.stage = stage;
     }
 
@@ -65,6 +54,14 @@ public class StageList extends LitePalSupport {
 
     public void setRemember(int remember) {
         this.remember = remember;
+    }
+
+    public int getDim() {
+        return dim;
+    }
+
+    public void setDim(int dim) {
+        this.dim = dim;
     }
 
     public int getForget() { return forget; }

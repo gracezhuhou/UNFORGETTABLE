@@ -20,7 +20,7 @@ public class Dbhelper {
 
     /*
     *
-     记忆卡片
+     记忆卡片 MemoryCardsList
     *
     */
 
@@ -167,7 +167,9 @@ public class Dbhelper {
                 case 8:
                     date.add(Calendar.YEAR, 1);
                     break;
-                // TODO: 背完
+                // TODO: 背完--归档
+                default:
+                    card.setFinish(true);
             }
 
             // 更新数据库
@@ -176,6 +178,9 @@ public class Dbhelper {
             card.setStage(stage + 1);
             card.updateAll("heading = ?", heading);
             Log.v("数据库","更新已记住卡片的背诵时间至" + reciteDate);
+
+            updateStageSum(stage, stage + 1, card.getTab());
+            updateMemoryStatus(card.getTab(), 1);
         }
         // 忘记单词
         else if (pass == -1){
@@ -185,18 +190,29 @@ public class Dbhelper {
             card.setStage(0);
             card.updateAll("heading = ?", heading);
             Log.v("数据库","更新未记住卡片的背诵时间至" + reciteDate);
+
+            updateStageSum(stage, 0, card.getTab());
+            updateMemoryStatus(card.getTab(), -1);
         }
         // 模糊
         else {
             // 更新数据库
             Date reciteDate = new Date(System.currentTimeMillis());
             card.setReciteDate(reciteDate);
-            if (stage == 0)
+            if (stage == 0) {
                 card.setStage(0);
-            else
+                updateStageSum(stage, 0, card.getTab());
+                updateMemoryStatus(card.getTab(), 0);
+            }
+            else {
                 card.setStage(stage - 1);
+                updateStageSum(stage, stage - 1, card.getTab());
+                updateMemoryStatus(card.getTab(), 0);
+            }
             card.updateAll("heading = ?", heading);
             Log.v("数据库","更新模糊卡片的背诵时间至" + reciteDate);
+
+
         }
     }
 
@@ -210,6 +226,25 @@ public class Dbhelper {
         // TODO: 归档的撤销
     }
 
+    /*
+    *
+     标签 TabList
+    *
+    */
+    // 添加
+    void addTab(String tabName) {
+        //不可重复
+        if (LitePal.where("tabName = ?", tabName).find(TabList.class).size() != 0){
+            return;
+        };
+        if (tabName.equals(""))  return;    // 不可为空
+
+        TabList tab = new TabList();
+        tab.setTabName(tabName);
+        tab.save();
+        Log.v("数据库","添加标签--" + tabName);
+    }
+
     // 获取标签列表
     List<TabList> getTabList(){
         List<TabList> tabList = LitePal.order("id").find(TabList.class);
@@ -217,11 +252,115 @@ public class Dbhelper {
         return tabList;
     }
 
+    /*
+    *
+     状态统计 StageList
+    *
+    */
+    // 添加
+    void addStageList(){
+        //不可重复日期创建
+        Date current = new Date(System.currentTimeMillis());
+        Date today = new Date(current.getYear(), current.getMonth(), current.getDate());
+        List<StageList> stageList = LitePal.findAll(StageList.class);
+        int size = stageList.size();
+        for (int i = 0; i < size; ++i){
+            if (stageList.get(i).getDate().compareTo(today) == 0){
+                return;
+            };
+        }
+
+        List<TabList> tabList = getTabList();
+        size = tabList.size();
+        for (int i = 0; i< size; ++i){
+            String tab = tabList.get(i).getTabName();
+            StageList stageRow = new StageList();
+            stageRow.setDate(today);
+            stageRow.setTab(tab);
+            stageRow.setStage(getStageSum(tab));
+
+            stageRow.save();
+        }
+
+
+        Log.v("数据库","添加统计状态行");
+    }
+
+    // 更新
+    void updateStageSum (int stage, int newStage, String[] tab) {
+        Date current = new Date(System.currentTimeMillis());
+        Date today = new Date(current.getYear(), current.getMonth(), current.getDate());
+
+        List<StageList> stageList = getStageList();
+        for (int i = 0; i < stageList.size(); i++) {
+            StageList todayStage = stageList.get(i);
+            if (todayStage.getDate().compareTo(today) == 1) {
+                for (int j = 0; j < tab.length; ++j) {
+                    if (tab[j].equals(todayStage.getTab())) {
+                        int[] stageSum = todayStage.getStage();
+                        stageSum[stage]--;
+                        stageSum[newStage]++;
+                        todayStage.setStage(stageSum);
+                        todayStage.save();
+                    }
+                }
+            }
+        }
+    }
+
+    void updateMemoryStatus(String[] tab, int status) {
+        Date current = new Date(System.currentTimeMillis());
+        Date today = new Date(current.getYear(), current.getMonth(), current.getDate());
+
+        List<StageList> stageList = getStageList();
+        for (int i = 0; i < stageList.size(); i++) {
+            StageList todayStage = stageList.get(i);
+            if (todayStage.getDate().compareTo(today) == 1) {
+                for (int j = 0; j < tab.length; ++j) {
+                    if (tab[j].equals(todayStage.getTab())) {
+                        switch (status){
+                            case 1:
+                                todayStage.setRemember(todayStage.getRemember() + 1);
+                                break;
+                            case -1:
+                                todayStage.setForget(todayStage.getForget() + 1);
+                                break;
+                            case 0:
+                                todayStage.setDim(todayStage.getDim() + 1);
+
+                        }
+                        todayStage.save();
+                    }
+                }
+            }
+        }
+    }
+
     // 获取stage统计列表
     List<StageList> getStageList(){
         List<StageList> stageList = LitePal.order("id").find(StageList.class);
         Log.v("数据库","获取阶段列表" + stageList.size() + "个");
         return stageList;
+    }
+
+    // 某一标签的状态和
+    int[] getStageSum(String tabName){
+        int[] stageSum = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+        List<MemoryCardsList> cardList = getCardList();
+        int size = cardList.size();
+        for (int i = 0; i < size; ++i) {
+            String[] tab = cardList.get(i).getTab();
+
+            if (tab == null) continue;
+
+            for (int j = 0; j < tab.length; ++j) {
+                if (tabName.equals(tab[j])) {
+                    stageSum[cardList.get(i).getStage()]++;
+                }
+            }
+        }
+        return stageSum;
     }
 
 }

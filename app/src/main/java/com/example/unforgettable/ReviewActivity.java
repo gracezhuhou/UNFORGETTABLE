@@ -67,6 +67,10 @@ public class ReviewActivity extends Fragment{
         forgetButton = (Button)view.findViewById(R.id.forgetButton);
         remindButton = (Button)view.findViewById(R.id.remindButton);
 
+
+        dbhelper.addTab("英语");
+        dbhelper.addTab("计网");
+        dbhelper.addStageList();
         init();  // 初始化背诵列表&初始界面
 
         return view;
