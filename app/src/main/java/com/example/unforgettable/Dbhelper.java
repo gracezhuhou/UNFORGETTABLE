@@ -25,7 +25,7 @@ public class Dbhelper {
     */
 
     // 增加
-    MemoryCardsList addCard(String source, String author, String heading, String content, boolean like, String[] tab){
+    MemoryCardsList addCard(String source, String author, String heading, String content, boolean like, String tab){
         //不可重复Heading
         if (LitePal.where("heading = ?", heading).find(MemoryCardsList.class).size() != 0){
             return null;
@@ -51,7 +51,7 @@ public class Dbhelper {
 
     // 更新（修改）
     // 点入修改界面时，oldHeading=此时的标题，再跳转页面
-    boolean updateCard(String oldHeading, String source, String author, String heading, String content, boolean like, String[] tab){
+    boolean updateCard(String oldHeading, String source, String author, String heading, String content, boolean like, String tab){
         //检测重名,不可重复Heading
         if (!oldHeading.equals(heading))
             if (LitePal.where("heading = ?", heading).find(MemoryCardsList.class).size() != 0)
@@ -102,13 +102,38 @@ public class Dbhelper {
         List<MemoryCardsList> reciteCardList = LitePal.where("finish = ?", "0").order("reciteDate").find(MemoryCardsList.class);
 
         for (int i = 0; i < reciteCardList.size(); i++) {
-            Date reciteDate = reciteCardList.get(i).getReciteDate();
             if (reciteCardList.get(i).getReciteDate().compareTo(today) == 1) {
                 reciteCardList.remove(i);
                 i--;
             }
         }
         Log.v("数据库","获取今日应背卡片" + reciteCardList.size()+"张");
+        return reciteCardList;
+    }
+
+    // 获取某一标签应背列表
+    List<MemoryCardsList> getReciteTabCards(String tabName) {
+        if (tabName.equals("全部")) return getReciteCards();
+
+        Date current = new Date(System.currentTimeMillis());
+        Date today = new Date(current.getYear(), current.getMonth(), current.getDate(), 23, 59, 59);
+        List<MemoryCardsList> reciteCardList = LitePal.where("finish = ?", "0").order("reciteDate").find(MemoryCardsList.class);
+
+        for (int i = 0; i < reciteCardList.size(); i++) {
+            // 日期
+            if (reciteCardList.get(i).getReciteDate().compareTo(today) == 1) {
+                reciteCardList.remove(i);
+                i--;
+                continue;
+            }
+            // 标签
+            String tab = reciteCardList.get(i).getTab();
+            if (tab == null || !tab.equals(tabName)){
+                reciteCardList.remove(i);
+                i--;
+            }
+        }
+        Log.v("数据库","获取今日" + tabName + "应背卡片" + reciteCardList.size()+"张");
         return reciteCardList;
     }
 
@@ -277,7 +302,17 @@ public class Dbhelper {
             StageList stageRow = new StageList();
             stageRow.setDate(today);
             stageRow.setTab(tab);
-            stageRow.setStage(getStageSum(tab));
+            int[] stageSum = getStageSum(tab);
+            stageRow.setStage0(stageSum[0]);
+            stageRow.setStage0(stageSum[1]);
+            stageRow.setStage0(stageSum[2]);
+            stageRow.setStage0(stageSum[3]);
+            stageRow.setStage0(stageSum[4]);
+            stageRow.setStage0(stageSum[5]);
+            stageRow.setStage0(stageSum[6]);
+            stageRow.setStage0(stageSum[7]);
+            stageRow.setStage0(stageSum[8]);
+            stageRow.setStage0(stageSum[9]);
 
             stageRow.save();
         }
@@ -287,7 +322,7 @@ public class Dbhelper {
     }
 
     // 更新
-    void updateStageSum (int stage, int newStage, String[] tab) {
+    void updateStageSum (int stage, int newStage, String tab) {
         Date current = new Date(System.currentTimeMillis());
         Date today = new Date(current.getYear(), current.getMonth(), current.getDate());
 
@@ -295,20 +330,18 @@ public class Dbhelper {
         for (int i = 0; i < stageList.size(); i++) {
             StageList todayStage = stageList.get(i);
             if (todayStage.getDate().compareTo(today) == 1) {
-                for (int j = 0; j < tab.length; ++j) {
-                    if (tab[j].equals(todayStage.getTab())) {
-                        int[] stageSum = todayStage.getStage();
-                        stageSum[stage]--;
-                        stageSum[newStage]++;
-                        todayStage.setStage(stageSum);
-                        todayStage.save();
-                    }
+                if (tab.equals(todayStage.getTab())) {
+                    int stageSum = todayStage.getStage(stage) - 1;
+                    int newStageSum = todayStage.getStage(newStage) + 1;
+                    todayStage.setStage(stage,stageSum);
+                    todayStage.setStage(newStage,newStageSum);
+                    todayStage.save();
                 }
             }
         }
     }
 
-    void updateMemoryStatus(String[] tab, int status) {
+    void updateMemoryStatus(String tab, int status) {
         Date current = new Date(System.currentTimeMillis());
         Date today = new Date(current.getYear(), current.getMonth(), current.getDate());
 
@@ -316,21 +349,18 @@ public class Dbhelper {
         for (int i = 0; i < stageList.size(); i++) {
             StageList todayStage = stageList.get(i);
             if (todayStage.getDate().compareTo(today) == 1) {
-                for (int j = 0; j < tab.length; ++j) {
-                    if (tab[j].equals(todayStage.getTab())) {
-                        switch (status){
-                            case 1:
-                                todayStage.setRemember(todayStage.getRemember() + 1);
-                                break;
-                            case -1:
-                                todayStage.setForget(todayStage.getForget() + 1);
-                                break;
-                            case 0:
-                                todayStage.setDim(todayStage.getDim() + 1);
-
-                        }
-                        todayStage.save();
+                if (tab.equals(todayStage.getTab())) {
+                    switch (status){
+                        case 1:
+                            todayStage.setRemember(todayStage.getRemember() + 1);
+                            break;
+                        case -1:
+                            todayStage.setForget(todayStage.getForget() + 1);
+                            break;
+                        case 0:
+                            todayStage.setDim(todayStage.getDim() + 1);
                     }
+                    todayStage.save();
                 }
             }
         }
@@ -350,15 +380,11 @@ public class Dbhelper {
         List<MemoryCardsList> cardList = getCardList();
         int size = cardList.size();
         for (int i = 0; i < size; ++i) {
-            String[] tab = cardList.get(i).getTab();
-
+            String tab = cardList.get(i).getTab();
             if (tab == null) continue;
 
-            for (int j = 0; j < tab.length; ++j) {
-                if (tabName.equals(tab[j])) {
-                    stageSum[cardList.get(i).getStage()]++;
-                }
-            }
+            if (tabName.equals(tab))
+                stageSum[cardList.get(i).getStage()]++;
         }
         return stageSum;
     }

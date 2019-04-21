@@ -29,7 +29,7 @@ public class EditCardActivity extends AppCompatActivity {
     private String heading; // 正面 标题
     private String content; // 背面 内容
     private boolean like = false;   // 收藏
-    private String[] tab;     // 标签
+    private String tab;     // 标签
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +84,7 @@ public class EditCardActivity extends AppCompatActivity {
                 getInput(); //获取用户输入内容
 
                 // TODO: 选择标签（标签最多选择5个）
-                tab = new String[]{"计网", "英语"}; //暂时
+                tab = "计网"; //暂时
 
                 dbhelper.updateCard(oldheading, source, author, heading, content, like, tab);  //添加记录
                 Log.v("卡片编辑界面","提交按钮点击事件");

@@ -10,9 +10,12 @@ import android.view.LayoutInflater;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.litepal.LitePal;
 
@@ -42,6 +45,7 @@ public class ReviewActivity extends Fragment{
     private List<MemoryCardsList> reciteCardList;    //背诵卡片列表
     private String heading; // 正面 标题
     private boolean like;   // 收藏
+    String[] tab;   // 标签
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -67,10 +71,8 @@ public class ReviewActivity extends Fragment{
         forgetButton = (Button)view.findViewById(R.id.forgetButton);
         remindButton = (Button)view.findViewById(R.id.remindButton);
 
-
-        dbhelper.addTab("英语");
-        dbhelper.addTab("计网");
         dbhelper.addStageList();
+        setSpinner();
         init();  // 初始化背诵列表&初始界面
 
         return view;
@@ -96,7 +98,7 @@ public class ReviewActivity extends Fragment{
     }
 
     // 按键监听
-    //控件的点击事件写在onActivityCreated中
+    // 控件的点击事件写在onActivityCreated中
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -106,13 +108,12 @@ public class ReviewActivity extends Fragment{
             public void onClick(View v){
                 like = dbhelper.changeLike((String)headingText.getText());
 
-                // TODO: 改按键颜色状态    @大冬瓜 @母后
+                // 改按键颜色状态
                 if (like) {
                     Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
                     // 这一步必须要做,否则不会显示.
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                     starButton.setCompoundDrawables(null, null, drawable, null);
-                    starButton.setText("已收藏"); //暂时
                     starButton.setTextColor(Color.argb(0, 0, 255, 0));
                 }
                 else {
@@ -120,7 +121,6 @@ public class ReviewActivity extends Fragment{
                     // 这一步必须要做,否则不会显示.
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                     starButton.setCompoundDrawables(null, null, drawable, null);
-                    starButton.setText("❤"); //暂时
                     starButton.setTextColor(Color.argb(0, 0, 255, 0));
                 }
                 Log.v("复习界面","收藏按钮点击事件" + like);
@@ -188,8 +188,38 @@ public class ReviewActivity extends Fragment{
                 v.getContext().startActivity(intent);
             }
         });
+        // 下拉菜单点击
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                reciteCardList = dbhelper.getReciteTabCards(tab[pos]);
+                //Toast.makeText(getActivity(), "你点击的是:"+tab[pos], Toast.LENGTH_LONG).show();
+                showHeading();
+                Log.v("复习界面","下拉菜单选择");
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Another interface callback
+            }
+        });
 
         Log.v("复习界面","按钮监听完成");
+    }
+
+    // 设置标签下拉菜单
+    private void setSpinner() {
+        // 获取所有标签
+        List<TabList> tapList = dbhelper.getTabList();
+        int size = tapList.size();
+        tab = new String[size + 1];
+        tab[0] = "全部";
+        for (int i = 0; i < size; ++i){
+            tab[i + 1] = tapList.get(i).getTabName();
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item , tab);  //创建一个数组适配器
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);     //设置下拉列表框的下拉选项样式
+        spinner.setAdapter(adapter);
     }
 
     // 初始化背诵列表 & 初始界面

@@ -20,7 +20,7 @@ public class MemoryCardsList extends LitePalSupport {
     private String heading; // 正面 标题
     private String content; // 背面 内容
     private boolean like;   // 收藏
-    private String[] tab;     // 标签, 最多选择5个
+    private String tab;     // 标签
     private boolean finish = false; // 归档
 
     // TODO: 背诵时间
@@ -77,9 +77,9 @@ public class MemoryCardsList extends LitePalSupport {
         this.like = like;
     }
 
-    public String[] getTab() { return tab; }
+    public String getTab() { return tab; }
 
-    public void setTab(String[] tab) {
+    public void setTab(String tab) {
         this.tab = tab;
     }
 
