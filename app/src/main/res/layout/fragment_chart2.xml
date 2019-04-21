@@ -34,15 +34,15 @@
             android:entries="@array/reviewtType"></Spinner>
 
 
-        <com.mao.myapp.view.BarChartView
-            android:id="@+id/bar_view1"
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            app:firstBarColor="@color/colorAccent"
-            app:secondeBarColor="@color/colorPrimary"
-            app:textColor="@color/colorPrimaryDark"
-            app:textMargin="15dp"
-            app:textSize="12sp" />
+        <!--<com.mao.myapp.view.BarChartView-->
+            <!--android:id="@+id/bar_view1"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--app:firstBarColor="@color/colorAccent"-->
+            <!--app:secondeBarColor="@color/colorPrimary"-->
+            <!--app:textColor="@color/colorPrimaryDark"-->
+            <!--app:textMargin="15dp"-->
+            <!--app:textSize="12sp" />-->
 
     </RelativeLayout>
 

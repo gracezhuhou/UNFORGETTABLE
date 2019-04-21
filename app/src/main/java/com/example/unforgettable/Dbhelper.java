@@ -273,7 +273,7 @@ public class Dbhelper {
     // 获取标签列表
     List<TabList> getTabList(){
         List<TabList> tabList = LitePal.order("id").find(TabList.class);
-        Log.v("数据库","获取标签列表" + tabList.size() + "个");
+        Log.v("数据库","获取标签" + tabList.size() + "个");
         return tabList;
     }
 
@@ -372,6 +372,7 @@ public class Dbhelper {
         Log.v("数据库","获取阶段列表" + stageList.size() + "个");
         return stageList;
     }
+
 
     // 某一标签的状态和
     int[] getStageSum(String tabName){

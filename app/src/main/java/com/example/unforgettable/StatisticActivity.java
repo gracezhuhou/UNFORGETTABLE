@@ -72,14 +72,14 @@ public class StatisticActivity extends Fragment {
         list_title = new ArrayList<>();
         list_title.add("遗忘曲线");
         list_title.add("学习情况");
-        list_title.add("记忆持久度");
+        //list_title.add("记忆持久度");
 
         //设置TabLayout的模式
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         //为TabLayout添加tab名称
         tabLayout.addTab(tabLayout.newTab().setText(list_title.get(0)));
         tabLayout.addTab(tabLayout.newTab().setText(list_title.get(1)));
-        tabLayout.addTab(tabLayout.newTab().setText(list_title.get(2)));
+        //tabLayout.addTab(tabLayout.newTab().setText(list_title.get(2)));
 
         fAdapter = new TabLayoutAdapter(getActivity().getSupportFragmentManager(),list_fragment,list_title);
 

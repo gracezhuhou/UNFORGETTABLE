@@ -27,6 +27,7 @@ import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.view.ColumnChartView;
+import lecho.lib.hellocharts.view.LineChartView;
 
 
 public class Chart2Fragment extends Fragment {
@@ -44,13 +45,14 @@ public class Chart2Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        View view = inflater.inflate(R.layout.activity_statistic, container, false);
+        View view = inflater.inflate(R.layout.fragment_chart2, container, false);
 
         // TODO: @陈独秀
 //        chartView1 =  view.findViewById(R.id.bar_view1);
 //        chartView1.setData(1000,800,5000,"1000");
 
         spinner = view.findViewById(R.id.spinner);
+        //chartView1 = (BarChartView)view.findViewById(R.id.bar_view1);
 
 
         return view;
