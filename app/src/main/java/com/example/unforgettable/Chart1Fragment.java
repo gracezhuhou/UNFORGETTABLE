@@ -105,9 +105,12 @@ public class Chart1Fragment extends Fragment {
 
     //设置X 轴的显示
     private void getAxisXLables() {
-        for (int i = 0; i < 60; i++) {
+        for (int i = 56; i >= 0; i--) {
             mAxisXValues.add(new AxisValue(i).setLabel(i+"天前"));
         }
+        mAxisXValues.add(new AxisValue(59).setLabel("今天"));
+        mAxisXValues.add(new AxisValue(58).setLabel("昨天"));
+        mAxisXValues.add(new AxisValue(57).setLabel("前天"));
     }
 
     //图表的每个点的显示
@@ -133,11 +136,12 @@ public class Chart1Fragment extends Fragment {
         //判断标签
 
         if(label.equals("全部")){
-            for(int i=0; i<60;i++){
+            int i=0;
+            for(; i<60;i++){
 //                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
                 List<StageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -i);//i天前的日期
+                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
@@ -156,7 +160,7 @@ public class Chart1Fragment extends Fragment {
             for(; i<60;i++){
                 List<StageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -i);//i天前的日期
+                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
@@ -178,11 +182,12 @@ public class Chart1Fragment extends Fragment {
         //List<StageList> stageList1 = LitePal.where("stage = ? ", "3").order("date").find(StageList.class);
         //判断标签
         if(label.equals("全部")){
-            for(int i=0; i<60;i++){
+            int i=0;
+            for(; i<60;i++){
 //                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
                 List<StageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -i);//i天前的日期
+                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
@@ -197,10 +202,11 @@ public class Chart1Fragment extends Fragment {
             }
         }
         else{
-            for(int i=0; i<60;i++){
+            int i=0;
+            for(; i<60;i++){
                 List<StageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -i);//i天前的日期
+                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
@@ -221,11 +227,12 @@ public class Chart1Fragment extends Fragment {
         //List<StageList> stageList2 = LitePal.where("stage = ? ", "5").order("date").find(StageList.class);
         //判断标签
         if(label.equals("全部")){
-            for(int i=0; i<60;i++){
+            int i=0;
+            for(; i<60;i++){
 //                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
                 List<StageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -i);//i天前的日期
+                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
@@ -239,10 +246,11 @@ public class Chart1Fragment extends Fragment {
             }
         }
         else{
-            for(int i=0; i<60;i++){
+            int i=0;
+            for(; i<60;i++){
                 List<StageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -i);//i天前的日期
+                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
@@ -262,11 +270,12 @@ public class Chart1Fragment extends Fragment {
         //List<StageList> stageList3 = LitePal.where("stage = ? ", "6").order("date").find(StageList.class);
         //判断标签
         if(label.equals("全部")){
-            for(int i=0; i<60;i++){
+            int i=0;
+            for(; i<60;i++){
 //                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
                 List<StageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -i);//i天前的日期
+                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
@@ -280,10 +289,11 @@ public class Chart1Fragment extends Fragment {
             }
         }
         else{
-            for(int i=0; i<60;i++){
+            int i=0;
+            for(; i<60;i++){
                 List<StageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -i);//i天前的日期
+                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
@@ -304,11 +314,12 @@ public class Chart1Fragment extends Fragment {
         //List<StageList> stageList4 = LitePal.where("stage = ? ", "7").order("date").find(StageList.class);
         //判断标签
         if(label.equals("全部")){
-            for(int i=0; i<60;i++){
+            int i=0;
+            for(; i<60;i++){
 //                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
                 List<StageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -i);//i天前的日期
+                    date.add(Calendar.DATE, -(59-i));//59i天前的日期
                     Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
@@ -322,10 +333,11 @@ public class Chart1Fragment extends Fragment {
             }
         }
         else{
-            for(int i=0; i<60;i++){
+            int i=0;
+            for(; i<60;i++){
                 List<StageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -i);//i天前的日期
+                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);

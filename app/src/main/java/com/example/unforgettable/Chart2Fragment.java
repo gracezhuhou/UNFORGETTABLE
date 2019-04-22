@@ -168,7 +168,7 @@ public class Chart2Fragment extends Fragment {
         for(int i=0;i<41;i++){
             text[i] = "Math.max(memory[0].length+memory[1].length+memory[2].length,memory[3].length)";
         }
-        chartView1.SetData(memory[0],memory[1],memory[2],memory[3],5000,text);
+        chartView1.SetData(memory[0],memory[1],memory[2],memory[3],500,text);
     }
 
 }

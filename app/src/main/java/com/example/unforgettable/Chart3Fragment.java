@@ -103,9 +103,17 @@ public class Chart3Fragment extends Fragment {
 
     //设置X 轴的显示
     private void getAxisXLables() {
-        for (int i = 0; i < 22; i++) {
+        mAxisXValues.add(new AxisValue(0).setLabel("今天"));
+        mAxisXValues.add(new AxisValue(1).setLabel("明天"));
+        mAxisXValues.add(new AxisValue(2).setLabel("后天"));
+        for (int i = 3; i < 22; i++) {
             mAxisXValues.add(new AxisValue(i).setLabel(i+"天后"));
         }
+        mAxisXValues.add(new AxisValue(22).setLabel("1个月后"));
+        mAxisXValues.add(new AxisValue(23).setLabel("2个月后"));
+        mAxisXValues.add(new AxisValue(24).setLabel("3个月后"));
+        mAxisXValues.add(new AxisValue(25).setLabel("半年后"));
+        mAxisXValues.add(new AxisValue(26).setLabel("1年后"));
     }
 
     //图表的每个点的显示
@@ -143,16 +151,74 @@ public class Chart3Fragment extends Fragment {
         memory[0][26] = 1 - (float)0.56 * (float)Math.pow(360*24,0.06);
 
         //用户遗忘曲线
-        for(int i=0;i<22;i++){
-            List<StageList> stageList = dBhelper.getStageList();
-            for(int m=0;m<stageList.size();m++){
-                date.add(Calendar.DATE, i);//i天后的日期
-                Date statisticDate = date.getTime();
-                if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
-                    stageList.remove(m);
-                    m--;
-                }
+ //       memory[1][0] = 1;
+        //获取用户今天的背诵记录比例
+//        List<StageList> stageList = dBhelper.getStageList();
+//        for(int m=0;m<stageList.size();m++){
+//            if (stageList.get(m).getDate().compareTo(today) != 0) {
+//                stageList.remove(m);
+//                m--;
+//            }
+//        }
+//        int remember = 0;
+//        int dim = 0;
+//        int forget = 0;
+//        for(int j=0;j<stageList.size();j++){
+//            remember = remember + stageList.get(j).getRemember();
+//            dim = dim + stageList.get(j).getDim();
+//            forget = forget + stageList.get(j).getForget();
+//        }
+//
+//        float rate = (float) ((forget+0.5*dim)/(remember+dim+forget));
+//        memory[1][1] = memory[1][0]-rate;
+//
+//        for(int i=2;i<22;i++){//1天后~21天后的遗忘曲线
+//            List<MemoryCardsList> memoryList = dBhelper.getReciteCards();
+//
+//            //获取未来背诵日期与记录日期相隔为i天的应背卡片
+//            for(int m=0;m<memoryList.size();m++){
+//                if (getGapCount(memoryList.get(m).getRecordDate(),memoryList.get(m).getReciteDate()) != i) {
+//                    memoryList.remove(m);
+//                    m--;
+//                }
+//            }
+//            for(int n=0;n<memoryList.size();n++){
+//
+//            }
+//
+//        }
+
+        //用户遗忘曲线
+        for(int i=0;i<27;i++){
+
+            int remember = 0;
+            int dim = 0;
+            int forget = 0;
+            int span = 0;
+
+            if(i<22){span = i;}
+            else if(i == 22) span = 30;
+            else if(i == 23) span = 60;
+            else if(i == 24) span = 90;
+            else if(i == 25) span = 180;
+            else span = 360;
+
+            if(dBhelper.findStatusRow(span) == null){
+                remember = 0;
+                dim = 0;
+                forget = 0;
             }
+            else{
+                remember = dBhelper.findStatusRow(span).getRememberSum();
+                dim = dBhelper.findStatusRow(span).getDimSum();
+                forget = dBhelper.findStatusRow(span).getForgetSum();
+            }
+
+            int sum = remember+dim+forget;
+            if(sum != 0){
+                memory[1][i] = (float) ((remember + (0.5 * dim)) / (remember + dim + forget));
+            }
+
         }
 
 

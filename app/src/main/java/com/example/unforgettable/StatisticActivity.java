@@ -65,9 +65,9 @@ public class StatisticActivity extends Fragment {
         f2 = new Chart2Fragment();
         f3 = new Chart3Fragment();
 
-        list_fragment.add(f1);
-        list_fragment.add(f2);
         list_fragment.add(f3);
+        list_fragment.add(f2);
+        list_fragment.add(f1);
 
         //将名称加载tab名字列表，正常情况下，我们应该在values/arrays.xml中进行定义然后调用
         list_title = new ArrayList<>();
