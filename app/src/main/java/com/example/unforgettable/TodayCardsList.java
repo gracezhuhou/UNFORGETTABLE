@@ -1,9 +1,6 @@
 package com.example.unforgettable;
 
 import org.litepal.crud.LitePalSupport;
-import org.litepal.annotation.Column;
-import org.litepal.crud.LitePalSupport;
-import java.util.Date;
 
 public class TodayCardsList extends LitePalSupport {
     private int id;
