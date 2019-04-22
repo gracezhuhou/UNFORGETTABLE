@@ -129,18 +129,18 @@ public class Chart3Fragment extends Fragment {
         //每过i天的记忆率，设初次记忆后经过了x小时，那么记忆率y近似地满足y=1-0.56x^0.06
         for(int i=0;i<22;i++){
             int j = i*24;
-            memory[0][i] = (float) Math.pow(j,0.06);
+            memory[0][i] = 1 - (float)0.56 * (float) Math.pow(j,0.06);
         }
         //一个月后
-        memory[0][22] = (float)Math.pow(30*24,0.06);
+        memory[0][22] = 1 - (float)0.56 * (float)Math.pow(30*24,0.06);
         //2个月后
-        memory[0][23] = (float)Math.pow(60*24,0.06);
+        memory[0][23] = 1 - (float)0.56 * (float)Math.pow(60*24,0.06);
         //3个月后
-        memory[0][24] = (float)Math.pow(90*24,0.06);
+        memory[0][24] = 1 - (float)0.56 * (float)Math.pow(90*24,0.06);
         //6个月后
-        memory[0][25] = (float)Math.pow(180*24,0.06);
+        memory[0][25] = 1 - (float)0.56 * (float)Math.pow(180*24,0.06);
         //1年后
-        memory[0][26] = (float)Math.pow(360*24,0.06);
+        memory[0][26] = 1 - (float)0.56 * (float)Math.pow(360*24,0.06);
 
         //用户遗忘曲线
         for(int i=0;i<22;i++){

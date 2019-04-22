@@ -43,9 +43,8 @@ public class ReviewActivity extends Fragment{
     // 数据库相关变量
     private Dbhelper dbhelper = new Dbhelper();
     private List<MemoryCardsList> reciteCardList;    //背诵卡片列表
-    private String heading; // 正面 标题
     private boolean like;   // 收藏
-    String[] tab;   // 标签
+    String[] tab;   // 下拉菜单中的标签数组
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -55,21 +54,21 @@ public class ReviewActivity extends Fragment{
         LitePal.initialize(this.getActivity());   // 初始化
 
         // 设置id
-        spinner = (Spinner)view.findViewById(R.id.spinner);
-        fileButton = (Button)view.findViewById(R.id.fileButton);
-        editButton = (Button)view.findViewById(R.id.editButton);
-        starButton = (Button)view.findViewById(R.id.starButton);
-        typeText = (TextView)view.findViewById(R.id.typeText);
-        headingText = (TextView)view.findViewById(R.id.headingText);
-        detailText = (TextView)view.findViewById(R.id.detailText);
-        contentText = (TextView)view.findViewById(R.id.contentText);
-        passDayText = (TextView)view.findViewById(R.id.passDayText);
-        dimDayText = (TextView)view.findViewById(R.id.dimDayText);
-        forgetDayText = (TextView)view.findViewById(R.id.forgetDayText);
-        passButton = (Button)view.findViewById(R.id.passButton);
-        dimButton = (Button)view.findViewById(R.id.dimButton);
-        forgetButton = (Button)view.findViewById(R.id.forgetButton);
-        remindButton = (Button)view.findViewById(R.id.remindButton);
+        spinner = view.findViewById(R.id.spinner);
+        fileButton = view.findViewById(R.id.fileButton);
+        editButton = view.findViewById(R.id.editButton);
+        starButton = view.findViewById(R.id.starButton);
+        typeText = view.findViewById(R.id.typeText);
+        headingText = view.findViewById(R.id.headingText);
+        detailText = view.findViewById(R.id.detailText);
+        contentText = view.findViewById(R.id.contentText);
+        passDayText = view.findViewById(R.id.passDayText);
+        dimDayText = view.findViewById(R.id.dimDayText);
+        forgetDayText = view.findViewById(R.id.forgetDayText);
+        passButton = view.findViewById(R.id.passButton);
+        dimButton = view.findViewById(R.id.dimButton);
+        forgetButton = view.findViewById(R.id.forgetButton);
+        remindButton = view.findViewById(R.id.remindButton);
 
         dbhelper.addStageList();
         setSpinner();
@@ -137,6 +136,7 @@ public class ReviewActivity extends Fragment{
         passButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                dbhelper.setReciteStatus((String)headingText.getText(), 1);
                 dbhelper.updateReciteDate((String)headingText.getText(), 1);
                 reciteCardList.remove(0);
                 showHeading();
@@ -147,6 +147,7 @@ public class ReviewActivity extends Fragment{
         dimButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                dbhelper.setReciteStatus((String)headingText.getText(), 0);
                 dbhelper.updateReciteDate((String)headingText.getText(), 0);
                 MemoryCardsList forgetCard = reciteCardList.get(0);
                 reciteCardList.remove(0);
@@ -159,6 +160,7 @@ public class ReviewActivity extends Fragment{
         forgetButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                dbhelper.setReciteStatus((String)headingText.getText(), -1);
                 dbhelper.updateReciteDate((String)headingText.getText(), -1);
                 MemoryCardsList forgetCard = reciteCardList.get(0);
                 reciteCardList.remove(0);
@@ -217,7 +219,7 @@ public class ReviewActivity extends Fragment{
             tab[i + 1] = tapList.get(i).getTabName();
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item , tab);  //创建一个数组适配器
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item , tab);  //创建一个数组适配器
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);     //设置下拉列表框的下拉选项样式
         spinner.setAdapter(adapter);
     }
@@ -234,18 +236,14 @@ public class ReviewActivity extends Fragment{
         if (reciteCardList.size() == 0) {
             headingText.setText("无背诵卡片");
             remindButton.setVisibility(View.INVISIBLE); // 隐藏
+            typeText.setVisibility(View.INVISIBLE);
         }
         else {
             headingText.setText(reciteCardList.get(0).getHeading());    // 当前卡片标题
+            typeText.setText(reciteCardList.get(0).getTab());   // 当前卡片标签
             remindButton.setVisibility(View.VISIBLE);   // 显示
-            // TODO: 改按键颜色状态    @大冬瓜 @母后
             like = reciteCardList.get(0).isLike();
-            if (like) {
-                starButton.setText("已收藏"); //暂时
-            }
-            else {
-                starButton.setText("❤"); //暂时
-            }
+            // TODO: 设置初始星星颜色
         }
         // 隐藏
         fileButton.setVisibility(View.INVISIBLE);

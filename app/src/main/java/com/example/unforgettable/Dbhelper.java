@@ -25,13 +25,13 @@ public class Dbhelper {
     */
 
     // 增加
-    MemoryCardsList addCard(String source, String author, String heading, String content, boolean like, String tab){
-        //不可重复Heading
+    boolean addCard(String source, String author, String heading, String content, boolean like, String tab){
+        // 不可重复Heading
         if (LitePal.where("heading = ?", heading).find(MemoryCardsList.class).size() != 0){
-            return null;
+            return false;
         };
-
-        if (heading.equals("") || content.equals(""))  return null;    // 不可为空
+        // Heading不可为空
+        if (heading.equals("") || content.equals(""))  return false;
 
         MemoryCardsList card = new MemoryCardsList();
         card.setSource(source);
@@ -46,7 +46,7 @@ public class Dbhelper {
         card.save();
 
         Log.v("数据库","添加卡片--" + heading);
-        return card;
+        return true;
     }
 
     // 更新（修改）
@@ -56,8 +56,8 @@ public class Dbhelper {
         if (!oldHeading.equals(heading))
             if (LitePal.where("heading = ?", heading).find(MemoryCardsList.class).size() != 0)
                 return false;
-
-        if (heading.equals("") || content.equals(""))  return false;    // 不可为空
+        // 不可为空
+        if (heading.equals("") || content.equals(""))  return false;
 
         MemoryCardsList card = findCard(oldHeading);
 
@@ -75,7 +75,7 @@ public class Dbhelper {
         return true;
     }
 
-    // 删除
+    // 删除卡片
     void deleteCard(String heading){
         LitePal.deleteAll(MemoryCardsList.class, "heading = ?", heading);
         Log.v("数据库","删除卡片--" + heading);
@@ -161,8 +161,10 @@ public class Dbhelper {
         // 记住单词
         if (pass == 1){
             // 设定下次背诵时间
+            Date current = new Date(System.currentTimeMillis());
+            Date today = new Date(current.getYear(), current.getMonth(), current.getDate());
             Calendar date = Calendar.getInstance();
-            date.setTime(card.getReciteDate());
+            date.setTime(today);
 
             switch (stage) {
                 case 0:
@@ -204,8 +206,8 @@ public class Dbhelper {
             card.updateAll("heading = ?", heading);
             Log.v("数据库","更新已记住卡片的背诵时间至" + reciteDate);
 
+            // 更新至StageList
             updateStageSum(stage, stage + 1, card.getTab());
-            updateMemoryStatus(card.getTab(), 1);
         }
         // 忘记单词
         else if (pass == -1){
@@ -216,8 +218,8 @@ public class Dbhelper {
             card.updateAll("heading = ?", heading);
             Log.v("数据库","更新未记住卡片的背诵时间至" + reciteDate);
 
+            // 更新至StageList
             updateStageSum(stage, 0, card.getTab());
-            updateMemoryStatus(card.getTab(), -1);
         }
         // 模糊
         else {
@@ -226,18 +228,14 @@ public class Dbhelper {
             card.setReciteDate(reciteDate);
             if (stage == 0) {
                 card.setStage(0);
-                updateStageSum(stage, 0, card.getTab());
-                updateMemoryStatus(card.getTab(), 0);
+                updateStageSum(stage, 0, card.getTab());    // 更新至StageList
             }
             else {
                 card.setStage(stage - 1);
-                updateStageSum(stage, stage - 1, card.getTab());
-                updateMemoryStatus(card.getTab(), 0);
+                updateStageSum(stage, stage - 1, card.getTab());    // 更新至StageList
             }
             card.updateAll("heading = ?", heading);
             Log.v("数据库","更新模糊卡片的背诵时间至" + reciteDate);
-
-
         }
     }
 
@@ -317,12 +315,11 @@ public class Dbhelper {
             stageRow.save();
         }
 
-
         Log.v("数据库","添加统计状态行");
     }
 
-    // 更新
-    void updateStageSum (int stage, int newStage, String tab) {
+    // 更新某类别的状态更改
+    private void updateStageSum (int stage, int newStage, String tab) {
         Date current = new Date(System.currentTimeMillis());
         Date today = new Date(current.getYear(), current.getMonth(), current.getDate());
 
@@ -341,14 +338,14 @@ public class Dbhelper {
         }
     }
 
-    void updateMemoryStatus(String tab, int status) {
+    private void updateMemoryStatus(String tab, int status) {
         Date current = new Date(System.currentTimeMillis());
         Date today = new Date(current.getYear(), current.getMonth(), current.getDate());
 
         List<StageList> stageList = getStageList();
         for (int i = 0; i < stageList.size(); i++) {
             StageList todayStage = stageList.get(i);
-            if (todayStage.getDate().compareTo(today) == 1) {
+            if (todayStage.getDate().compareTo(today) > 0) {
                 if (tab.equals(todayStage.getTab())) {
                     switch (status){
                         case 1:
@@ -375,7 +372,7 @@ public class Dbhelper {
 
 
     // 某一标签的状态和
-    int[] getStageSum(String tabName){
+    private int[] getStageSum(String tabName){
         int[] stageSum = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
         List<MemoryCardsList> cardList = getCardList();
@@ -390,4 +387,28 @@ public class Dbhelper {
         return stageSum;
     }
 
+
+    /*
+    *
+    TodayCardsList
+     *
+     */
+
+    // 设置初次背诵状态 并更新至StageList
+    void setReciteStatus(String heading, int status) {
+        //不可重复Heading
+        if (LitePal.where("heading = ?", heading).find(TodayCardsList.class).size() != 0){
+            return;
+        }
+
+        TodayCardsList todayCard = new TodayCardsList();
+        todayCard.setHeading(heading);
+        todayCard.setFirstReciteStatus(status);
+        todayCard.save();
+
+        Log.v("数据库","添加初次背诵状态");
+
+        // 更新至StageList
+        updateMemoryStatus(findCard(heading).getTab(), status);
+    }
 }
