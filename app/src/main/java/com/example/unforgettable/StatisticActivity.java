@@ -25,7 +25,7 @@ public class StatisticActivity extends Fragment {
     //定义fragment
     private Chart1Fragment f1;
     private Chart2Fragment f2;
-//    private Chart3Fragment f3;
+    private Chart3Fragment f3;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -63,23 +63,24 @@ public class StatisticActivity extends Fragment {
         list_fragment = new ArrayList<>();
         f1 = new Chart1Fragment();
         f2 = new Chart2Fragment();
-//        f3 = new Chart3Fragment();
+        f3 = new Chart3Fragment();
+
         list_fragment.add(f1);
         list_fragment.add(f2);
-//        list_fragment.add(f3);
+        list_fragment.add(f3);
 
         //将名称加载tab名字列表，正常情况下，我们应该在values/arrays.xml中进行定义然后调用
         list_title = new ArrayList<>();
         list_title.add("遗忘曲线");
         list_title.add("学习情况");
-        //list_title.add("记忆持久度");
+        list_title.add("记忆持久度");
 
         //设置TabLayout的模式
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         //为TabLayout添加tab名称
         tabLayout.addTab(tabLayout.newTab().setText(list_title.get(0)));
         tabLayout.addTab(tabLayout.newTab().setText(list_title.get(1)));
-        //tabLayout.addTab(tabLayout.newTab().setText(list_title.get(2)));
+        tabLayout.addTab(tabLayout.newTab().setText(list_title.get(2)));
 
         fAdapter = new TabLayoutAdapter(getActivity().getSupportFragmentManager(),list_fragment,list_title);
 
