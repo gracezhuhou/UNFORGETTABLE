@@ -18,14 +18,16 @@ public class BarChartView extends View {
     int barColor = 0xDDFF9246; //第二柱形图画笔颜色
     int barColor1 = 0xDDFFAC72;//第一柱形图画笔颜色
 
-    float dataFirst; //第一柱形图数据
-    float dataSecond; //第二柱形图数据
+    int dataFirst[]; //第一柱形图数据
+    int dataSecond[]; //第二柱形图数据
+    int dataThird[];//第三柱形图数据
+    int dataFourth[];//第四柱形图数据
 
     float yMax;//y轴最大数据
 
     int textMagin = 5; //文字与柱形图距离
     int textSize = 18; //文字大小
-    String text; //文字
+    String text[]; //文字
 
     public BarChartView(Context context) {
         this(context,null);
@@ -73,21 +75,25 @@ public class BarChartView extends View {
         int barWidth = getRight() - getLeft();
         //获取总高度
         int totalHeight = canvas.getHeight();
-        //画第二柱
-        float secondBarHeight = (dataSecond / yMax )* totalHeight;
-        float y = totalHeight - secondBarHeight;
-        float x = getLeft();
-        canvas.drawRect(x,y,x+barWidth,totalHeight,barPaint1);
-        //画第一柱
-        float firstBarHeght = (dataFirst / yMax )* totalHeight;
-        float firstY = totalHeight - firstBarHeght;
-        canvas.drawRect(x,firstY,x+barWidth,y,barPaint);
-        //画文字
-        Rect rect = new Rect();
-        textPaint.getTextBounds(String.valueOf(text), 0, String.valueOf(text).length(), rect);
-        int w = rect.width();
-        int h = rect.height();
-        canvas.drawText(String.valueOf(text),(x+barWidth)/2 - w/2,firstY - h/2 - textMagin,textPaint);
+        for(int i=0;i<dataFirst.length;i++){
+            //画第二柱
+            float secondBarHeight = (dataSecond[i] / yMax )* totalHeight;
+            float y = totalHeight - secondBarHeight;
+            float x = getLeft();
+            canvas.drawRect(x,y,x+barWidth,totalHeight,barPaint1);
+
+            //画第一柱
+            float firstBarHeght = (dataFirst[i] / yMax )* totalHeight;
+            float firstY = totalHeight - firstBarHeght;
+            canvas.drawRect(x,firstY,x+barWidth,y,barPaint);
+            //画文字
+            Rect rect = new Rect();
+            textPaint.getTextBounds(String.valueOf(text[i]), 0, String.valueOf(text[i]).length(), rect);
+            int w = rect.width();
+            int h = rect.height();
+            canvas.drawText(String.valueOf(text[i]),(x+barWidth)/2 - w/2,firstY - h/2 - textMagin,textPaint);
+        }
+
     }
 
     @Override
@@ -99,13 +105,26 @@ public class BarChartView extends View {
      * 设置柱型数据
      * @param dataFirst 第一柱的数据值
      * @param dataSecond 第二柱的数据值
+     * @param dataThird 第三柱的数据值
+     * @param dataFourth 第四柱的数据值
      * @param yMax Y轴的最大值
      * @param text 柱上显示的文字
      */
-    public void setData(float dataFirst,float dataSecond,float yMax,String text) {
-        this.dataSecond = dataSecond;
-        this.yMax = yMax;
+//    public void setData(float dataFirst,float dataSecond,float yMax,String text) {
+//        this.dataSecond = dataSecond;
+//        this.yMax = yMax;
+//        this.dataFirst = dataFirst;
+//        this.text = text;
+//        invalidate();
+//    }
+
+    public void SetData(int[] dataFirst,int[] dataSecond, int [] dataThird, int[] dataFourth, float yMax,String[] text) {
+
         this.dataFirst = dataFirst;
+        this.dataSecond = dataSecond;
+        this.dataThird = dataThird;
+        this.dataFourth = dataFourth;
+        this.yMax = yMax;
         this.text = text;
         invalidate();
     }
