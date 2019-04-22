@@ -16,6 +16,22 @@ import java.util.List;
 public class Dbhelper {
     Dbhelper(){
         LitePal.getDatabase();
+
+        for (int i = 0; i < 22; ++i) {
+            StatusSumList statusRow = new StatusSumList();
+            statusRow.setSpan(i);
+            statusRow.save();
+        }
+        for (int i = 1; i < 4; ++i) {
+            StatusSumList statusRow = new StatusSumList();
+            statusRow.setSpan(i * 30);
+            statusRow.save();
+        }
+        for (int i = 1; i < 3; ++i) {
+            StatusSumList statusRow = new StatusSumList();
+            statusRow.setSpan(i * 180);
+            statusRow.save();
+        }
     }
 
     /*
@@ -394,7 +410,7 @@ public class Dbhelper {
      *
      */
 
-    // 设置初次背诵状态 并更新至StageList
+    // 设置初次背诵状态 并更新至StageList & StatusSumList
     void setReciteStatus(String heading, int status) {
         //不可重复Heading
         if (LitePal.where("heading = ?", heading).find(TodayCardsList.class).size() != 0){
@@ -408,7 +424,48 @@ public class Dbhelper {
 
         Log.v("数据库","添加初次背诵状态");
 
+        MemoryCardsList card = findCard(heading);
         // 更新至StageList
-        updateMemoryStatus(findCard(heading).getTab(), status);
+        updateMemoryStatus(card.getTab(), status);
+
+        // 更新至StatusSumList
+        Date recordDate = card.getRecordDate();
+        Date today = new Date(System.currentTimeMillis());
+        // 计算时间差
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(recordDate);
+        int day1 = calendar.get(Calendar.DAY_OF_YEAR);
+        calendar.setTime(today);
+        int day2 = calendar.get(Calendar.DAY_OF_YEAR);
+        int span = (day2 - day1);
+
+        StatusSumList statusRow = findStatusRow(span);
+        if (statusRow != null) {
+            switch (status){
+                case 1:{
+                    int rememberSum = statusRow.getRememberSum();
+                    statusRow.setRememberSum(rememberSum + 1);
+                    break;
+                }
+                case -1:{
+                    int forgetSum = statusRow.getForgetSum();
+                    statusRow.setForgetSum(forgetSum + 1);
+                    break;
+                }
+                case 0: {
+                    int dimSum = statusRow.getDimSum();
+                    statusRow.setDimSum(dimSum + 1);
+                }
+            }
+            statusRow.updateAll("span = ?", Integer.toString(span));
+        }
+    }
+
+    // 根据span查找唯一行
+    StatusSumList findStatusRow(int span){
+        List<StatusSumList> statusSumList = LitePal.where("span = ?", Integer.toString(span)).find(StatusSumList.class);
+        if (statusSumList.size() == 0)  return null;
+        StatusSumList statusRow = statusSumList.get(0);
+        return statusRow;
     }
 }
