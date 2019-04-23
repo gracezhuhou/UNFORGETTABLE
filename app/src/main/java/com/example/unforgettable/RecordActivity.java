@@ -49,15 +49,15 @@ public class RecordActivity extends Fragment {
         LitePal.initialize(this.getActivity());   // 初始化数据库
 
         //设置id
-        submitButton = (Button) view.findViewById(R.id.submitButton);
-        sourceInput = (EditText)view.findViewById(R.id.sourceInput);
-        authorInput = (EditText)view.findViewById(R.id.authorInput);
-        headingInput = (EditText)view.findViewById(R.id.headingInput);
-        typeButton = (Button) view.findViewById(R.id.typeButton);
-        cameraButton = (Button) view.findViewById(R.id.cameraButton);
-        soundButton = (Button) view.findViewById(R.id.soundButton);
-        starButton = (Button) view.findViewById(R.id.starButton);
-        contentInput = (EditText)view.findViewById(R.id.contentInput);
+        submitButton = view.findViewById(R.id.submitButton);
+        sourceInput = view.findViewById(R.id.sourceInput);
+        authorInput = view.findViewById(R.id.authorInput);
+        headingInput = view.findViewById(R.id.headingInput);
+        typeButton = view.findViewById(R.id.typeButton);
+        cameraButton = view.findViewById(R.id.cameraButton);
+        soundButton = view.findViewById(R.id.soundButton);
+        starButton = view.findViewById(R.id.starButton);
+        contentInput = view.findViewById(R.id.contentInput);
 
         return view;
     }

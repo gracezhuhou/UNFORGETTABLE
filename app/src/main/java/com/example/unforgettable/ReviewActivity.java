@@ -243,7 +243,22 @@ public class ReviewActivity extends Fragment{
             typeText.setText(reciteCardList.get(0).getTab());   // 当前卡片标签
             remindButton.setVisibility(View.VISIBLE);   // 显示
             like = reciteCardList.get(0).isLike();
-            // TODO: 设置初始星星颜色
+            // 设置初始星星颜色
+            // 改按键颜色状态
+            if (like) {
+                Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
+                // 这一步必须要做,否则不会显示.
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                starButton.setCompoundDrawables(null, null, drawable, null);
+                starButton.setTextColor(Color.argb(0, 0, 255, 0));
+            }
+            else {
+                Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
+                // 这一步必须要做,否则不会显示.
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                starButton.setCompoundDrawables(null, null, drawable, null);
+                starButton.setTextColor(Color.argb(0, 0, 255, 0));
+            }
         }
         // 隐藏
         fileButton.setVisibility(View.INVISIBLE);

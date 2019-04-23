@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.Bmob;
+
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView mBottomNavigationView;
@@ -26,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // bmob初始化
+        Bmob.initialize(this, "fff6417ec19cdbd68fa74e7d3860ad8c");
+
 
         initData();
         initBottomNavigation();
