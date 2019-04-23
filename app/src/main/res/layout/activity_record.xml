@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_pink"
+    android:background="@drawable/background_watermelon_favourite"
     tools:context=".RecordActivity">
-     <!--完成-->
+    <!--完成-->
     <Button
         android:id="@+id/submitButton"
         style="@style/Widget.AppCompat.Button.Borderless"
@@ -120,9 +120,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:drawableRight="@drawable/ic_star_black"
         android:text="❤"
         android:textColor="@color/transparent"
-        android:drawableRight="@drawable/ic_star_black"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/soundButton"
         app:layout_constraintTop_toBottomOf="@+id/headingInput" />
