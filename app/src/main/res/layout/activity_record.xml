@@ -17,7 +17,7 @@
         android:layout_marginRight="@dimen/dp_8"
         android:layout_marginBottom="8dp"
         android:text="完成"
-        android:textColor="#E75C83"
+        android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toTopOf="@+id/authorInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -166,7 +166,7 @@
         android:layout_marginTop="8dp"
         android:autoText="false"
         android:text="在下方输入你想记住的文字"
-        android:textColor="#E75C83"
+        android:textColor="@color/colorAccent"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/sourceInput"
         app:layout_constraintStart_toStartOf="parent"
