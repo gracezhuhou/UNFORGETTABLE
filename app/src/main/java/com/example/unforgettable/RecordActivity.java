@@ -40,7 +40,7 @@ public class RecordActivity extends Fragment {
     private String heading; // 正面 标题
     private String content; // 背面 内容
     private boolean like = false;   // 收藏
-    private String[] tab;     // 标签
+    private String tab;     // 标签
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -85,8 +85,8 @@ public class RecordActivity extends Fragment {
             public void onClick(View v) {
                 getInput(); //获取用户输入内容
 
-                // TODO: 选择标签（标签最多选择5个）
-                tab = new String[]{"计网", "英语"}; //暂时
+                // TODO: 选择标签
+                tab = "英语"; //暂时
 
                 dbhelper.addCard(source, author, heading, content, like, tab);  //添加记录
                 // TODO: 清空页面

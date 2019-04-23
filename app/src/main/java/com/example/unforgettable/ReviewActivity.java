@@ -10,9 +10,12 @@ import android.view.LayoutInflater;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.litepal.LitePal;
 
@@ -40,8 +43,8 @@ public class ReviewActivity extends Fragment{
     // 数据库相关变量
     private Dbhelper dbhelper = new Dbhelper();
     private List<MemoryCardsList> reciteCardList;    //背诵卡片列表
-    private String heading; // 正面 标题
     private boolean like;   // 收藏
+    String[] tab;   // 下拉菜单中的标签数组
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -51,26 +54,24 @@ public class ReviewActivity extends Fragment{
         LitePal.initialize(this.getActivity());   // 初始化
 
         // 设置id
-        spinner = (Spinner)view.findViewById(R.id.spinner);
-        fileButton = (Button)view.findViewById(R.id.fileButton);
-        editButton = (Button)view.findViewById(R.id.editButton);
-        starButton = (Button)view.findViewById(R.id.starButton);
-        typeText = (TextView)view.findViewById(R.id.typeText);
-        headingText = (TextView)view.findViewById(R.id.headingText);
-        detailText = (TextView)view.findViewById(R.id.detailText);
-        contentText = (TextView)view.findViewById(R.id.contentText);
-        passDayText = (TextView)view.findViewById(R.id.passDayText);
-        dimDayText = (TextView)view.findViewById(R.id.dimDayText);
-        forgetDayText = (TextView)view.findViewById(R.id.forgetDayText);
-        passButton = (Button)view.findViewById(R.id.passButton);
-        dimButton = (Button)view.findViewById(R.id.dimButton);
-        forgetButton = (Button)view.findViewById(R.id.forgetButton);
-        remindButton = (Button)view.findViewById(R.id.remindButton);
+        spinner = view.findViewById(R.id.spinner);
+        fileButton = view.findViewById(R.id.fileButton);
+        editButton = view.findViewById(R.id.editButton);
+        starButton = view.findViewById(R.id.starButton);
+        typeText = view.findViewById(R.id.typeText);
+        headingText = view.findViewById(R.id.headingText);
+        detailText = view.findViewById(R.id.detailText);
+        contentText = view.findViewById(R.id.contentText);
+        passDayText = view.findViewById(R.id.passDayText);
+        dimDayText = view.findViewById(R.id.dimDayText);
+        forgetDayText = view.findViewById(R.id.forgetDayText);
+        passButton = view.findViewById(R.id.passButton);
+        dimButton = view.findViewById(R.id.dimButton);
+        forgetButton = view.findViewById(R.id.forgetButton);
+        remindButton = view.findViewById(R.id.remindButton);
 
-
-        dbhelper.addTab("英语");
-        dbhelper.addTab("计网");
         dbhelper.addStageList();
+        setSpinner();
         init();  // 初始化背诵列表&初始界面
 
         return view;
@@ -96,7 +97,7 @@ public class ReviewActivity extends Fragment{
     }
 
     // 按键监听
-    //控件的点击事件写在onActivityCreated中
+    // 控件的点击事件写在onActivityCreated中
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -106,13 +107,12 @@ public class ReviewActivity extends Fragment{
             public void onClick(View v){
                 like = dbhelper.changeLike((String)headingText.getText());
 
-                // TODO: 改按键颜色状态    @大冬瓜 @母后
+                // 改按键颜色状态
                 if (like) {
                     Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
                     // 这一步必须要做,否则不会显示.
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                     starButton.setCompoundDrawables(null, null, drawable, null);
-                    starButton.setText("已收藏"); //暂时
                     starButton.setTextColor(Color.argb(0, 0, 255, 0));
                 }
                 else {
@@ -120,7 +120,6 @@ public class ReviewActivity extends Fragment{
                     // 这一步必须要做,否则不会显示.
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                     starButton.setCompoundDrawables(null, null, drawable, null);
-                    starButton.setText("❤"); //暂时
                     starButton.setTextColor(Color.argb(0, 0, 255, 0));
                 }
                 Log.v("复习界面","收藏按钮点击事件" + like);
@@ -137,6 +136,7 @@ public class ReviewActivity extends Fragment{
         passButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                dbhelper.setReciteStatus((String)headingText.getText(), 1);
                 dbhelper.updateReciteDate((String)headingText.getText(), 1);
                 reciteCardList.remove(0);
                 showHeading();
@@ -147,6 +147,7 @@ public class ReviewActivity extends Fragment{
         dimButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                dbhelper.setReciteStatus((String)headingText.getText(), 0);
                 dbhelper.updateReciteDate((String)headingText.getText(), 0);
                 MemoryCardsList forgetCard = reciteCardList.get(0);
                 reciteCardList.remove(0);
@@ -159,6 +160,7 @@ public class ReviewActivity extends Fragment{
         forgetButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                dbhelper.setReciteStatus((String)headingText.getText(), -1);
                 dbhelper.updateReciteDate((String)headingText.getText(), -1);
                 MemoryCardsList forgetCard = reciteCardList.get(0);
                 reciteCardList.remove(0);
@@ -188,8 +190,38 @@ public class ReviewActivity extends Fragment{
                 v.getContext().startActivity(intent);
             }
         });
+        // 下拉菜单点击
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                reciteCardList = dbhelper.getReciteTabCards(tab[pos]);
+                //Toast.makeText(getActivity(), "你点击的是:"+tab[pos], Toast.LENGTH_LONG).show();
+                showHeading();
+                Log.v("复习界面","下拉菜单选择");
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Another interface callback
+            }
+        });
 
         Log.v("复习界面","按钮监听完成");
+    }
+
+    // 设置标签下拉菜单
+    private void setSpinner() {
+        // 获取所有标签
+        List<TabList> tapList = dbhelper.getTabList();
+        int size = tapList.size();
+        tab = new String[size + 1];
+        tab[0] = "全部";
+        for (int i = 0; i < size; ++i){
+            tab[i + 1] = tapList.get(i).getTabName();
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item , tab);  //创建一个数组适配器
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);     //设置下拉列表框的下拉选项样式
+        spinner.setAdapter(adapter);
     }
 
     // 初始化背诵列表 & 初始界面
@@ -204,18 +236,14 @@ public class ReviewActivity extends Fragment{
         if (reciteCardList.size() == 0) {
             headingText.setText("无背诵卡片");
             remindButton.setVisibility(View.INVISIBLE); // 隐藏
+            typeText.setVisibility(View.INVISIBLE);
         }
         else {
             headingText.setText(reciteCardList.get(0).getHeading());    // 当前卡片标题
+            typeText.setText(reciteCardList.get(0).getTab());   // 当前卡片标签
             remindButton.setVisibility(View.VISIBLE);   // 显示
-            // TODO: 改按键颜色状态    @大冬瓜 @母后
             like = reciteCardList.get(0).isLike();
-            if (like) {
-                starButton.setText("已收藏"); //暂时
-            }
-            else {
-                starButton.setText("❤"); //暂时
-            }
+            // TODO: 设置初始星星颜色
         }
         // 隐藏
         fileButton.setVisibility(View.INVISIBLE);
