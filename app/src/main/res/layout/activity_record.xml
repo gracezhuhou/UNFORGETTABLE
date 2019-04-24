@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_watermelon_favourite"
     tools:context=".RecordActivity">
-    <!--android:background="@drawable/background_pink"-->
-
-     <!--完成-->
+    <!--完成-->
     <Button
         android:id="@+id/submitButton"
         style="@style/Widget.AppCompat.Button.Borderless"
@@ -18,7 +17,7 @@
         android:layout_marginRight="@dimen/dp_8"
         android:layout_marginBottom="8dp"
         android:text="完成"
-        android:textColor="#E75C83"
+        android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toTopOf="@+id/authorInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +34,7 @@
         android:hint="来源（可选）"
         android:singleLine="true"
         android:textAllCaps="true"
-        android:textColor="#E75C83"
+        android:textColor="@color/colorAccent"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/starButton"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +52,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:hint="作者（可选）"
-        android:textColor="#E75C83"
+        android:textColor="@color/colorAccent"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -71,7 +70,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:hint="提示问题（可选）-卡片正面"
-        android:textColor="#E75C83"
+        android:textColor="@color/colorAccent"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -83,8 +82,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/transparent"
         android:text="标签"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headingInput" />
@@ -92,11 +92,12 @@
     <!--拍照记录-->
     <Button
         android:id="@+id/cameraButton"
-        android:layout_width="94dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:background="@color/transparent"
         android:text="拍照"
         app:layout_constraintEnd_toStartOf="@+id/typeButton"
         app:layout_constraintTop_toBottomOf="@+id/headingInput" />
@@ -109,6 +110,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:background="@color/transparent"
         android:text="录音"
         app:layout_constraintEnd_toStartOf="@+id/cameraButton"
         app:layout_constraintTop_toBottomOf="@+id/headingInput" />
@@ -116,33 +118,44 @@
     <!--收藏-->
     <Button
         android:id="@+id/starButton"
-        android:layout_width="93dp"
-        android:layout_height="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:alpha="@dimen/dp_10"
+        android:background="@color/transparent"
+        android:drawableRight="@drawable/ic_star_black"
         android:text="❤"
         android:textColor="@color/transparent"
-        android:drawableRight="@drawable/ic_star_black"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/soundButton"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headingInput" />
 
     <!--内容-->
     <EditText
         android:id="@+id/contentInput"
-        android:layout_width="373dp"
-        android:layout_height="457dp"
+        android:layout_width="376dp"
+        android:layout_height="450dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:background="@drawable/contentinput_shape"
+        android:gravity="top"
         android:hint="文本-卡片背面"
+        android:padding="@dimen/common_margin"
+        android:textColor="?attr/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/typeButton" />
+        app:layout_constraintTop_toBottomOf="@+id/typeButton"
+        app:layout_constraintVertical_bias="0.242" />
 
     <TextView
         android:id="@+id/textView"
@@ -153,7 +166,7 @@
         android:layout_marginTop="8dp"
         android:autoText="false"
         android:text="在下方输入你想记住的文字"
-        android:textColor="#E75C83"
+        android:textColor="@color/colorAccent"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/sourceInput"
         app:layout_constraintStart_toStartOf="parent"
