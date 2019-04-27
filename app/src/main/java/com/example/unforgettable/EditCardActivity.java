@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.unforgettable.LitepalTable.memoryCardsList;
+
 public class EditCardActivity extends AppCompatActivity {
     // 前端相关变量
     private Button submitButton;
@@ -57,7 +59,7 @@ public class EditCardActivity extends AppCompatActivity {
     public void init(){
         Intent intent = getIntent();
         oldheading = intent.getStringExtra("heading_extra");
-        MemoryCardsList card = dbhelper.findCard(oldheading);
+        memoryCardsList card = dbhelper.findCard(oldheading);
         sourceInput.setText(card.getSource());
         authorInput.setText(card.getAuthor());
         headingInput.setText(oldheading);

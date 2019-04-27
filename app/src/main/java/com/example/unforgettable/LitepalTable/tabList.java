@@ -1,9 +1,9 @@
-package com.example.unforgettable;
+package com.example.unforgettable.LitepalTable;
 
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
-public class TabList extends LitePalSupport {
+public class tabList extends LitePalSupport {
     private int id;
 
     //不为空

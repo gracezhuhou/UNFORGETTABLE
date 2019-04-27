@@ -1,4 +1,4 @@
-package com.example.unforgettable;
+package com.example.unforgettable.LitepalTable;
 
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
@@ -6,7 +6,7 @@ import org.litepal.crud.LitePalSupport;
 import java.util.Date;
 
 // 数据库 - 表名&列名
-public class StageList extends LitePalSupport {
+public class stageList extends LitePalSupport {
     //运用注解来为字段添加index标签
 
     private int id;

@@ -1,8 +1,8 @@
-package com.example.unforgettable;
+package com.example.unforgettable.LitepalTable;
 
 import org.litepal.crud.LitePalSupport;
 
-public class TodayCardsList extends LitePalSupport {
+public class todayCardsList extends LitePalSupport {
     private int id;
     private String heading; // 正面 标题
     private int firstReciteStatus;   // 是否第一次背的状态

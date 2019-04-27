@@ -9,10 +9,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.unforgettable.ui.login.MyUser;
+import com.example.unforgettable.Bmob.MyUser;
 
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
@@ -75,7 +74,19 @@ public class RegisterActivity extends AppCompatActivity {
                     public void done(MyUser user, BmobException e) {
                         if(e == null)
                         {
-                            Toast.makeText(getApplicationContext(),"注册成功",Toast.LENGTH_SHORT).show();
+                            // 发送验证邮箱
+//                            final String email = user.getEmail();
+//                            MyUser.requestEmailVerify(email, new UpdateListener() {
+//                                @Override
+//                                public void done(BmobException e) {
+//                                    if(e==null){
+//                                        Log.v("Bmob","请求验证邮件成功");
+//                                    }else{
+//                                        Log.e("Bmob","失败:" + e.getMessage());
+//                                    }
+//                                }
+//                            });
+                            Toast.makeText(getApplicationContext(),"注册成功，请至邮箱中进行激活",Toast.LENGTH_LONG).show();
                             finish();   // 返回
                         }
                         else

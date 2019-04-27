@@ -1,23 +1,18 @@
 //记忆持久度图表
 package com.example.unforgettable;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import org.litepal.LitePal;
+import com.example.unforgettable.LitepalTable.stageList;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,7 +48,7 @@ public class Chart1Fragment extends Fragment {
     // 数据库相关变量
     private Dbhelper dBhelper = new Dbhelper();
     private int [][] memory = new int [5][60];
-    private List<TabList> tabList = dBhelper.getTabList();    //背诵卡片列表
+    private List<com.example.unforgettable.LitepalTable.tabList> tabList = dBhelper.getTabList();    //背诵卡片列表
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -129,13 +124,13 @@ public class Chart1Fragment extends Fragment {
 
         //获取已加入记忆规划的全部背卡片数量,stage=0
         //memory[0]记录已加入记忆规划的卡片数量
-        //List<StageList> stageList0 = LitePal.where("stage = ? ", "0").order("date").find(StageList.class);
+        //List<stageList> stageList0 = LitePal.where("stage = ? ", "0").order("date").find(stageList.class);
         //判断标签
 
         if(label.equals("全部")){
             for(int i=0; i<60;i++){
-//                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
-                List<StageList> stageList = dBhelper.getStageList();
+//                List<stageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(stageList.class);
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -i);//i天前的日期
                     Date statisticDate = date.getTime();
@@ -145,7 +140,7 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    com.example.unforgettable.LitepalTable.stageList statistic = stageList.get(j);
                     memory[0][i] = memory[0][i]+statistic.getStage0()+statistic.getStage1()+statistic.getStage2()+statistic.getStage3()
                     +statistic.getStage4()+statistic.getStage5()+statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
                 }
@@ -154,7 +149,7 @@ public class Chart1Fragment extends Fragment {
         else{
             int i=0;
             for(; i<60;i++){
-                List<StageList> stageList = dBhelper.getStageList();
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -i);//i天前的日期
                     Date statisticDate = date.getTime();
@@ -164,7 +159,7 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    com.example.unforgettable.LitepalTable.stageList statistic = stageList.get(j);
                     if(statistic.getTab().equals(label)){
                         memory[0][i] = memory[0][i]+statistic.getStage0()+statistic.getStage1()+statistic.getStage2()+statistic.getStage3()
                                 +statistic.getStage4()+statistic.getStage5()+statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
@@ -175,12 +170,12 @@ public class Chart1Fragment extends Fragment {
 
         //获取记忆持久度>10天的全部背卡片数量,stage=3
         //memory[1]记录记忆持久度>10天的卡片数量
-        //List<StageList> stageList1 = LitePal.where("stage = ? ", "3").order("date").find(StageList.class);
+        //List<stageList> stageList1 = LitePal.where("stage = ? ", "3").order("date").find(stageList.class);
         //判断标签
         if(label.equals("全部")){
             for(int i=0; i<60;i++){
-//                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
-                List<StageList> stageList = dBhelper.getStageList();
+//                List<stageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(stageList.class);
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -i);//i天前的日期
                     Date statisticDate = date.getTime();
@@ -190,7 +185,7 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    com.example.unforgettable.LitepalTable.stageList statistic = stageList.get(j);
                     memory[0][i] = memory[0][i]+statistic.getStage3()+statistic.getStage4()+statistic.getStage5()
                             +statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
                 }
@@ -198,7 +193,7 @@ public class Chart1Fragment extends Fragment {
         }
         else{
             for(int i=0; i<60;i++){
-                List<StageList> stageList = dBhelper.getStageList();
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -i);//i天前的日期
                     Date statisticDate = date.getTime();
@@ -208,7 +203,7 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    com.example.unforgettable.LitepalTable.stageList statistic = stageList.get(j);
                     if(statistic.getTab().equals(label)){
                         memory[0][i] = memory[0][i]+statistic.getStage3()+statistic.getStage4()+statistic.getStage5()
                                 +statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
@@ -218,12 +213,12 @@ public class Chart1Fragment extends Fragment {
         }
         //获取记忆持久度>30天的全部背卡片数量,stage=5
         //memory[2]记录记忆持久度>30天的卡片数量
-        //List<StageList> stageList2 = LitePal.where("stage = ? ", "5").order("date").find(StageList.class);
+        //List<stageList> stageList2 = LitePal.where("stage = ? ", "5").order("date").find(stageList.class);
         //判断标签
         if(label.equals("全部")){
             for(int i=0; i<60;i++){
-//                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
-                List<StageList> stageList = dBhelper.getStageList();
+//                List<stageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(stageList.class);
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -i);//i天前的日期
                     Date statisticDate = date.getTime();
@@ -233,14 +228,14 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    com.example.unforgettable.LitepalTable.stageList statistic = stageList.get(j);
                     memory[0][i] = memory[0][i]+statistic.getStage5()+statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
                 }
             }
         }
         else{
             for(int i=0; i<60;i++){
-                List<StageList> stageList = dBhelper.getStageList();
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -i);//i天前的日期
                     Date statisticDate = date.getTime();
@@ -250,7 +245,7 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    com.example.unforgettable.LitepalTable.stageList statistic = stageList.get(j);
                     if(statistic.getTab().equals(label)){
                         memory[0][i] = memory[0][i]+statistic.getStage5()+statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
                     }
@@ -259,12 +254,12 @@ public class Chart1Fragment extends Fragment {
         }
         //获取记忆持久度>60天的全部背卡片数量,stage=6
         //memory[3]记录记忆持久度>60天的卡片数量
-        //List<StageList> stageList3 = LitePal.where("stage = ? ", "6").order("date").find(StageList.class);
+        //List<stageList> stageList3 = LitePal.where("stage = ? ", "6").order("date").find(stageList.class);
         //判断标签
         if(label.equals("全部")){
             for(int i=0; i<60;i++){
-//                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
-                List<StageList> stageList = dBhelper.getStageList();
+//                List<stageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(stageList.class);
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -i);//i天前的日期
                     Date statisticDate = date.getTime();
@@ -274,14 +269,14 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    com.example.unforgettable.LitepalTable.stageList statistic = stageList.get(j);
                     memory[0][i] = memory[0][i]+statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
                 }
             }
         }
         else{
             for(int i=0; i<60;i++){
-                List<StageList> stageList = dBhelper.getStageList();
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -i);//i天前的日期
                     Date statisticDate = date.getTime();
@@ -291,7 +286,7 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    com.example.unforgettable.LitepalTable.stageList statistic = stageList.get(j);
                     if(statistic.getTab().equals(label)){
                         memory[0][i] = memory[0][i]+statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
                     }
@@ -301,12 +296,12 @@ public class Chart1Fragment extends Fragment {
 
         //获取记忆持久度>90天的全部背卡片数量,stage=7
         //memory[4]记录记忆持久度>90天的卡片数量
-        //List<StageList> stageList4 = LitePal.where("stage = ? ", "7").order("date").find(StageList.class);
+        //List<stageList> stageList4 = LitePal.where("stage = ? ", "7").order("date").find(stageList.class);
         //判断标签
         if(label.equals("全部")){
             for(int i=0; i<60;i++){
-//                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
-                List<StageList> stageList = dBhelper.getStageList();
+//                List<stageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(stageList.class);
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -i);//i天前的日期
                     Date statisticDate = date.getTime();
@@ -316,14 +311,14 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    com.example.unforgettable.LitepalTable.stageList statistic = stageList.get(j);
                     memory[0][i] = memory[0][i]+statistic.getStage7()+statistic.getStage8();
                 }
             }
         }
         else{
             for(int i=0; i<60;i++){
-                List<StageList> stageList = dBhelper.getStageList();
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -i);//i天前的日期
                     Date statisticDate = date.getTime();
@@ -333,7 +328,7 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    com.example.unforgettable.LitepalTable.stageList statistic = stageList.get(j);
                     if(statistic.getTab().equals(label)){
                         memory[0][i] = memory[0][i]+statistic.getStage7()+statistic.getStage8();
                     }

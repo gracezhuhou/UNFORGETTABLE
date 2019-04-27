@@ -1,4 +1,4 @@
-package com.example.unforgettable;
+package com.example.unforgettable.LitepalTable;
 
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
@@ -6,8 +6,7 @@ import java.util.Date;
 
 
 // 数据库 - 表名&列名
-public class MemoryCardsList extends LitePalSupport {
-    //运用注解来为字段添加index标签
+public class memoryCardsList extends LitePalSupport {
 
     private int id;
     private String source;  // 来源
@@ -18,7 +17,7 @@ public class MemoryCardsList extends LitePalSupport {
     private String tab;     // 标签
     private boolean finish = false; // 归档
 
-    // TODO: 背诵时间
+    // 背诵时间
     private Date recordDate = new Date(System.currentTimeMillis());
     private Date reciteDate;
     private int stage = 0;  // 背诵阶段

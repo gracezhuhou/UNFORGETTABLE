@@ -15,7 +15,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.unforgettable.LitepalTable.memoryCardsList;
+import com.example.unforgettable.LitepalTable.tabList;
 
 import org.litepal.LitePal;
 
@@ -42,7 +44,7 @@ public class ReviewActivity extends Fragment{
 
     // 数据库相关变量
     private Dbhelper dbhelper = new Dbhelper();
-    private List<MemoryCardsList> reciteCardList;    //背诵卡片列表
+    private List<memoryCardsList> reciteCardList;    //背诵卡片列表
     private boolean like;   // 收藏
     String[] tab;   // 下拉菜单中的标签数组
 
@@ -149,7 +151,7 @@ public class ReviewActivity extends Fragment{
             public void onClick(View v){
                 dbhelper.setReciteStatus((String)headingText.getText(), 0);
                 dbhelper.updateReciteDate((String)headingText.getText(), 0);
-                MemoryCardsList forgetCard = reciteCardList.get(0);
+                memoryCardsList forgetCard = reciteCardList.get(0);
                 reciteCardList.remove(0);
                 reciteCardList.add(forgetCard);
                 showHeading();
@@ -162,7 +164,7 @@ public class ReviewActivity extends Fragment{
             public void onClick(View v){
                 dbhelper.setReciteStatus((String)headingText.getText(), -1);
                 dbhelper.updateReciteDate((String)headingText.getText(), -1);
-                MemoryCardsList forgetCard = reciteCardList.get(0);
+                memoryCardsList forgetCard = reciteCardList.get(0);
                 reciteCardList.remove(0);
                 reciteCardList.add(forgetCard);
                 showHeading();
@@ -211,7 +213,7 @@ public class ReviewActivity extends Fragment{
     // 设置标签下拉菜单
     private void setSpinner() {
         // 获取所有标签
-        List<TabList> tapList = dbhelper.getTabList();
+        List<tabList> tapList = dbhelper.getTabList();
         int size = tapList.size();
         tab = new String[size + 1];
         tab[0] = "全部";
@@ -292,7 +294,7 @@ public class ReviewActivity extends Fragment{
         // 隐藏
         remindButton.setVisibility(View.INVISIBLE);
 
-        MemoryCardsList recentCard = dbhelper.findCard((String)headingText.getText());
+        memoryCardsList recentCard = dbhelper.findCard((String)headingText.getText());
         int stage = recentCard.getStage();
         contentText.setText(recentCard.getContent());
         String cardDetail = "记录于"+ recentCard.getRecordDate() + " 第" + stage + "次重复";

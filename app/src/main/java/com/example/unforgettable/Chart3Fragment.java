@@ -1,23 +1,16 @@
 //记忆持久度图表
 package com.example.unforgettable;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import org.litepal.LitePal;
+import com.example.unforgettable.LitepalTable.stageList;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,7 +44,7 @@ public class Chart3Fragment extends Fragment {
     // 数据库相关变量
     private Dbhelper dBhelper = new Dbhelper();
     private float [][] memory = new float [2][27];
-    private List<TabList> tabList = dBhelper.getTabList();    //背诵卡片列表
+    private List<com.example.unforgettable.LitepalTable.tabList> tabList = dBhelper.getTabList();    //背诵卡片列表
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -144,7 +137,7 @@ public class Chart3Fragment extends Fragment {
 
         //用户遗忘曲线
         for(int i=0;i<22;i++){
-            List<StageList> stageList = dBhelper.getStageList();
+            List<stageList> stageList = dBhelper.getStageList();
             for(int m=0;m<stageList.size();m++){
                 date.add(Calendar.DATE, i);//i天后的日期
                 Date statisticDate = date.getTime();

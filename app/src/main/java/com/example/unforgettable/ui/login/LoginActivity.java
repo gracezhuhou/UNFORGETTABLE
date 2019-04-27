@@ -19,15 +19,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.unforgettable.EditCardActivity;
 import com.example.unforgettable.MainActivity;
+import com.example.unforgettable.Bmob.MyUser;
 import com.example.unforgettable.R;
 import com.example.unforgettable.RegisterActivity;
-import com.example.unforgettable.ui.login.LoginViewModel;
-import com.example.unforgettable.ui.login.LoginViewModelFactory;
 
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobUser;
 
 public class LoginActivity extends AppCompatActivity {
 

@@ -18,7 +18,7 @@
         <!---->
     <!--</RelativeLayout>-->
     <ImageButton
-        android:id="@+id/sculpture"
+        android:id="@+id/userPic"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginStart="96dp"
@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/userName"
         android:layout_width="100dp"
         android:layout_height="25dp"
         android:layout_marginStart="40dp"
@@ -38,7 +38,7 @@
         android:text="TextView"
         android:textColor="@color/colorPrimary"
         android:textSize="20dp"
-        app:layout_constraintStart_toEndOf="@+id/sculpture"
+        app:layout_constraintStart_toEndOf="@+id/userPic"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
@@ -50,13 +50,13 @@
         android:layout_marginTop="20dp"
         android:background="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sculpture" />
+        app:layout_constraintTop_toBottomOf="@+id/userPic" />
 
     <Button
-        android:id="@+id/label_management"
+        android:id="@+id/snycButton"
         android:layout_width="match_parent"
         android:layout_height="69dp"
-        android:text="标签管理"
+        android:text="数据同步"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="24dp"
@@ -79,7 +79,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label_management" />
+        app:layout_constraintTop_toBottomOf="@+id/snycButton" />
 
     <Button
         android:id="@+id/remind_time"

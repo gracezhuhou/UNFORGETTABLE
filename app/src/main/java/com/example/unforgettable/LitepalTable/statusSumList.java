@@ -1,8 +1,8 @@
-package com.example.unforgettable;
+package com.example.unforgettable.LitepalTable;
 
 import org.litepal.crud.LitePalSupport;
 
-public class StatusSumList extends LitePalSupport {
+public class statusSumList extends LitePalSupport {
     private int id;
     private int span;
     private int rememberSum = 0;
