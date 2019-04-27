@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.unforgettable.Bmob.Bmobhelper;
 import com.example.unforgettable.Bmob.MyUser;
+import com.example.unforgettable.data.LoginDataSource;
 import com.example.unforgettable.data.LoginRepository;
 import com.example.unforgettable.ui.login.LoginActivity;
 
@@ -27,7 +28,7 @@ public class SetActivity extends Fragment {
     private ImageButton userPic;
     private TextView userName;
 
-    private LoginRepository loginRepository;
+    private LoginRepository loginRepository = LoginRepository.getInstance(new LoginDataSource());
     Bmobhelper bmobhelper = new Bmobhelper();
 
     @Override

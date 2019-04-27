@@ -51,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         if(user != null){
             Intent intent = new Intent(this, MainActivity.class);
             this.startActivity(intent);
+            finish();
         }
 
         // 注册
@@ -148,6 +149,7 @@ public class LoginActivity extends AppCompatActivity {
         // 跳转界面
         Intent intent = new Intent(this, MainActivity.class);
         this.startActivity(intent);
+        finish();
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {

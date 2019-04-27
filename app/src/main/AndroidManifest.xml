@@ -27,15 +27,12 @@
         <activity android:name=".RegisterActivity"></activity>
         <meta-data
             android:name="com.google.android.actions"
-            android:resource="@xml/background_gradient" />
-
-        <activity android:name=".EditCardActivity" />
+            android:resource="@drawable/background_gradient" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
