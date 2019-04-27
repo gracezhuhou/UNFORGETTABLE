@@ -41,7 +41,8 @@ public class LoginDataSource {
 //            return new Result.Error(new IOException("Error logging in Bmob"));
 //        }
 
-        if (MyUser.isLogin()) {
+        MyUser myUser = MyUser.getCurrentUser(MyUser.class);
+        if (myUser.getUsername().equals(username)) {
             try {
                 LoggedInUser user =
                         new LoggedInUser(
@@ -61,6 +62,6 @@ public class LoginDataSource {
     public void logout() {
         // TODO: revoke authentication
         MyUser.logOut();   //清除缓存用户对象
-        MyUser currentUser = BmobUser.getCurrentUser(MyUser.class); //现在的currentUser是null
+        MyUser currentUser = MyUser.getCurrentUser(MyUser.class); //现在的currentUser是null
     }
 }
