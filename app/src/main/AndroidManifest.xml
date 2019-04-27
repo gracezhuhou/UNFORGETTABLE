@@ -25,6 +25,11 @@
         </provider>
 
         <activity android:name=".RegisterActivity"></activity>
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/background_gradient" />
+
+        <activity android:name=".EditCardActivity" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login">
