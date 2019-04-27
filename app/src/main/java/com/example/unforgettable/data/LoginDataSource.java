@@ -19,21 +19,6 @@ public class LoginDataSource {
     public Result<LoggedInUser> login(String username, String password) {
         // handle loggedInUser authentication
 
-        MyUser userlogin = new MyUser();
-        userlogin.setUsername(username);
-        userlogin.setPassword(password);
-        userlogin.login(new SaveListener<MyUser>() {
-            @Override
-            public void done(MyUser myUser, BmobException e) {
-                if(e == null){
-                    Log.v("登录界面", myUser.getNickname()+"登录成功");
-
-                }else {
-                    Log.e("登录失败", "原因: ", e);
-                }
-            }
-        });
-
         // 邮箱验证
 //        MyUser myUser = MyUser.getCurrentUser(MyUser.class);
 //        if (!myUser.getEmailVerified()) {
@@ -41,27 +26,25 @@ public class LoginDataSource {
 //            return new Result.Error(new IOException("Error logging in Bmob"));
 //        }
 
-        MyUser myUser = MyUser.getCurrentUser(MyUser.class);
-        if (myUser.getUsername().equals(username)) {
+       // if (MyUser.isLogin()) {
             try {
+                MyUser myUser = MyUser.getCurrentUser(MyUser.class);
                 LoggedInUser user =
                         new LoggedInUser(
                                 java.util.UUID.randomUUID().toString(),
-                                userlogin.getNickname());
+                                username);
                 return new Result.Success<>(user);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 return new Result.Error(new IOException("Error logging in", e));
             }
         }
-       else {
-            return new Result.Error(new IOException("Error logging in Bmob"));
-       }
-    }
+        //return new Result.Error(new IOException("Error logging in"));
+   // }
 
     public void logout() {
         // TODO: revoke authentication
         MyUser.logOut();   //清除缓存用户对象
         MyUser currentUser = MyUser.getCurrentUser(MyUser.class); //现在的currentUser是null
     }
+
 }
