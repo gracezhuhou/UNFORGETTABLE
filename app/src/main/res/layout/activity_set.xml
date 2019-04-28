@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/userName"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
@@ -86,51 +86,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/surface_management">
 
-        <RelativeLayout
-            android:id="@+id/if_time"
-            android:layout_width="match_parent"
-            android:layout_height="69dp">
-
-            <TextView
-                android:id="@+id/if_set_time"
-                android:layout_width="60dp"
-                android:layout_height="69dp"
-                android:text="开启提醒"
-                android:gravity="center"
-                android:layout_marginLeft="30dp"/>
-            <Switch
-                android:id="@+id/if_remind"
-                android:layout_width="60dp"
-                android:layout_height="69dp"
-                android:gravity="center"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
-                android:checked="false"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/remind_time"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/set_time"
+            android:layout_width="60dp"
             android:layout_height="69dp"
-            android:layout_below="@+id/if_time"
-            >
+            android:layout_marginLeft="30dp"
+            android:gravity="center"
+            android:text="提醒时间" />
 
-            <TextView
-                android:id="@+id/set_time"
-                android:layout_width="60dp"
-                android:layout_height="69dp"
-                android:layout_marginLeft="30dp"
-                android:gravity="center"
-                android:text="提醒时间" />
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="60dp"
+            android:layout_height="69dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:gravity="center" />
 
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="60dp"
-                android:layout_height="69dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
-                android:gravity="center" />
-        </RelativeLayout>
     </RelativeLayout>
 
     <Button
