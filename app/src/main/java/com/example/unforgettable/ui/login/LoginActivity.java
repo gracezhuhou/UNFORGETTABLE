@@ -10,6 +10,7 @@ import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -25,6 +26,8 @@ import com.example.unforgettable.R;
 import com.example.unforgettable.RegisterActivity;
 
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -134,9 +137,22 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MyUser userlogin = new MyUser();
+                userlogin.setUsername(usernameEditText.getText().toString());
+                userlogin.setPassword(passwordEditText.getText().toString());
+                userlogin.login(new SaveListener<MyUser>() {
+                    @Override
+                    public void done(MyUser myUser, BmobException e) {
+                        if (e == null) {
+                            Log.v("登录界面", myUser.getNickname() + "登录成功");
+
+                        } else {
+                            Log.e("登录失败", "原因: ", e);
+                        }
+                    }
+                });
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                loginViewModel.login(usernameEditText.getText().toString(), passwordEditText.getText().toString());
             }
         });
     }
