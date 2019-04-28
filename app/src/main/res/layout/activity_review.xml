@@ -9,47 +9,57 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="18dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/spinner_border"
         android:entries="@array/reviewtType"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="141dp">       <!--通过entries属性指定一个下拉列表项，是一个数组资源-->
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">       <!--通过entries属性指定一个下拉列表项，是一个数组资源-->
     </Spinner>
 
     <Button
         android:id="@+id/fileButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_width="25dp"
+        android:layout_height="30dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="归档"
-        app:layout_constraintEnd_toStartOf="@+id/editButton"
+        android:background="@color/transparent"
+        android:drawableRight="@drawable/ic_archive"
+        android:text=""
+        android:textColor="@color/transparent"
+        android:textSize="1sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <Button
         android:id="@+id/editButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="编辑"
-        app:layout_constraintEnd_toStartOf="@+id/starButton"
+        android:layout_width="25dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginRight="17dp"
+        android:drawableRight="@drawable/ic_edit"
+        android:text=""
+        android:background="@color/transparent"
+        android:textColor="@color/transparent"
+        android:textSize="1sp"
+        app:layout_constraintEnd_toStartOf="@+id/fileButton"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <Button
         android:id="@+id/starButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_width="25dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginRight="17dp"
+        android:background="@color/transparent"
+        android:drawableRight="@drawable/ic_star_black"
         android:text=""
         android:textColor="@color/transparent"
-        android:drawableRight="@drawable/ic_star_black"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="1sp"
+        app:layout_constraintEnd_toStartOf="@+id/editButton"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <TextView
@@ -57,9 +67,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
         android:text="计网"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/starButton" />
 
@@ -71,6 +82,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="标题"
+        android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/typeText" />
 
@@ -80,16 +92,23 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
         android:text="记录于昨天 第n此重复"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headingText" />
 
     <TextView
         android:id="@+id/contentText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="339dp"
         android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
         android:text="内容"
+        android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@+id/detailText"
         tools:layout_editor_absoluteX="25dp" />
 
@@ -97,8 +116,9 @@
         android:id="@+id/passDayText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="8dp"
         android:text="+n天"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contentText" />
@@ -107,8 +127,9 @@
         android:id="@+id/dimDayText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginLeft="128dp"
+        android:layout_marginTop="8dp"
         android:text="今天"
         app:layout_constraintStart_toEndOf="@+id/passDayText"
         app:layout_constraintTop_toBottomOf="@+id/contentText" />
@@ -117,8 +138,9 @@
         android:id="@+id/forgetDayText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="8dp"
         android:text="今天"
         app:layout_constraintStart_toEndOf="@+id/dimDayText"
         app:layout_constraintTop_toBottomOf="@+id/contentText" />
@@ -126,44 +148,57 @@
 
     <Button
         android:id="@+id/passButton"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_background"
         android:text="√"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passDayText" />
 
     <Button
         android:id="@+id/dimButton"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_background"
         android:text="模糊"
         app:layout_constraintStart_toEndOf="@+id/passButton"
         app:layout_constraintTop_toBottomOf="@+id/passDayText" />
 
     <Button
         android:id="@+id/forgetButton"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_background"
         android:text="忘记"
         app:layout_constraintStart_toEndOf="@+id/dimButton"
         app:layout_constraintTop_toBottomOf="@+id/passDayText" />
 
-    <Button
-        android:id="@+id/remindButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:text="点击显示答案"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="570dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passButton" />
+        android:layout_marginBottom="0dp">
+
+        <Button
+            android:id="@+id/remindButton"
+            android:layout_width="230dp"
+            android:layout_height="60dp"
+            android:background="@drawable/btn_background"
+            android:text="点击显示答案"
+            android:textSize="20sp"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
 
 
 </android.support.constraint.ConstraintLayout>
