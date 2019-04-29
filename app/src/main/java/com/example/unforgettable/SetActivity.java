@@ -1,5 +1,7 @@
 package com.example.unforgettable;
 
+import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Notification;
@@ -10,13 +12,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -45,10 +47,11 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import cn.bmob.v3.BmobUser;
 
-import static android.content.Context.NOTIFICATION_SERVICE;
+import static android.content.Context.ALARM_SERVICE;
 
 public class SetActivity extends Fragment {
 
@@ -70,10 +73,21 @@ public class SetActivity extends Fragment {
     private AlertDialog dialog;
     final Calendar calendar = Calendar.getInstance(Locale.CHINA);
 
+    private int hour=10;
+    private int minute=57;
     private String mHour ;
     private String mMinute;
-    private String time = "不提醒";
+    private String time;
+    private NotificationManager notificationManager;
+    private NotificationCompat.Builder builder;
 
+    // There are hardcoding only for show it's just strings
+    String name = "my_package_channel";
+    String id = "my_package_channel_1"; // The user-visible name of the channel.
+    String description = "my_package_first_channel"; // The user-visible description of the channel.
+    private static final int NOTIFY_ID = 1000;
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -90,7 +104,60 @@ public class SetActivity extends Fragment {
         relativeLayout = view.findViewById(R.id.relativelayout);
 
         set_time = view.findViewById(R.id.time);
-        set_time.setText(time);
+        set_time.setText("不提醒");
+
+//            //定时通知
+//            if (notificationManager == null) {
+//                notificationManager =
+//                        (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+//            }
+//
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                int importance = NotificationManager.IMPORTANCE_HIGH;
+//                NotificationChannel mChannel = notificationManager.getNotificationChannel(id);
+//                if (mChannel == null) {
+//                    mChannel = new NotificationChannel(id, name, importance);
+//                    mChannel.setDescription(description);
+//                    mChannel.enableVibration(true);
+//                    mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+//                    notificationManager.createNotificationChannel(mChannel);
+//                }
+//                builder = new NotificationCompat.Builder(getActivity(), id);
+//
+//                Intent intent = new Intent(getActivity(), MainActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent, 0);
+//
+//                builder.setContentTitle("警告")  // required
+//                        .setSmallIcon(android.R.drawable.ic_popup_reminder) // required
+//                        .setContentText("快点干活！")  // required
+//                        .setDefaults(Notification.DEFAULT_ALL)
+//                        .setAutoCancel(true)
+//                        .setContentIntent(pendingIntent)
+//                        .setTicker("UNFORGETTABLE")
+//                        .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+//            } else {
+//
+//                builder = new NotificationCompat.Builder(getActivity());
+//
+//                Intent intent = new Intent(getActivity(), MainActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent, 0);
+//
+//                builder.setContentTitle("警告")                           // required
+//                        .setSmallIcon(android.R.drawable.ic_popup_reminder) // required
+//                        .setContentText("快点干活！")  // required
+//                        .setDefaults(Notification.DEFAULT_ALL)
+//                        .setAutoCancel(true)
+//                        .setContentIntent(pendingIntent)
+//                        .setTicker("UNFORGETTABLE")
+//                        .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400})
+//                        .setPriority(Notification.PRIORITY_HIGH);
+//            } // else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//
+//            Notification notification = builder.build();
+//            notificationManager.notify(NOTIFY_ID, notification);
+
 
         return view;
     }
@@ -136,26 +203,10 @@ public class SetActivity extends Fragment {
                 builder.create().show();    //创建并显示对话框
             }
         });
-        // 设置通知时间
         relativeLayout.setOnClickListener(new View.OnClickListener(){
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v){
-                //Toast.makeText(SetActivity.this.getActivity(),"布局被点击",Toast.LENGTH_SHORT).show();
-//                timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
-//                    @Override
-//                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-//                        Log.d("测试：小时", Integer.toString(hourOfDay));
-//                        Log.d("测试：分钟", Integer.toString(minute));
-//                        mHour = Integer.toString(hourOfDay);
-//                        mMinute = Integer.toString(minute);
-//                        time = mHour + ":" + mMinute;
-//                        set_time.setText(time);
-//                    }
-//                }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
-//                timePickerDialog.show();
-//                timePickerDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
                 dialog = new AlertDialog.Builder(getActivity()).create();//实例化一个AlertDialog
                 dialog.show();    //把AlertDialog初始化
                 Window window = dialog.getWindow(); //实例化一个窗口
@@ -178,8 +229,10 @@ public class SetActivity extends Fragment {
                     @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onClick(View view) {
-                        mHour = Integer.toString(timePicker.getHour());
-                        mMinute = Integer.toString(timePicker.getMinute());
+                        hour = timePicker.getHour();
+                        minute = timePicker.getMinute();
+                        mHour = Integer.toString(hour);
+                        mMinute = Integer.toString(minute);
                         if(timePicker.getMinute() < 10) {
                             time = mHour + ":" +  "0" + mMinute;
                         } else {
@@ -190,8 +243,6 @@ public class SetActivity extends Fragment {
                         if (dialog != null && dialog.isShowing()) {
                             dialog.dismiss();
                         }
-                        // 设置通知
-                        sendSimplestNotificationWithAction(2);
                     }
                 });
                 no.setOnClickListener(new View.OnClickListener() {
@@ -214,8 +265,11 @@ public class SetActivity extends Fragment {
                         }
                     }
                 });
+
+                //listterner.setTime(time);
             }
         });
+
     }
 
     // 显示当前用户
@@ -224,26 +278,30 @@ public class SetActivity extends Fragment {
         userName.setText(myUser.getNickname());
     }
 
-    // TODO：设置点击跳转到MainActivity的通知, 没~有~任~何~用~   (^-^)
-    private void sendSimplestNotificationWithAction(long notifyTime) {
-        // 获取NotificationManager实例
-        NotificationManager notifyManager = (NotificationManager)getActivity().getSystemService(NOTIFICATION_SERVICE);
-        // 获取PendingIntent
-        Intent mainIntent = new Intent(getActivity(), MainActivity.class);
-        PendingIntent mainPendingIntent = PendingIntent.getActivity(getActivity(), 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        // 创建 Notification.Builder 对象
-        Notification notification = new NotificationCompat.Builder(getActivity())
-                .setSmallIcon(R.mipmap.ic_launcher_round)
-                //.setAutoCancel(true)    // 点击通知后自动清除
-                .setContentTitle("UNFORGETTABLE")
-                .setContentText("午时已到，今日卡片记忆尚未完成，请速速背之。")
-                .setWhen(System.currentTimeMillis())    // 设置通知时间，默认为系统发出通知的时间
-                .setContentIntent(mainPendingIntent)
-                .build();
-        // 发送通知
-        notifyManager.notify(1, notification);
-
-
-    }
+//    // 2.1 定义用来与外部activity交互，获取到宿主activity
+//    private FragmentInteraction listterner;
+//
+//    // 1 定义了所有activity必须实现的接口方法
+//    public interface FragmentInteraction {
+//        void setTime(String str);
+//    }
+//    // 当FRagmen被加载到activity的时候会被回调
+//    @Override
+//    public void onAttach(Activity activity) {
+//        super.onAttach(activity);
+//
+//        if(activity instanceof FragmentInteraction) {
+//            listterner = (FragmentInteraction)activity; // 2.2 获取到宿主activity并赋值
+//        } else{
+//            throw new IllegalArgumentException("activity must implements FragmentInteraction");
+//        }
+//    }
+//
+//    //把传递进来的activity对象释放掉
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        listterner = null;
+//    }
 
 }
