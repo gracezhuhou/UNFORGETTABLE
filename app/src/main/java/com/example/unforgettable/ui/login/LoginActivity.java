@@ -137,6 +137,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loadingProgressBar.setVisibility(View.VISIBLE);
                 MyUser userlogin = new MyUser();
                 userlogin.setUsername(usernameEditText.getText().toString());
                 userlogin.setPassword(passwordEditText.getText().toString());
@@ -144,15 +145,21 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void done(MyUser myUser, BmobException e) {
                         if (e == null) {
-                            Log.v("登录界面", myUser.getNickname() + "登录成功");
-
-                        } else {
-                            Log.e("登录失败", "原因: ", e);
+                            Log.v("Bmob", myUser.getNickname() + "登录成功");
+                            // 邮箱验证
+                            if (!myUser.getEmailVerified()) {
+                                Toast.makeText(getApplicationContext(),"请至" + myUser.getEmail() + "邮箱中进行激活",Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                            // 登录
+                            loginViewModel.login(usernameEditText.getText().toString(), passwordEditText.getText().toString());
+                        }
+                        else {
+                            Log.e("Bmob", "登录失败，原因: ", e);
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(), passwordEditText.getText().toString());
             }
         });
     }

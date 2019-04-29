@@ -2,16 +2,21 @@ package com.example.unforgettable;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -42,6 +47,8 @@ import org.w3c.dom.Text;
 import java.util.Calendar;
 import java.util.Locale;
 import cn.bmob.v3.BmobUser;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class SetActivity extends Fragment {
 
@@ -129,6 +136,7 @@ public class SetActivity extends Fragment {
                 builder.create().show();    //创建并显示对话框
             }
         });
+        // 设置通知时间
         relativeLayout.setOnClickListener(new View.OnClickListener(){
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -182,6 +190,8 @@ public class SetActivity extends Fragment {
                         if (dialog != null && dialog.isShowing()) {
                             dialog.dismiss();
                         }
+                        // 设置通知
+                        sendSimplestNotificationWithAction(2);
                     }
                 });
                 no.setOnClickListener(new View.OnClickListener() {
@@ -213,4 +223,27 @@ public class SetActivity extends Fragment {
         MyUser myUser = BmobUser.getCurrentUser(MyUser.class);
         userName.setText(myUser.getNickname());
     }
+
+    // TODO：设置点击跳转到MainActivity的通知, 没~有~任~何~用~   (^-^)
+    private void sendSimplestNotificationWithAction(long notifyTime) {
+        // 获取NotificationManager实例
+        NotificationManager notifyManager = (NotificationManager)getActivity().getSystemService(NOTIFICATION_SERVICE);
+        // 获取PendingIntent
+        Intent mainIntent = new Intent(getActivity(), MainActivity.class);
+        PendingIntent mainPendingIntent = PendingIntent.getActivity(getActivity(), 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        // 创建 Notification.Builder 对象
+        Notification notification = new NotificationCompat.Builder(getActivity())
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                //.setAutoCancel(true)    // 点击通知后自动清除
+                .setContentTitle("UNFORGETTABLE")
+                .setContentText("午时已到，今日卡片记忆尚未完成，请速速背之。")
+                .setWhen(System.currentTimeMillis())    // 设置通知时间，默认为系统发出通知的时间
+                .setContentIntent(mainPendingIntent)
+                .build();
+        // 发送通知
+        notifyManager.notify(1, notification);
+
+
+    }
+
 }

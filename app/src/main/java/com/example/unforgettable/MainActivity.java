@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.unforgettable.Bmob.MyUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
 //        list.add(StatisticActivity.getInstance());
 //        list.add(SetActivity.getInstance());
 //        viewPagerAdapter.setList(list);
-
     }
 
     public void initBottomNavigation() {
