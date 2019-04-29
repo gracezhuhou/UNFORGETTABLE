@@ -4,22 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_watermelon_favourite"
     tools:context=".RecordActivity">
+
     <!--完成-->
     <Button
         android:id="@+id/submitButton"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="80dp"
         android:layout_height="41dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="@dimen/dp_8"
-        android:layout_marginRight="@dimen/dp_8"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
         android:text="完成"
-        android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toTopOf="@+id/authorInput"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--来源-->
@@ -137,24 +140,23 @@
     <!--内容-->
     <EditText
         android:id="@+id/contentInput"
-        android:layout_width="376dp"
-        android:layout_height="450dp"
+        android:layout_width="378dp"
+        android:layout_height="486dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/contentinput_shape"
         android:gravity="top"
         android:hint="文本-卡片背面"
         android:padding="@dimen/common_margin"
-        android:textColor="?attr/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/typeButton"
-        app:layout_constraintVertical_bias="0.242" />
+        app:layout_constraintTop_toBottomOf="@+id/typeButton" />
 
     <TextView
         android:id="@+id/textView"
@@ -163,9 +165,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
+        android:background="@color/transparent"
         android:autoText="false"
         android:text="在下方输入你想记住的文字"
-        android:textColor="@color/colorAccent"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/sourceInput"
         app:layout_constraintStart_toStartOf="parent"
