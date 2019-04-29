@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Patterns;
 
+import com.example.unforgettable.Bmob.MyUser;
 import com.example.unforgettable.data.LoginRepository;
 import com.example.unforgettable.data.Result;
 import com.example.unforgettable.data.model.LoggedInUser;
