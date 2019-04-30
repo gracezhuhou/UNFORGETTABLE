@@ -185,27 +185,20 @@
         app:layout_constraintTop_toBottomOf="@+id/passDayText" />
 
     <RelativeLayout
-        android:layout_width="378dp"
-        android:layout_height="550dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp"
-        android:background="@color/transparent"
+        android:id="@+id/remindButton"
+        android:layout_width="match_parent"
+        android:layout_height="570dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="0dp">
 
-        <Button
-            android:id="@+id/remindButton"
-            android:layout_width="230dp"
-            android:layout_height="60dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/btn_background"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="点击显示答案"
-            android:textSize="16sp" />
+            android:textSize="18sp"
+            android:layout_centerInParent="true"/>
     </RelativeLayout>
 
 
