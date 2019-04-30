@@ -30,8 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
-            android:text="不提醒"
-            android:textColor="@color/pink" />
+            android:text="不提醒"/>
 
         <Button
             android:id="@+id/cancel"
@@ -39,8 +38,7 @@
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:text="取消"
-            android:layout_toLeftOf="@+id/accept"
-            android:textColor="@color/pink" />
+            android:layout_toLeftOf="@+id/accept" />
 
         <Button
             android:id="@+id/accept"
@@ -48,7 +46,6 @@
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:text="确定"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/pink" />
+            android:layout_alignParentRight="true"/>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
