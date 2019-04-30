@@ -17,7 +17,7 @@
         android:id="@+id/navigation"
         android:layout_width="0dp"
         android:layout_height="45dp"
-        android:background="@color/white"
+        android:background="@color/semitransparent"
         app:itemBackground="@null"
         app:itemIconTint="@drawable/bottom_navigation_item_selector"
         app:itemTextColor="@drawable/bottom_navigation_item_selector"

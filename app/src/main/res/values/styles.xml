@@ -21,6 +21,13 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">14sp</item>
     </style>
+    <!--卡通-->
+    <style name="CartoonTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/background_cartoon</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+    </style>
     <!--渐变-->
     <style name="GradientTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
