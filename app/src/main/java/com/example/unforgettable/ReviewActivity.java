@@ -41,7 +41,7 @@ public class ReviewActivity extends Fragment{
     private Button passButton;
     private Button dimButton;
     private Button forgetButton;
-    private RelativeLayout remindButton;
+    private Button remindButton;
 
     // 数据库相关变量
     private Dbhelper dbhelper = new Dbhelper();

@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private Intent intent;
     private PendingIntent pi;
     private String temp;
+    private SharedPreferences pref;
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -64,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
         initData();
         initBottomNavigation();
 
-        if(!temp.equals("不提醒")) {
+        setTime();
+
+        if(!temp.equals("")) {
             alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
             instance = Calendar.getInstance();
             instance.set(Calendar.HOUR_OF_DAY, hour);
@@ -149,14 +153,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-//    public void setTime() {
-//        TODO:temp=time
-//        if(!temp.equals("不提醒")) {
-//            String[] ptr = str.split(":");
-//            hour = Integer.parseInt(ptr[0]);
-//            minute = Integer.parseInt(ptr[1]);
-//        }
-//    }
+    public void setTime() {
+        pref = getSharedPreferences("Alert", MODE_PRIVATE);
+        temp = pref.getString("alertTime", "");
+        if(!temp.equals("")) {
+            String[] ptr = temp.split(":");
+            hour = Integer.parseInt(ptr[0]);
+            minute = Integer.parseInt(ptr[1]);
+        }
+    }
 
 //有滑动效果的viewpager
 //    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
