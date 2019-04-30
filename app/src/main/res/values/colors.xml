@@ -3,11 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#CEEC89AB</color>
-    <color name="bottom_navigation_normal">#707070</color>
+    <color name="bottom_navigation_normal">#FDADADAD</color>
     <color name="bottom_navigation_selected">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="pink">#E75C83</color>
     <color name="transparent">#00000000</color>
-    <color name="semitransparent">#9EFFFFFF</color>
+    <color name="semitransparent">#BFFFFFFF</color>
 </resources>
