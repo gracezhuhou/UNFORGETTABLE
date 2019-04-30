@@ -86,6 +86,7 @@ public class ReviewActivity extends Fragment{
             //now invisible to user
             Log.v("复习界面", "页面隐藏");
         } else {
+            dbhelper = new Dbhelper();
             init();
             //now visible to user
             Log.v("复习界面", "刷新页面");
@@ -95,6 +96,7 @@ public class ReviewActivity extends Fragment{
     @Override
     public void onResume(){
         super.onResume();
+        dbhelper = new Dbhelper();
         init();
     }
 
