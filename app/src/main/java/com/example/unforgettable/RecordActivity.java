@@ -1,5 +1,6 @@
 package com.example.unforgettable;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -18,7 +19,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.iflytek.cloud.RecognizerResult;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SpeechUtility;
+import com.iflytek.cloud.ui.RecognizerDialog;
+import com.iflytek.cloud.ui.RecognizerDialogListener;
+
 import org.litepal.LitePal;
+
+import java.util.ArrayList;
 
 public class RecordActivity extends Fragment {
     // 前端相关变量
@@ -48,16 +59,21 @@ public class RecordActivity extends Fragment {
         View view = inflater.inflate(R.layout.activity_record, container, false);
         LitePal.initialize(this.getActivity());   // 初始化数据库
 
+        //初始化SDK
+        // 5cc9274e为申请的 APPID
+        SpeechUtility.createUtility(this.getActivity(), SpeechConstant.APPID +"=5cc9274e");
+
+
         //设置id
-        submitButton = (Button) view.findViewById(R.id.submitButton);
-        sourceInput = (EditText)view.findViewById(R.id.sourceInput);
-        authorInput = (EditText)view.findViewById(R.id.authorInput);
-        headingInput = (EditText)view.findViewById(R.id.headingInput);
-        typeButton = (Button) view.findViewById(R.id.typeButton);
-        cameraButton = (Button) view.findViewById(R.id.cameraButton);
-        soundButton = (Button) view.findViewById(R.id.soundButton);
-        starButton = (Button) view.findViewById(R.id.starButton);
-        contentInput = (EditText)view.findViewById(R.id.contentInput);
+        submitButton = view.findViewById(R.id.submitButton);
+        sourceInput = view.findViewById(R.id.sourceInput);
+        authorInput = view.findViewById(R.id.authorInput);
+        headingInput = view.findViewById(R.id.headingInput);
+        typeButton = view.findViewById(R.id.typeButton);
+        cameraButton = view.findViewById(R.id.cameraButton);
+        soundButton = view.findViewById(R.id.soundButton);
+        starButton = view.findViewById(R.id.starButton);
+        contentInput = view.findViewById(R.id.contentInput);
 
         return view;
     }
@@ -73,6 +89,7 @@ public class RecordActivity extends Fragment {
             Log.v("记录界面", "刷新页面");
         }
     }
+
 
     //确认键监听
     //控件的点击事件写在onActivityCreated中
@@ -122,6 +139,74 @@ public class RecordActivity extends Fragment {
                 }
             }
         });
+
+        soundButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initSpeech(getActivity());
+            }
+        });
+    }
+
+    public void initSpeech(final Context context) {
+        //1.创建RecognizerDialog对象
+        RecognizerDialog mDialog = new RecognizerDialog(context, null);
+        //2.设置accent、language等参数
+        mDialog.setParameter(SpeechConstant.LANGUAGE, "zh_cn");//语种，这里可以有zh_cn和en_us
+        mDialog.setParameter(SpeechConstant.ACCENT, "mandarin");//设置口音，这里设置的是汉语普通话
+        mDialog.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");//设置编码类型
+        //3.设置回调接口
+        mDialog.setListener(new RecognizerDialogListener() {
+            @Override
+            public void onResult(RecognizerResult recognizerResult, boolean isLast) {
+                if (!isLast) {
+                    //解析语音
+                    //返回的result为识别后的汉字,直接赋值到TextView上即可
+                    String result = parseVoice(recognizerResult.getResultString());
+                    content = content + result;
+                }
+            }
+
+            @Override
+            public void onError(SpeechError speechError) {
+                Log.e("返回的错误码", speechError.getErrorCode() + "");
+            }
+        });
+        //4.显示dialog，接收语音输入
+        mDialog.show();
+    }
+
+    /**
+     * 解析语音json
+     */
+    public String parseVoice(String resultString) {
+        Gson gson = new Gson();
+        Voice voiceBean = gson.fromJson(resultString, Voice.class);
+
+        StringBuffer sb = new StringBuffer();
+        ArrayList<Voice.WSBean> ws = voiceBean.ws;
+        for (Voice.WSBean wsBean : ws) {
+            String word = wsBean.cw.get(0).w;
+            sb.append(word);
+        }
+        return sb.toString();
+    }
+
+
+    /**
+     * 语音对象封装
+     */
+    public class Voice {
+
+        public ArrayList<WSBean> ws;
+
+        public class WSBean {
+            public ArrayList<CWBean> cw;
+        }
+
+        public class CWBean {
+            public String w;
+        }
     }
 
 
