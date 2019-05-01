@@ -81,6 +81,9 @@ public class RecordActivity extends Fragment {
     //调用照相机返回图片文件
     private File tempFile;
 
+    // 创建文件保存拍照的图片
+    File takePhotoImage = new File(Environment.getExternalStorageDirectory(), "take_photo_image.jpg");
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -272,8 +275,7 @@ public class RecordActivity extends Fragment {
                         switch (which){
                             // 选择了拍照
                             case 0:
-                                // 创建文件保存拍照的图片
-                                File takePhotoImage = new File(Environment.getExternalStorageDirectory(), "take_photo_image.jpg");
+
                                 try {
                                     // 文件存在，删除文件
                                     if(takePhotoImage.exists()){
@@ -342,21 +344,22 @@ public class RecordActivity extends Fragment {
 //                    startActivityForResult(intent, CROP_PHOTO);
 
                     //用相机返回的照片去调用剪裁也需要对Uri进行处理
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                        Uri contentUri = FileProvider.getUriForFile(getActivity(), "com.hansion.chosehead", tempFile);
-//                        cropPhoto(contentUri);//裁剪图片
-//                    } else {
-//                        cropPhoto(Uri.fromFile(tempFile));//裁剪图片
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        imageUri = FileProvider.getUriForFile(getActivity(),"com.example.unforgettable.fileprovider", takePhotoImage);
+                        cropPhoto(imageUri);//裁剪图片
+                    } else {
+                        cropPhoto(Uri.fromFile(takePhotoImage));//裁剪图片
+                    }
+
+//                    try{
+//                        //将拍摄的照片显示出来
+//                        Bitmap bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imageUri));
+//                        iv_show_picture.setImageBitmap(bitmap);
+//                    }
+//                    catch (FileNotFoundException e){
+//                        e.printStackTrace();
 //                    }
 
-                    try{
-                        //将拍摄的照片显示出来
-                        Bitmap bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imageUri));
-                        iv_show_picture.setImageBitmap(bitmap);
-                    }
-                    catch (FileNotFoundException e){
-                        e.printStackTrace();
-                    }
 
                 }
                 break;
