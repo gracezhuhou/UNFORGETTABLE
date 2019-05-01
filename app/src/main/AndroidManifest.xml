@@ -11,6 +11,14 @@
     <uses-permission android:name="android.permission.FLASHLIGHT"/><!-- 闪光灯权限 -->
     <uses-permission android:name="android.permission.VIBRATE"/><!-- 振动器权限 -->
 
+    <uses-feature
+        android:name="android.hardware.camera2"
+        android:required="true" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+
     <!--连接网络权限，用于执行云端语音能力 -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <!--获取手机录音机使用权限，听写、识别、语义理解需要用到此权限 -->
@@ -30,6 +38,11 @@
     <!--悬浮窗口权限-->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.hardware.camera.autofocus" />
+
 
     <application
         android:name="org.litepal.LitePalApplication"
@@ -44,6 +57,18 @@
             android:name="cn.bmob.v3.util.BmobContentProvider"
             android:authorities="com.example.unforgettable.BmobContentProvider">
         </provider>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.unforgettable.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false"
+            >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
 
         <activity android:name=".RegisterActivity"></activity>
         <meta-data

@@ -8,12 +8,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,11 +40,13 @@ import com.iflytek.cloud.ui.RecognizerDialogListener;
 import org.litepal.LitePal;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
+import com.example.unforgettable.BuildConfig;
 
 public class RecordActivity extends Fragment {
     // 前端相关变量
@@ -74,6 +78,8 @@ public class RecordActivity extends Fragment {
 
     private ImageView iv_show_picture;
     private Uri imageUri;// 拍照时的图片uri
+    //调用照相机返回图片文件
+    private File tempFile;
 
 
     @Override
@@ -278,14 +284,19 @@ public class RecordActivity extends Fragment {
                                 }catch (Exception e){
                                     e.printStackTrace();
                                 }
-                                // 获取图片文件的uri对象
-                                imageUri = Uri.fromFile(takePhotoImage);
+                                if(Build.VERSION.SDK_INT >= 24){
+                                    imageUri = FileProvider.getUriForFile(getActivity(),"com.example.unforgettable.fileprovider", takePhotoImage);
+                                }else {
+                                    imageUri = Uri.fromFile(takePhotoImage);
+                                }
+
                                 // 创建Intent，用于启动手机的照相机拍照
-                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                                 // 指定输出到文件uri中
                                 intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
                                 // 启动intent开始拍照
                                 startActivityForResult(intent, TAKE_PHOTO);
+                                //getPicFromCamera();//调用相机
                                 break;
                             // 调用系统图库
                             case 1:
@@ -303,13 +314,12 @@ public class RecordActivity extends Fragment {
                 }).show();
     }
 
-
     /**
-     * 调用startActivityForResult方法启动一个intent后，
-     * 可以在该方法中拿到返回的数据
-     *      * @param requestCode
-     *      * @param resultCode
-     *      * @param intent
+     * 回调接口
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
      */
 
     @Override
@@ -320,16 +330,34 @@ public class RecordActivity extends Fragment {
             case TAKE_PHOTO:// 拍照
 
                 if(resultCode == RESULT_OK){
-                    // 创建intent用于裁剪图片
-                    Intent intent = new Intent("com.android.camera.action.CROP");
-                    // 设置数据为文件uri，类型为图片格式
-                    intent.setDataAndType(imageUri,"image/*");
-                    // 允许裁剪
-                    intent.putExtra("scale",true);
-                    // 指定输出到文件uri中
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
-                    // 启动intent，开始裁剪
-                    startActivityForResult(intent, CROP_PHOTO);
+//                    // 创建intent用于裁剪图片
+//                    Intent intent = new Intent("com.android.camera.action.CROP");
+//                    // 设置数据为文件uri，类型为图片格式
+//                    intent.setDataAndType(imageUri,"image/*");
+//                    // 允许裁剪
+//                    intent.putExtra("scale",true);
+//                    // 指定输出到文件uri中
+//                    intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+//                    // 启动intent，开始裁剪
+//                    startActivityForResult(intent, CROP_PHOTO);
+
+                    //用相机返回的照片去调用剪裁也需要对Uri进行处理
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                        Uri contentUri = FileProvider.getUriForFile(getActivity(), "com.hansion.chosehead", tempFile);
+//                        cropPhoto(contentUri);//裁剪图片
+//                    } else {
+//                        cropPhoto(Uri.fromFile(tempFile));//裁剪图片
+//                    }
+
+                    try{
+                        //将拍摄的照片显示出来
+                        Bitmap bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imageUri));
+                        iv_show_picture.setImageBitmap(bitmap);
+                    }
+                    catch (FileNotFoundException e){
+                        e.printStackTrace();
+                    }
+
                 }
                 break;
             case LOCAL_CROP:// 系统图库
@@ -370,6 +398,24 @@ public class RecordActivity extends Fragment {
         }
 
     }
+
+    /**
+     * 裁剪图片
+     */
+    private void cropPhoto(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, CROP_PHOTO);
+    }
+
     /**
      * 保存图片到本地
      *
