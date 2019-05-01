@@ -1,13 +1,20 @@
 package com.example.unforgettable;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -29,7 +37,12 @@ import com.iflytek.cloud.ui.RecognizerDialogListener;
 
 import org.litepal.LitePal;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import static android.app.Activity.RESULT_OK;
 
 public class RecordActivity extends Fragment {
     // 前端相关变量
@@ -53,6 +66,16 @@ public class RecordActivity extends Fragment {
     private boolean like = false;   // 收藏
     private String tab;     // 标签
 
+
+    //拍照相关变量
+    private static final int TAKE_PHOTO = 11;// 拍照
+    private static final int CROP_PHOTO = 12;// 裁剪图片
+    private static final int LOCAL_CROP = 13;// 本地图库
+
+    private ImageView iv_show_picture;
+    private Uri imageUri;// 拍照时的图片uri
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -63,7 +86,7 @@ public class RecordActivity extends Fragment {
         // 5cc9274e为申请的 APPID
         SpeechUtility.createUtility(this.getActivity(), SpeechConstant.APPID +"=5cc9274e");
 
-
+        // 初始化控件
         //设置id
         submitButton = view.findViewById(R.id.submitButton);
         sourceInput = view.findViewById(R.id.sourceInput);
@@ -74,6 +97,7 @@ public class RecordActivity extends Fragment {
         soundButton = view.findViewById(R.id.soundButton);
         starButton = view.findViewById(R.id.starButton);
         contentInput = view.findViewById(R.id.contentInput);
+        iv_show_picture = view.findViewById(R.id.iv_show_picture);
 
         return view;
     }
@@ -140,10 +164,19 @@ public class RecordActivity extends Fragment {
             }
         });
 
+        //录音按钮监听
         soundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 initSpeech(getActivity());
+            }
+        });
+
+        // 拍照按钮监听
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takePhotoOrSelectPicture();// 拍照或者调用图库
             }
         });
     }
@@ -216,6 +249,151 @@ public class RecordActivity extends Fragment {
         author = authorInput.getText().toString();
         heading = headingInput.getText().toString();
         content = contentInput.getText().toString();
+    }
+
+    /**
+     *拍照or图库实现
+     */
+    private void takePhotoOrSelectPicture() {
+        CharSequence[] items = {"拍照","图库"};// 裁剪items选项
+
+        // 弹出对话框提示用户拍照或者是通过本地图库选择图片
+        new AlertDialog.Builder(getActivity())
+                .setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        switch (which){
+                            // 选择了拍照
+                            case 0:
+                                // 创建文件保存拍照的图片
+                                File takePhotoImage = new File(Environment.getExternalStorageDirectory(), "take_photo_image.jpg");
+                                try {
+                                    // 文件存在，删除文件
+                                    if(takePhotoImage.exists()){
+                                        takePhotoImage.delete();
+                                    }
+                                    // 根据路径名自动的创建一个新的空文件
+                                    takePhotoImage.createNewFile();
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                                // 获取图片文件的uri对象
+                                imageUri = Uri.fromFile(takePhotoImage);
+                                // 创建Intent，用于启动手机的照相机拍照
+                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                // 指定输出到文件uri中
+                                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+                                // 启动intent开始拍照
+                                startActivityForResult(intent, TAKE_PHOTO);
+                                break;
+                            // 调用系统图库
+                            case 1:
+
+                                // 创建Intent，用于打开手机本地图库选择图片
+                                Intent intent1 = new Intent(Intent.ACTION_PICK,
+                                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                // 启动intent打开本地图库
+                                startActivityForResult(intent1,LOCAL_CROP);
+                                break;
+
+                        }
+
+                    }
+                }).show();
+    }
+
+
+    /**
+     * 调用startActivityForResult方法启动一个intent后，
+     * 可以在该方法中拿到返回的数据
+     *      * @param requestCode
+     *      * @param resultCode
+     *      * @param intent
+     */
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        switch (requestCode){
+
+            case TAKE_PHOTO:// 拍照
+
+                if(resultCode == RESULT_OK){
+                    // 创建intent用于裁剪图片
+                    Intent intent = new Intent("com.android.camera.action.CROP");
+                    // 设置数据为文件uri，类型为图片格式
+                    intent.setDataAndType(imageUri,"image/*");
+                    // 允许裁剪
+                    intent.putExtra("scale",true);
+                    // 指定输出到文件uri中
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+                    // 启动intent，开始裁剪
+                    startActivityForResult(intent, CROP_PHOTO);
+                }
+                break;
+            case LOCAL_CROP:// 系统图库
+
+                if(resultCode == RESULT_OK){
+                    // 创建intent用于裁剪图片
+                    Intent intent1 = new Intent("com.android.camera.action.CROP");
+                    // 获取图库所选图片的uri
+                    Uri uri = data.getData();
+                    intent1.setDataAndType(uri,"image/*");
+                    //  设置裁剪图片的宽高
+                    intent1.putExtra("outputX", 300);
+                    intent1.putExtra("outputY", 300);
+                    // 裁剪后返回数据
+                    intent1.putExtra("return-data", true);
+                    // 启动intent，开始裁剪
+                    startActivityForResult(intent1, CROP_PHOTO);
+                }
+
+                break;
+            case CROP_PHOTO:// 裁剪后展示图片
+                Bundle bundle = data.getExtras();
+                if (bundle != null) {
+                    //在这里获得了剪裁后的Bitmap对象，可以用于上传
+                    Bitmap image = bundle.getParcelable("data");
+                    //设置到ImageView上
+                    iv_show_picture.setImageBitmap(image);
+                    //也可以进行一些保存、压缩等操作后上传
+                    String path = saveImage("userHeader", image);
+                    File file = new File(path);
+                    /*
+                     *上传文件的额操作
+                     */
+                }
+
+                break;
+
+        }
+
+    }
+    /**
+     * 保存图片到本地
+     *
+     * @param name
+     * @param bmp
+     * @return
+     */
+    public String saveImage(String name, Bitmap bmp) {
+        File appDir = new File(Environment.getExternalStorageDirectory().getPath());
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        String fileName = name + ".jpg";
+        File file = new File(appDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+            return file.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
