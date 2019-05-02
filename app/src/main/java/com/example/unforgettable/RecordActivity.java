@@ -1,8 +1,12 @@
 package com.example.unforgettable;
 
+import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -29,6 +33,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.ocr.sdk.OCR;
+import com.baidu.ocr.sdk.OnResultListener;
+import com.baidu.ocr.sdk.exception.OCRError;
+import com.baidu.ocr.sdk.model.AccessToken;
+import com.baidu.ocr.sdk.model.GeneralBasicParams;
+import com.baidu.ocr.sdk.model.GeneralResult;
+import com.baidu.ocr.sdk.model.WordSimple;
 import com.google.gson.Gson;
 import com.iflytek.cloud.RecognizerResult;
 import com.iflytek.cloud.SpeechConstant;
@@ -44,8 +55,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Currency;
 
 import static android.app.Activity.RESULT_OK;
+import static cn.bmob.v3.Bmob.getApplicationContext;
+
 import com.example.unforgettable.BuildConfig;
 
 public class RecordActivity extends Fragment {
@@ -84,6 +98,10 @@ public class RecordActivity extends Fragment {
     // 创建文件保存拍照的图片
     File takePhotoImage = new File(Environment.getExternalStorageDirectory(), "take_photo_image.jpg");
 
+    //图片转文字相关变量
+    private TextView txt;
+    private boolean hasGotToken = false;
+    Bitmap bitmap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -185,9 +203,12 @@ public class RecordActivity extends Fragment {
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //初始化orc,获取token
                 takePhotoOrSelectPicture();// 拍照或者调用图库
             }
         });
+
+        initAccessTokenWithAkSk();
     }
 
     public void initSpeech(final Context context) {
@@ -206,6 +227,7 @@ public class RecordActivity extends Fragment {
                     //返回的result为识别后的汉字,直接赋值到TextView上即可
                     String result = parseVoice(recognizerResult.getResultString());
                     content = content + result;
+                    contentInput.setText(content);
                 }
             }
 
@@ -332,24 +354,25 @@ public class RecordActivity extends Fragment {
             case TAKE_PHOTO:// 拍照
 
                 if(resultCode == RESULT_OK){
-//                    // 创建intent用于裁剪图片
-//                    Intent intent = new Intent("com.android.camera.action.CROP");
-//                    // 设置数据为文件uri，类型为图片格式
-//                    intent.setDataAndType(imageUri,"image/*");
-//                    // 允许裁剪
-//                    intent.putExtra("scale",true);
-//                    // 指定输出到文件uri中
-//                    intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+                    // 创建intent用于裁剪图片
+                    Intent intent = new Intent("com.android.camera.action.CROP");
+                    // 设置数据为文件uri，类型为图片格式
+                    intent.setDataAndType(imageUri,"image/*");
+                    // 允许裁剪
+                    intent.putExtra("scale",true);
+                    // 指定输出到文件uri中
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+                    Currency();
 //                    // 启动intent，开始裁剪
 //                    startActivityForResult(intent, CROP_PHOTO);
 
                     //用相机返回的照片去调用剪裁也需要对Uri进行处理
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        imageUri = FileProvider.getUriForFile(getActivity(),"com.example.unforgettable.fileprovider", takePhotoImage);
-                        cropPhoto(imageUri);//裁剪图片
-                    } else {
-                        cropPhoto(Uri.fromFile(takePhotoImage));//裁剪图片
-                    }
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                        imageUri = FileProvider.getUriForFile(getActivity(),"com.example.unforgettable.fileprovider", takePhotoImage);
+//                        cropPhoto(imageUri);//裁剪图片
+//                    } else {
+//                        cropPhoto(Uri.fromFile(takePhotoImage));//裁剪图片
+//                    }
 
 //                    try{
 //                        //将拍摄的照片显示出来
@@ -382,18 +405,30 @@ public class RecordActivity extends Fragment {
 
                 break;
             case CROP_PHOTO:// 裁剪后展示图片
-                Bundle bundle = data.getExtras();
-                if (bundle != null) {
-                    //在这里获得了剪裁后的Bitmap对象，可以用于上传
-                    Bitmap image = bundle.getParcelable("data");
-                    //设置到ImageView上
-                    iv_show_picture.setImageBitmap(image);
-                    //也可以进行一些保存、压缩等操作后上传
-                    String path = saveImage("userHeader", image);
-                    File file = new File(path);
-                    /*
-                     *上传文件的额操作
-                     */
+//                Bundle bundle = data.getExtras();
+//                if (bundle != null) {
+//                    //在这里获得了剪裁后的Bitmap对象，可以用于上传
+//                    Bitmap image = bundle.getParcelable("data");
+//                    //设置到ImageView上
+//                    iv_show_picture.setImageBitmap(image);
+//                    //也可以进行一些保存、压缩等操作后上传
+//                    String path = saveImage("userHeader", image);
+//                    File file = new File(path);
+//                    /*
+//                     *上传文件的额操作
+//                     */
+//
+//                    //解析图片进行文字识别
+//                    Currency();
+//                }
+
+                if (resultCode == RESULT_OK) {
+                    try {
+                        bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imageUri));
+                        Currency();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 break;
@@ -406,6 +441,7 @@ public class RecordActivity extends Fragment {
      * 裁剪图片
      */
     private void cropPhoto(Uri uri) {
+
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
@@ -445,4 +481,107 @@ public class RecordActivity extends Fragment {
         return null;
     }
 
+    //初始化我们的orc,获取token
+    private void initAccessTokenWithAkSk() {
+        OCR.getInstance(getActivity()).initAccessTokenWithAkSk(new OnResultListener<AccessToken>() {
+            @Override
+            public void onResult(AccessToken result) {
+                String token = result.getAccessToken();
+                Log.e("TGA","token:"+token);
+                hasGotToken = true;
+            }
+
+            @Override
+            public void onError(OCRError error) {
+                Log.e("TGA","AK，SK方式获取token失败");
+//                error.printStackTrace();
+//                Toast.makeText(MainActivity.this,"AK，SK方式获取token失败",Toast.LENGTH_LONG).show();
+
+            }
+        }, getApplicationContext(),  "U58ZZblInp8Txf68wiipMDGh", "16LiSrbQUSt8heyVPHUb5kkrp5fxAbxZ");
+    }
+
+    /**
+     * uri 转相对路径
+     * @param uri
+     * @return
+     */
+    public static String getRealFilePath(final Context context, final Uri uri ) {
+        if ( null == uri ) return null;
+        final String scheme = uri.getScheme();
+        String data = null;
+        if ( scheme == null )
+            data = uri.getPath();
+        else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
+            data = uri.getPath();
+        } else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
+            Cursor cursor = context.getContentResolver().query( uri, new String[] { MediaStore.Images.ImageColumns.DATA }, null, null, null );
+            if ( null != cursor ) {
+                if ( cursor.moveToFirst() ) {
+                    int index = cursor.getColumnIndex( MediaStore.Images.ImageColumns.DATA );
+                    if ( index > -1 ) {
+                        data = cursor.getString( index );
+                    }
+                }
+                cursor.close();
+            }
+        }
+        return data;
+    }
+
+
+    //解析图片进行文字识别
+    public void Currency(){
+        final StringBuffer sb=new StringBuffer();
+        // 通用文字识别参数设置
+        GeneralBasicParams param = new GeneralBasicParams();
+        //param.setDetectDirection(true);
+        //String str = getRealFilePath(getActivity(),imageUri);
+        //Log.e("TGA",str+"------str-------------");
+        param.setImageFile(takePhotoImage);
+        //param.setImageFile(new File(getRealFilePath(getActivity(),imageUri)));
+
+// 调用通用文字识别服务
+        OCR.getInstance(getActivity()).recognizeGeneralBasic(param, new OnResultListener<GeneralResult>() {
+            @Override
+            public void onResult(GeneralResult result) {
+                // 调用成功，返回GeneralResult对象
+                for (WordSimple wordSimple : result.getWordList()) {
+                    // wordSimple不包含位置信息
+                    sb.append(wordSimple.getWords());
+                    sb.append("\n");
+                }
+                contentInput.setText(sb.toString());
+                // json格式返回字符串
+//                listener.onResult(result.getJsonRes());
+            }
+            @Override
+            public void onError(OCRError error) {
+                // 调用失败，返回OCRError对象
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // 释放内存资源
+        OCR.getInstance(getActivity()).release();
+    }
+
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (requestCode == REQUESTCODE) {
+//            //询问用户权限
+//            if (permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE) && grantResults[0]
+//                    == PackageManager.PERMISSION_GRANTED) {
+//                //用户同意
+//            } else {
+//                //用户不同意
+//            }
+//        }
+//    }
+
 }
+
+
