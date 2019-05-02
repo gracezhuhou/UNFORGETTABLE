@@ -11,6 +11,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -32,6 +34,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
@@ -72,6 +75,7 @@ public class RecordActivity extends Fragment {
     private Button cameraButton;
     private Button soundButton;
     private Button starButton;
+    private Button playButton;
     private EditText contentInput;
 
 
@@ -83,6 +87,15 @@ public class RecordActivity extends Fragment {
     private String content; // 背面 内容
     private boolean like = false;   // 收藏
     private String tab;     // 标签
+
+    //录音相关变量
+    private boolean mIsRecordingState = false;// 是否是录音状态
+    private boolean mIsPlayState = false;// 是否是播放状态
+    private MediaRecorder mRecorder = null;// 录音操作对象
+    private MediaPlayer mPlayer = null;// 媒体播放器对象
+    private String mFileName = null;// 录音存储路径
+    private String TAG = getClass().getSimpleName();
+    private int soundCount = 1;
 
 
     //拍照相关变量
@@ -109,6 +122,12 @@ public class RecordActivity extends Fragment {
         View view = inflater.inflate(R.layout.activity_record, container, false);
         LitePal.initialize(this.getActivity());   // 初始化数据库
 
+        // 设置sdcard的路径
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+            mFileName += "/wohaoshuai.3gp";
+        }
+
         //初始化SDK
         // 5cc9274e为申请的 APPID
         SpeechUtility.createUtility(this.getActivity(), SpeechConstant.APPID +"=5cc9274e");
@@ -124,6 +143,7 @@ public class RecordActivity extends Fragment {
         soundButton = view.findViewById(R.id.soundButton);
         starButton = view.findViewById(R.id.starButton);
         contentInput = view.findViewById(R.id.contentInput);
+        playButton = view.findViewById(R.id.playbutton);
         iv_show_picture = view.findViewById(R.id.iv_show_picture);
 
         return view;
@@ -199,6 +219,25 @@ public class RecordActivity extends Fragment {
             }
         });
 
+        //播放按钮监听
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 判断播放按钮的状态，根据相应的状态处理事务
+                playButton.setText(R.string.wait_for);
+                playButton.setEnabled(false);
+                if (mIsPlayState) {
+                    stopPlay();
+                    playButton.setText(R.string.start_play);
+                } else {
+                    startPlay();
+                    playButton.setText(R.string.stop_play);
+                }
+                mIsPlayState = !mIsPlayState;
+                playButton.setEnabled(true);
+            }
+        });
+
         // 拍照按钮监听
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,32 +251,152 @@ public class RecordActivity extends Fragment {
     }
 
     public void initSpeech(final Context context) {
-        //1.创建RecognizerDialog对象
-        RecognizerDialog mDialog = new RecognizerDialog(context, null);
-        //2.设置accent、language等参数
-        mDialog.setParameter(SpeechConstant.LANGUAGE, "zh_cn");//语种，这里可以有zh_cn和en_us
-        mDialog.setParameter(SpeechConstant.ACCENT, "mandarin");//设置口音，这里设置的是汉语普通话
-        mDialog.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");//设置编码类型
-        //3.设置回调接口
-        mDialog.setListener(new RecognizerDialogListener() {
-            @Override
-            public void onResult(RecognizerResult recognizerResult, boolean isLast) {
-                if (!isLast) {
-                    //解析语音
-                    //返回的result为识别后的汉字,直接赋值到TextView上即可
-                    String result = parseVoice(recognizerResult.getResultString());
-                    content = content + result;
-                    contentInput.setText(content);
-                }
+
+        //若当前录音按钮显示为“开始录音”
+        if(soundButton.getText().equals("开始录音")){
+            CharSequence[] items = {"保存录音","识别录音"};// 录音items选项
+
+            // 弹出对话框提示用户保存录音或者是识别录音
+            new AlertDialog.Builder(getActivity())
+                    .setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            switch (which){
+                                // 选择了保存录音
+                                case 0:
+                                    // 判断录音按钮的状态，根据相应的状态处理事务
+                                    soundButton.setText(R.string.wait_for);
+                                    soundButton.setEnabled(false);
+                                    if (mIsRecordingState) {
+                                        stopRecording();
+                                        soundButton.setText(R.string.start_recording);
+                                    } else {
+                                        startRecording();
+                                        soundButton.setText(R.string.stop_recording);
+                                    }
+                                    mIsRecordingState = !mIsRecordingState;
+                                    soundButton.setEnabled(true);
+
+                                    break;
+                                // 识别语音
+                                case 1:
+                                    //1.创建RecognizerDialog对象
+                                    RecognizerDialog mDialog = new RecognizerDialog(context, null);
+                                    //2.设置accent、language等参数
+                                    mDialog.setParameter(SpeechConstant.LANGUAGE, "zh_cn");//语种，这里可以有zh_cn和en_us
+                                    mDialog.setParameter(SpeechConstant.ACCENT, "mandarin");//设置口音，这里设置的是汉语普通话
+                                    mDialog.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");//设置编码类型
+                                    //3.设置回调接口
+                                    mDialog.setListener(new RecognizerDialogListener() {
+                                        @Override
+                                        public void onResult(RecognizerResult recognizerResult, boolean isLast) {
+                                            if (!isLast) {
+                                                //解析语音
+                                                //返回的result为识别后的汉字,直接赋值到TextView上即可
+                                                String result = parseVoice(recognizerResult.getResultString());
+                                                content = content + result;
+                                                contentInput.setText(content);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onError(SpeechError speechError) {
+                                            Log.e("返回的错误码", speechError.getErrorCode() + "");
+                                        }
+                                    });
+                                    //4.显示dialog，接收语音输入
+                                    mDialog.show();
+
+                                    break;
+                            }
+
+                        }
+                    }).show();
+        }
+        else{
+            //当前“录音”按钮显示为“停止录音”
+            // 判断录音按钮的状态，根据相应的状态处理事务
+            soundButton.setText(R.string.wait_for);
+            soundButton.setEnabled(false);
+            if (mIsRecordingState) {
+                stopRecording();
+                soundButton.setText(R.string.start_recording);
+            } else {
+                startRecording();
+                soundButton.setText(R.string.stop_recording);
             }
+            mIsRecordingState = !mIsRecordingState;
+            soundButton.setEnabled(true);
+
+        }
+
+    }
+
+    /**
+     * 开始录音
+     */
+    private void startRecording() {
+        mRecorder = new MediaRecorder();
+        // 设置声音来源
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        // 设置所录制的音视频文件的格式。(3gp)
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        // 设置录制的音频文件的保存位置。
+        if (mFileName == null) {
+            Toast.makeText(getApplicationContext(), R.string.no_sd, Toast.LENGTH_SHORT).show();
+        } else {
+            mRecorder.setOutputFile(mFileName);
+            Log.d(TAG, mFileName);
+        }
+        // 设置所录制的声音的编码格式。
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        try {
+            mRecorder.prepare();
+        } catch (Exception e) {
+            Log.e(TAG, getString(R.string.e_recording));
+        }
+        mRecorder.start();// 开始录音
+    }
+
+    /**
+     * 停止录音
+     */
+    private void stopRecording() {
+        mRecorder.stop();
+        mRecorder.release();
+        mRecorder = null;
+    }
+
+    /**
+     * 开始播放
+     */
+    private void startPlay() {
+        mPlayer = new MediaPlayer();
+        try {
+            mPlayer.setDataSource(mFileName);// 设置多媒体数据来源
+            mPlayer.prepare();
+            mPlayer.start();
+        } catch (IOException e) {
+            Log.e(TAG, getString(R.string.e_play));
+        }
+        // 播放完成，改变按钮状态
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
             @Override
-            public void onError(SpeechError speechError) {
-                Log.e("返回的错误码", speechError.getErrorCode() + "");
+            public void onCompletion(MediaPlayer mp) {
+                mIsPlayState = !mIsPlayState;
+                playButton.setText(R.string.start_play);
             }
         });
-        //4.显示dialog，接收语音输入
-        mDialog.show();
+    }
+
+    /**
+     * 停止播放
+     */
+    private void stopPlay() {
+        mPlayer.release();
+        mPlayer = null;
     }
 
     /**
