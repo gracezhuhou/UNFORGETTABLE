@@ -95,7 +95,6 @@ public class RecordActivity extends Fragment {
     private MediaPlayer mPlayer = null;// 媒体播放器对象
     private String mFileName = null;// 录音存储路径
     private String TAG = getClass().getSimpleName();
-    private int soundCount = 1;
 
 
     //拍照相关变量

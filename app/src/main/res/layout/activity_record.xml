@@ -140,8 +140,8 @@
     <!--内容-->
     <EditText
         android:id="@+id/contentInput"
-        android:layout_width="366dp"
-        android:layout_height="175dp"
+        android:layout_width="375dp"
+        android:layout_height="298dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="12dp"
@@ -179,9 +179,19 @@
         android:id="@+id/iv_show_picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="18dp"
-        tools:layout_editor_absoluteY="498dp"
-        tools:src="@tools:sample/avatars"
+        tools:layout_editor_absoluteY="578dp"
+        tools:src="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/playbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:text="播放"
+        tools:layout_editor_absoluteX="306dp"
+        tools:layout_editor_absoluteY="599dp"
         tools:ignore="MissingConstraints" />
 
 
