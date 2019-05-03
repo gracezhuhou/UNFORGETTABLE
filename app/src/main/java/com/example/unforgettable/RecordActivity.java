@@ -252,7 +252,7 @@ public class RecordActivity extends Fragment {
     public void initSpeech(final Context context) {
 
         //若当前录音按钮显示为“开始录音”
-        if(soundButton.getText().equals("开始录音")){
+        if(soundButton.getText().equals("录音")){
             CharSequence[] items = {"保存录音","识别录音"};// 录音items选项
 
             // 弹出对话框提示用户保存录音或者是识别录音
@@ -269,7 +269,7 @@ public class RecordActivity extends Fragment {
                                     soundButton.setEnabled(false);
                                     if (mIsRecordingState) {
                                         stopRecording();
-                                        soundButton.setText(R.string.start_recording);
+                                        soundButton.setText("录音");
                                     } else {
                                         startRecording();
                                         soundButton.setText(R.string.stop_recording);
@@ -320,7 +320,7 @@ public class RecordActivity extends Fragment {
             soundButton.setEnabled(false);
             if (mIsRecordingState) {
                 stopRecording();
-                soundButton.setText(R.string.start_recording);
+                soundButton.setText("录音");
             } else {
                 startRecording();
                 soundButton.setText(R.string.stop_recording);
