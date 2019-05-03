@@ -155,7 +155,7 @@
     <EditText
         android:id="@+id/contentInput"
         android:layout_width="375dp"
-        android:layout_height="385dp"
+        android:layout_height="298dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
@@ -166,9 +166,10 @@
         android:hint="文本-卡片背面"
         android:padding="@dimen/common_margin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.153"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/typeButton" />
+        app:layout_constraintTop_toBottomOf="@+id/typeButton"
+        app:layout_constraintVertical_bias="0.186" />
 
     <TextView
         android:id="@+id/textView"
@@ -185,6 +186,25 @@
         app:layout_constraintBottom_toTopOf="@+id/sourceInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_show_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="18dp"
+        tools:layout_editor_absoluteY="578dp"
+        tools:src="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/playbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:text="播放"
+        tools:layout_editor_absoluteX="306dp"
+        tools:layout_editor_absoluteY="599dp"
+        tools:ignore="MissingConstraints" />
 
 
 </android.support.constraint.ConstraintLayout>
