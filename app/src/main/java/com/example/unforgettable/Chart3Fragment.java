@@ -36,6 +36,8 @@ import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.ValueShape;
 import lecho.lib.hellocharts.view.LineChartView;
 
+import com.example.unforgettable.LitepalTable.*;
+
 public class Chart3Fragment extends Fragment {
 
     private LineChartView lineChart;
@@ -51,7 +53,7 @@ public class Chart3Fragment extends Fragment {
     // 数据库相关变量
     private Dbhelper dBhelper = new Dbhelper();
     private float [][] memory = new float [2][27];
-    private List<TabList> tabList = dBhelper.getTabList();    //背诵卡片列表
+    private List<tabList> tabList = dBhelper.getTabList();    //背诵卡片列表
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

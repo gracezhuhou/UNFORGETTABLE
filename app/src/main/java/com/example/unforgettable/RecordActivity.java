@@ -563,31 +563,31 @@ public class RecordActivity extends Fragment {
 
                 break;
             case CROP_PHOTO:// 裁剪后展示图片
-//                Bundle bundle = data.getExtras();
-//                if (bundle != null) {
-//                    //在这里获得了剪裁后的Bitmap对象，可以用于上传
-//                    Bitmap image = bundle.getParcelable("data");
-//                    //设置到ImageView上
-//                    iv_show_picture.setImageBitmap(image);
-//                    //也可以进行一些保存、压缩等操作后上传
-//                    String path = saveImage("userHeader", image);
-//                    File file = new File(path);
-//                    /*
-//                     *上传文件的额操作
-//                     */
-//
-//                    //解析图片进行文字识别
-//                    Currency();
-//                }
+                Bundle bundle = data.getExtras();
+                if (bundle != null) {
+                    //在这里获得了剪裁后的Bitmap对象，可以用于上传
+                    Bitmap image = bundle.getParcelable("data");
+                    //设置到ImageView上
+                    iv_show_picture.setImageBitmap(image);
+                    //也可以进行一些保存、压缩等操作后上传
+                    String path = saveImage("userHeader", image);
+                    File file = new File(path);
+                    /*
+                     *上传文件的额操作
+                     */
 
-                if (resultCode == RESULT_OK) {
-                    try {
-                        bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imageUri));
-                        Currency();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    //解析图片进行文字识别
+                    Currency();
                 }
+
+//                if (resultCode == RESULT_OK) {
+//                    try {
+//                        bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imageUri));
+//                        Currency();
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
 
                 break;
 

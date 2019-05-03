@@ -36,6 +36,8 @@ import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.ValueShape;
 import lecho.lib.hellocharts.view.LineChartView;
 
+import com.example.unforgettable.LitepalTable.*;
+
 public class Chart1Fragment extends Fragment {
 
     private LineChartView lineChart;
@@ -53,7 +55,7 @@ public class Chart1Fragment extends Fragment {
     // 数据库相关变量
     private Dbhelper dBhelper = new Dbhelper();
     private int [][] memory = new int [5][60];
-    private List<TabList> tabList = dBhelper.getTabList();    //背诵卡片列表
+    private List<tabList> tabList = dBhelper.getTabList();    //背诵卡片列表
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -139,7 +141,7 @@ public class Chart1Fragment extends Fragment {
             int i=0;
             for(; i<60;i++){
 //                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
-                List<StageList> stageList = dBhelper.getStageList();
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
@@ -149,7 +151,7 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    stageList statistic = stageList.get(j);
                     memory[0][i] = memory[0][i]+statistic.getStage0()+statistic.getStage1()+statistic.getStage2()+statistic.getStage3()
                     +statistic.getStage4()+statistic.getStage5()+statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
                 }
@@ -158,7 +160,7 @@ public class Chart1Fragment extends Fragment {
         else{
             int i=0;
             for(; i<60;i++){
-                List<StageList> stageList = dBhelper.getStageList();
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
@@ -168,7 +170,7 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    stageList statistic = stageList.get(j);
                     if(statistic.getTab().equals(label)){
                         memory[0][i] = memory[0][i]+statistic.getStage0()+statistic.getStage1()+statistic.getStage2()+statistic.getStage3()
                                 +statistic.getStage4()+statistic.getStage5()+statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
@@ -185,7 +187,7 @@ public class Chart1Fragment extends Fragment {
             int i=0;
             for(; i<60;i++){
 //                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
-                List<StageList> stageList = dBhelper.getStageList();
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
@@ -195,7 +197,7 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    stageList statistic = stageList.get(j);
                     memory[0][i] = memory[0][i]+statistic.getStage3()+statistic.getStage4()+statistic.getStage5()
                             +statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
                 }
@@ -204,7 +206,7 @@ public class Chart1Fragment extends Fragment {
         else{
             int i=0;
             for(; i<60;i++){
-                List<StageList> stageList = dBhelper.getStageList();
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
@@ -214,7 +216,7 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    stageList statistic = stageList.get(j);
                     if(statistic.getTab().equals(label)){
                         memory[0][i] = memory[0][i]+statistic.getStage3()+statistic.getStage4()+statistic.getStage5()
                                 +statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
@@ -230,7 +232,7 @@ public class Chart1Fragment extends Fragment {
             int i=0;
             for(; i<60;i++){
 //                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
-                List<StageList> stageList = dBhelper.getStageList();
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
@@ -240,7 +242,7 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    stageList statistic = stageList.get(j);
                     memory[0][i] = memory[0][i]+statistic.getStage5()+statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
                 }
             }
@@ -248,7 +250,7 @@ public class Chart1Fragment extends Fragment {
         else{
             int i=0;
             for(; i<60;i++){
-                List<StageList> stageList = dBhelper.getStageList();
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
@@ -258,7 +260,7 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    stageList statistic = stageList.get(j);
                     if(statistic.getTab().equals(label)){
                         memory[0][i] = memory[0][i]+statistic.getStage5()+statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
                     }
@@ -273,7 +275,7 @@ public class Chart1Fragment extends Fragment {
             int i=0;
             for(; i<60;i++){
 //                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
-                List<StageList> stageList = dBhelper.getStageList();
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
@@ -283,7 +285,7 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    stageList statistic = stageList.get(j);
                     memory[0][i] = memory[0][i]+statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
                 }
             }
@@ -291,7 +293,7 @@ public class Chart1Fragment extends Fragment {
         else{
             int i=0;
             for(; i<60;i++){
-                List<StageList> stageList = dBhelper.getStageList();
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
@@ -301,7 +303,7 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    stageList statistic = stageList.get(j);
                     if(statistic.getTab().equals(label)){
                         memory[0][i] = memory[0][i]+statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
                     }
@@ -317,7 +319,7 @@ public class Chart1Fragment extends Fragment {
             int i=0;
             for(; i<60;i++){
 //                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
-                List<StageList> stageList = dBhelper.getStageList();
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -(59-i));//59i天前的日期
                     Date statisticDate = date.getTime();
@@ -327,7 +329,7 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    stageList statistic = stageList.get(j);
                     memory[0][i] = memory[0][i]+statistic.getStage7()+statistic.getStage8();
                 }
             }
@@ -335,7 +337,7 @@ public class Chart1Fragment extends Fragment {
         else{
             int i=0;
             for(; i<60;i++){
-                List<StageList> stageList = dBhelper.getStageList();
+                List<stageList> stageList = dBhelper.getStageList();
                 for (int m = 0; m < stageList.size(); m++) {
                     date.add(Calendar.DATE, -(59-i));//59-i天前的日期
                     Date statisticDate = date.getTime();
@@ -345,7 +347,7 @@ public class Chart1Fragment extends Fragment {
                     }
                 }
                 for(int j=0;j<stageList.size();j++){
-                    StageList statistic = stageList.get(j);
+                    stageList statistic = stageList.get(j);
                     if(statistic.getTab().equals(label)){
                         memory[0][i] = memory[0][i]+statistic.getStage7()+statistic.getStage8();
                     }

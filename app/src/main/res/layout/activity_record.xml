@@ -155,8 +155,6 @@
     <EditText
         android:id="@+id/contentInput"
         android:layout_width="375dp"
-        android:layout_height="385dp"
-        android:layout_width="375dp"
         android:layout_height="298dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"

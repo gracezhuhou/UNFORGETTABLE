@@ -1,14 +1,8 @@
 package com.example.unforgettable;
 
-import android.content.Context;
-import android.graphics.Canvas;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,22 +10,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import java.util.ArrayList;
+import com.example.unforgettable.LitepalTable.stageList;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import lecho.lib.hellocharts.formatter.ColumnChartValueFormatter;
-import lecho.lib.hellocharts.formatter.SimpleColumnChartValueFormatter;
-import lecho.lib.hellocharts.gesture.ZoomType;
-import lecho.lib.hellocharts.model.Axis;
-import lecho.lib.hellocharts.model.AxisValue;
-import lecho.lib.hellocharts.model.Column;
-import lecho.lib.hellocharts.model.ColumnChartData;
-import lecho.lib.hellocharts.model.SubcolumnValue;
-import lecho.lib.hellocharts.model.Viewport;
-import lecho.lib.hellocharts.view.ColumnChartView;
-import lecho.lib.hellocharts.view.LineChartView;
 
 
 public class Chart2Fragment extends Fragment {
@@ -47,7 +30,7 @@ public class Chart2Fragment extends Fragment {
     //今后每天需复习，记忆，模糊，忘记
     // 往前30天，往后10天+今天
     private int [][] memory = new int [4][41];
-    private List<TabList> tabList = dBhelper.getTabList();    //背诵卡片列表
+    private List<com.example.unforgettable.LitepalTable.tabList> tabList = dBhelper.getTabList();    //背诵卡片列表
     private BarChartView chartView1;
 
     @Override
@@ -112,8 +95,8 @@ public class Chart2Fragment extends Fragment {
         date.setTime(today);
 
         for(int i=0; i<30;i++){
-//                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
-            List<StageList> stageList = dBhelper.getStageList();
+//                List<stageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(stageList.class);
+            List<stageList> stageList = dBhelper.getStageList();
             for (int m = 0; m < stageList.size(); m++) {
                 date.add(Calendar.DATE, -i);//i天前的日期
                 Date statisticDate = date.getTime();
@@ -123,7 +106,7 @@ public class Chart2Fragment extends Fragment {
                 }
             }
             for(int j=0;j<stageList.size();j++){
-                StageList statistic = stageList.get(j);
+                com.example.unforgettable.LitepalTable.stageList statistic = stageList.get(j);
                 memory[0][i] = memory[0][i]+statistic.getRemember();
                 memory[1][i] = memory[1][i]+statistic.getDim();
                 memory[2][i] = memory[2][i]+statistic.getForget();
@@ -135,7 +118,7 @@ public class Chart2Fragment extends Fragment {
         //如果今天还没有开始复习
 
         //提取今天应复习卡片
-        List<StageList> todaystage = dBhelper.getStageList();
+        List<stageList> todaystage = dBhelper.getStageList();
         for (int m = 0; m < todaystage.size(); m++) {
             if (todaystage.get(m).getDate().compareTo(today) != 0) {
                 todaystage.remove(m);
