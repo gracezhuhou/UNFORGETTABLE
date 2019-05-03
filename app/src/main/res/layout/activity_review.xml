@@ -9,8 +9,8 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_width="94dp"
+        android:layout_height="36dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/spinner_border"
         android:entries="@array/reviewtType"
@@ -76,13 +76,13 @@
 
     <TextView
         android:id="@+id/headingText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_width="57dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:text="标题"
-        android:textSize="25sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/typeText" />
 
@@ -90,11 +90,11 @@
         android:id="@+id/detailText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:text="记录于昨天 第n此重复"
-        android:textSize="15sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headingText" />
 
@@ -102,15 +102,17 @@
         android:id="@+id/contentText"
         android:layout_width="match_parent"
         android:layout_height="339dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/semitransparent"
         android:text="内容"
-        android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@+id/detailText"
-        tools:layout_editor_absoluteX="25dp" />
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailText" />
 
     <TextView
         android:id="@+id/passDayText"
@@ -183,21 +185,27 @@
         app:layout_constraintTop_toBottomOf="@+id/passDayText" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="570dp"
+        android:layout_width="378dp"
+        android:layout_height="550dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="0dp">
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/remindButton"
             android:layout_width="230dp"
             android:layout_height="60dp"
+            android:layout_centerInParent="true"
             android:background="@drawable/btn_background"
             android:text="点击显示答案"
-            android:textSize="20sp"
-            android:layout_centerInParent="true"/>
+            android:textSize="16sp" />
     </RelativeLayout>
 
 
