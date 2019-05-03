@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +39,7 @@ public class ReviewActivity extends Fragment{
     private Button passButton;
     private Button dimButton;
     private Button forgetButton;
-    private Button remindButton;
+    private RelativeLayout remindButton;
 
     // 数据库相关变量
     private Dbhelper dbhelper = new Dbhelper();

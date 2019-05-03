@@ -1,16 +1,37 @@
 package com.example.unforgettable;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.unforgettable.Bmob.MyUser;
+
+import java.sql.ResultSet;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
+
+import cn.bmob.v3.Bmob;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,13 +43,46 @@ public class MainActivity extends AppCompatActivity {
     private int lastIndex; //记录上一个fragment
     List<Fragment> mFragments;
 
+    private int hour;
+    private int minute;
+    private Calendar instance;
+    private AlarmManager alarmManager;
+    private Intent intent;
+    private PendingIntent pi;
+    private String temp;
+    private SharedPreferences pref;
+
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // bmob初始化
+        Bmob.initialize(this, "fff6417ec19cdbd68fa74e7d3860ad8c");
+
+
         initData();
         initBottomNavigation();
+
+        setTime();
+
+        if(!temp.equals("")) {
+            alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            instance = Calendar.getInstance();
+            instance.set(Calendar.HOUR_OF_DAY, hour);
+            instance.set(Calendar.MINUTE, minute);
+            instance.set(Calendar.SECOND, 0);
+
+            intent = new Intent(this, AlarmReceiver.class);
+            intent.setAction("NOTIFICATION");
+            pi = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+            int type = AlarmManager.RTC_WAKEUP;
+            alarmManager.set(type, instance.getTimeInMillis(), pi);
+        }
+
 //        bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
 //        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 //        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
@@ -65,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
 //        list.add(StatisticActivity.getInstance());
 //        list.add(SetActivity.getInstance());
 //        viewPagerAdapter.setList(list);
-
     }
 
     public void initBottomNavigation() {
@@ -98,6 +151,16 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    public void setTime() {
+        pref = getSharedPreferences("Alert", MODE_PRIVATE);
+        temp = pref.getString("alertTime", "");
+        if(!temp.equals("")) {
+            String[] ptr = temp.split(":");
+            hour = Integer.parseInt(ptr[0]);
+            minute = Integer.parseInt(ptr[1]);
+        }
     }
 
 //有滑动效果的viewpager

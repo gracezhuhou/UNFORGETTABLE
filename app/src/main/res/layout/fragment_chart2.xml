@@ -28,14 +28,15 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
             android:layout_marginTop="24dp"
-            android:layout_marginBottom="34dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="45dp"
+            android:background="@color/semitransparent"
             app:firstBarColor="@color/colorAccent"
             app:secondeBarColor="@color/colorPrimary"
             app:textColor="@color/colorPrimaryDark"
-            app:textSize="12sp"
-            app:textMargin="15dp"/>
+            app:textMargin="15dp"
+            app:textSize="12sp" />
 
     </RelativeLayout>
 

@@ -51,7 +51,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/WatermelonTheme">
+        android:theme="@style/BlueTheme">
 
         <provider
             android:name="cn.bmob.v3.util.BmobContentProvider"
@@ -87,6 +87,17 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"></activity>
+
+        <receiver
+            android:name=".AlarmReceiver"
+            android:enabled="true"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="pw.msdx.ACTION_SEND"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
