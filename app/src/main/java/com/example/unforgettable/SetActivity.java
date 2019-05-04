@@ -344,16 +344,16 @@ public class SetActivity extends Fragment {
                     // 允许裁剪
                     intent.putExtra("scale",true);
                     // 指定输出到文件uri中
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                     // 启动intent，开始裁剪
                     startActivityForResult(intent, CROP_PHOTO);
 
                     // 用相机返回的照片去调用剪裁也需要对Uri进行处理
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         imageUri = FileProvider.getUriForFile(getActivity(),"com.example.unforgettable.fileprovider", takePhotoImage);
-                        cropPhoto(imageUri);//裁剪图片
+                        //cropPhoto(imageUri);//裁剪图片
                     } else {
-                        cropPhoto(Uri.fromFile(takePhotoImage));//裁剪图片
+                        //cropPhoto(Uri.fromFile(takePhotoImage));//裁剪图片
                     }
 
                     try{
@@ -364,8 +364,6 @@ public class SetActivity extends Fragment {
                     catch (FileNotFoundException e){
                         e.printStackTrace();
                     }
-
-
                 }
                 break;
             case LOCAL_CROP:// 系统图库
@@ -395,7 +393,9 @@ public class SetActivity extends Fragment {
                     userPic.setImageBitmap(image);
                     //也可以进行一些保存、压缩等操作后上传
                     String path = saveImage("userPic", image);
-                    File file = new File(path);
+                    bmobhelper.uploadPic();
+
+                    //File file = new File(path);
                 }
 //                if (resultCode == RESULT_OK) {
 //                    try {
