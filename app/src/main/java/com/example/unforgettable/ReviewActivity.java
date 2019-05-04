@@ -78,9 +78,9 @@ public class ReviewActivity extends Fragment{
         remindButton = view.findViewById(R.id.remindButton);
         cardPic = view.findViewById(R.id.cardPic);
 
-        //LitePal.deleteDatabase("MemoryCards");
-        //dbhelper.addTab("英语");
-        //dbhelper.addTab("高数");
+//        LitePal.deleteDatabase("MemoryCards");
+//        dbhelper.addTab("英语");
+//        dbhelper.addTab("高数");
 
         dbhelper.addStageList();
         dbhelper.deleteOldDayCards();   // 删去todayCardsList中之前的卡片

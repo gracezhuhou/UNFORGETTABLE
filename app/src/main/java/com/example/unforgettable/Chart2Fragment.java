@@ -30,7 +30,7 @@ public class Chart2Fragment extends Fragment {
     // 数据库相关变量
     private Dbhelper dBhelper = new Dbhelper();
 
-    //今后每天需复习，记忆，模糊，忘记
+    //每天记忆，模糊，忘记,需复习
     // 往前30天，往后10天+今天
     private int [][] memory = new int [4][41];
     private List<com.example.unforgettable.LitepalTable.tabList> tabList = dBhelper.getTabList();    //背诵卡片列表
@@ -100,6 +100,7 @@ public class Chart2Fragment extends Fragment {
         for(int i=0; i<30;i++){
 //          List<stageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(stageList.class);
             List<stageList> stageList = dBhelper.getStageList();
+            date.setTime(today);
             date.add(Calendar.DATE, -i);//i天前的日期
             Date statisticDate = date.getTime();
             for (int m = 0; m < stageList.size(); m++) {
@@ -118,35 +119,33 @@ public class Chart2Fragment extends Fragment {
 
         //今天之后各天需背卡片数量
 
-        //如果今天还没有开始复习
-
         //提取今天应复习卡片
         List<stageList> todaystage = dBhelper.getStageList();
+        date.setTime(today);
         for (int m = 0; m < todaystage.size(); m++) {
             if (todaystage.get(m).getDate().compareTo(today) != 0) {
                 todaystage.remove(m);
                 m--;
             }
         }
-        //若今天还未开始复习
+
         for(int i=0;i<todaystage.size();i++){
-            if(i==todaystage.size()-1 && todaystage.get(i).getRemember()==0 && todaystage.get(i).getDim()==0 && todaystage.get(i).getForget()==0){
-                //获取今天应背卡片个数
-                memory[3][30] = dBhelper.getReciteCards().size();
-            }
-            else if(todaystage.get(i).getRemember()==0 && todaystage.get(i).getDim()==0 && todaystage.get(i).getForget()==0){
-                continue;
-            }
-            else {
+            if(todaystage.get(i).getRemember()!=0 || todaystage.get(i).getDim()!=0 || todaystage.get(i).getForget() != 0){
                 memory[0][30] = memory[0][30]+ todaystage.get(i).getRemember();
                 memory[1][30] = memory[1][30]+ todaystage.get(i).getDim();
                 memory[2][30] = memory[2][30]+ todaystage.get(i).getForget();
             }
+            else if(i==todaystage.size()-1 && memory[0][30] == 0 && memory[1][30] == 0 && memory[2][30] == 0){
+                //获取今天应背卡片个数
+                memory[3][30] = dBhelper.getReciteCards().size();
+            }
         }
 
+        date.setTime(today);
         for(int i=1;i<10;i++){
             List<memoryCardsList> memoryList = dBhelper.getCardList();
-            date.add(Calendar.DATE, i);//i天后的日期
+            date.setTime(today);
+            date.add(Calendar.DATE, +i);//i天后的日期
             Date statisticDate = date.getTime();
             //获取i天后应背卡片
             for (int m = 0; m < memoryList.size(); m++) {
@@ -164,7 +163,7 @@ public class Chart2Fragment extends Fragment {
             int temp = Math.max(memory[0][i]+memory[1][i]+memory[2][i],memory[3][i]);
             text[i] = String.valueOf(temp);
         }
-        chartView1.SetData(memory[0],memory[1],memory[2],memory[3],500,text);
+        chartView1.SetData(memory[0],memory[1],memory[2],memory[3],10,text);
     }
 
 }
