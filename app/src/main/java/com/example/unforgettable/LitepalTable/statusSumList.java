@@ -4,7 +4,7 @@ import org.litepal.crud.LitePalSupport;
 
 public class statusSumList extends LitePalSupport {
     private int id;
-    private int span;
+    private int span;   // 记忆时间
     private int rememberSum = 0;
     private int dimSum = 0;
     private int forgetSum = 0;

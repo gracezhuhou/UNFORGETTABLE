@@ -74,7 +74,8 @@ public class ReviewActivity extends Fragment{
         remindButton = view.findViewById(R.id.remindButton);
 
         dbhelper.addStageList();
-        setSpinner();
+        dbhelper.deleteOldDayCards();   // 删去todayCardsList中之前的卡片
+        setSpinner();   // 设置标签
         init();  // 初始化背诵列表&初始界面
 
         return view;
@@ -141,7 +142,7 @@ public class ReviewActivity extends Fragment{
         passButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                dbhelper.setReciteStatus((String)headingText.getText(), 1);
+                dbhelper.setReciteStatus((String)headingText.getText(), 1); // 更新todatCardsList
                 dbhelper.updateReciteDate((String)headingText.getText(), 1);
                 reciteCardList.remove(0);
                 showHeading();
