@@ -1,5 +1,8 @@
 package com.example.unforgettable;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Log;
 
 import com.example.unforgettable.LitepalTable.memoryCardsList;
@@ -10,6 +13,7 @@ import com.example.unforgettable.LitepalTable.todayCardsList;
 
 import org.litepal.LitePal;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -53,6 +57,13 @@ public class Dbhelper {
         // Heading不可为空
         if (heading.equals("") || content.equals(""))  return false;
 
+
+        //TODO:获取到图片
+        String picPath = Environment.getExternalStorageDirectory().getPath() + "/pic.jpg";
+        Bitmap pic= BitmapFactory.decodeFile(picPath);
+        //把图片转换字节流
+        byte[] images = img(pic);
+
         memoryCardsList card = new memoryCardsList();
         card.setSource(source);
         card.setAuthor(author);
@@ -61,6 +72,7 @@ public class Dbhelper {
         card.setLike(like);
         card.setTab(tab);
         card.setReciteDate(today());
+        card.setPicture(images);    //保存图片
         card.save();
 
         // 更新stageList
@@ -549,4 +561,20 @@ public class Dbhelper {
         Date today = new Date(System.currentTimeMillis());
         return new Date(today.getYear(), today.getMonth(), today.getDate());
     }
+
+
+    /***********************
+     *
+     * 图片
+     *
+     **********************/
+
+    // 把图片转换为字节
+    private byte[] img(Bitmap bitmap){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        return baos.toByteArray();
+    }
+
+
 }
