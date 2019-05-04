@@ -149,6 +149,9 @@ public class SetActivity extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 上传云端
+                //bmobhelper.logout();
+
                 // 登出
                 loginRepository.logout();
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
@@ -289,6 +292,11 @@ public class SetActivity extends Fragment {
         if (myUser.getPicture() != null) {
             String picUrl = myUser.getPicture().getUrl();
             Picasso.get().load(picUrl).into(userPic);
+        }
+        else {
+            //Drawable drawable = getResources().getDrawable(R.drawable.ic_logo);
+            //userPic.setImageDrawable(drawable);
+            userPic.setBackgroundResource(R.drawable.ic_logo);
         }
     }
 

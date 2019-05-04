@@ -148,7 +148,7 @@
         app:layout_constraintTop_toBottomOf="@+id/headingInput" />
 
     <!--收藏-->
-    <Button
+    <ImageButton
         android:id="@+id/starButton"
         android:layout_width="@dimen/dp_75"
         android:layout_height="@dimen/dp_40"
@@ -157,8 +157,7 @@
         android:layout_marginRight="@dimen/dp_4"
         android:layout_marginBottom="@dimen/dp_8"
         android:background="@color/semitransparent"
-        android:drawableRight="@drawable/ic_star_black"
-        android:text="❤"
+        android:src="@drawable/ic_star_black"
         android:textColor="@color/transparent"
         android:textSize="@dimen/sp_8"
         app:layout_constraintBottom_toTopOf="@+id/contentInput"
@@ -166,11 +165,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headingInput" />
 
+
+
     <!--内容-->
     <EditText
         android:id="@+id/contentInput"
         android:layout_width="@dimen/dp_330"
-        android:layout_height="@dimen/dp_310"
+        android:layout_height="@dimen/dp_290"
         android:layout_marginLeft="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginRight="@dimen/dp_16"
@@ -201,8 +202,8 @@
 
     <ImageView
         android:id="@+id/iv_show_picture"
-        android:layout_width="@dimen/dp_110"
-        android:layout_height="@dimen/dp_110"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
         android:layout_marginStart="@dimen/dp_16"
         android:layout_marginLeft="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_8"
@@ -217,7 +218,7 @@
         android:layout_height="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_16"
         android:layout_marginRight="@dimen/dp_16"
-        android:background="@color/transparent"
+        android:background="@color/semitransparent"
         android:text="播放"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contentInput"
