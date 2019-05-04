@@ -1,6 +1,8 @@
 package com.example.unforgettable;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,6 +45,7 @@ public class ReviewActivity extends Fragment{
     private Button dimButton;
     private Button forgetButton;
     private RelativeLayout remindButton;
+    private ImageView cardPic;
 
     // 数据库相关变量
     private Dbhelper dbhelper = new Dbhelper();
@@ -72,6 +76,7 @@ public class ReviewActivity extends Fragment{
         dimButton = view.findViewById(R.id.dimButton);
         forgetButton = view.findViewById(R.id.forgetButton);
         remindButton = view.findViewById(R.id.remindButton);
+        cardPic = view.findViewById(R.id.cardPic);
 
 
         dbhelper.addStageList();
@@ -302,10 +307,16 @@ public class ReviewActivity extends Fragment{
         memoryCardsList recentCard = dbhelper.findCard((String)headingText.getText());
         int stage = recentCard.getStage();
         contentText.setText(recentCard.getContent());
-        String cardDetail = "记录于"+ recentCard.getRecordDate() + " 第" + stage + "次重复";
+        String cardDetail = "记录于"+ recentCard.getRecordDate() + " 第" + recentCard.getRepeatTime()+ "次重复";
         detailText.setText(cardDetail);
         String addDay[] = new String[]{"+1天", "+2天", "+4天", "+7天", "+15天", "+1个月", "+3个月", "+6个月", "+1年"};
         passDayText.setText(addDay[stage]);
+
+        // 显示图片
+        byte[] images = recentCard.getPicture();
+        Bitmap bitmap= BitmapFactory.decodeByteArray(images,0,images.length);
+        cardPic.setImageBitmap(bitmap);
+
         Log.v("复习界面","卡片背面显示");
     }
 

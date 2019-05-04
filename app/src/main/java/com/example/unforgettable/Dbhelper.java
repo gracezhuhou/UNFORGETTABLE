@@ -59,7 +59,7 @@ public class Dbhelper {
 
 
         //TODO:获取到图片
-        String picPath = Environment.getExternalStorageDirectory().getPath() + "/pic.jpg";
+        String picPath = Environment.getExternalStorageDirectory().getPath() + "/cardPic.jpg";
         Bitmap pic= BitmapFactory.decodeFile(picPath);
         //把图片转换字节流
         byte[] images = img(pic);
