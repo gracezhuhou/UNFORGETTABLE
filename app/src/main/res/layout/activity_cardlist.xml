@@ -16,7 +16,7 @@
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>       <!--通过entries属性指定一个下拉列表项，是一个数组资源-->
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
     <Button

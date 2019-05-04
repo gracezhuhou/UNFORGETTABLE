@@ -81,7 +81,7 @@ public class CardlistActivity extends Fragment {
             }
         });
 
-        // 删除按钮点击
+        // 删除按钮
         delButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
