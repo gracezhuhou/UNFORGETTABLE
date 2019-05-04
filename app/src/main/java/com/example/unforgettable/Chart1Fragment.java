@@ -141,7 +141,7 @@ public class Chart1Fragment extends Fragment {
 
         if(label.equals("全部")){
             int i=0;
-            for(i=59; i<60;i++){
+            for(; i<60;i++){
 //                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
                 List<stageList> stageList = dBhelper.getStageList();
                 int temp = 59-i;

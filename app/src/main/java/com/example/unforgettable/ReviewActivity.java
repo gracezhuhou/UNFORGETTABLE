@@ -78,6 +78,11 @@ public class ReviewActivity extends Fragment{
         remindButton = view.findViewById(R.id.remindButton);
         cardPic = view.findViewById(R.id.cardPic);
 
+        dbhelper.addTab("英语");
+        dbhelper.addTab("高数");
+        dbhelper.addTab("计网");
+        dbhelper.addTab("公式");
+
 
         dbhelper.addStageList();
         dbhelper.deleteOldDayCards();   // 删去todayCardsList中之前的卡片
