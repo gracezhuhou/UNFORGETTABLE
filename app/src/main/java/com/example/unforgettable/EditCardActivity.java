@@ -1,12 +1,15 @@
 package com.example.unforgettable;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.example.unforgettable.LitepalTable.memoryCardsList;
 
@@ -22,6 +25,7 @@ public class EditCardActivity extends AppCompatActivity {
     private Button starButton;
     private EditText contentInput;
     private Button backButton;
+    private ImageView cardPic;
 
     // 数据库相关变量
     private Dbhelper dbhelper = new Dbhelper();
@@ -39,19 +43,19 @@ public class EditCardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editcard);
 
         //设置id
-        submitButton = (Button)findViewById(R.id.submitButton);
-        sourceInput = (EditText)findViewById(R.id.sourceInput);
-        authorInput = (EditText)findViewById(R.id.authorInput);
-        headingInput = (EditText)findViewById(R.id.headingInput);
-        typeButton = (Button) findViewById(R.id.typeButton);
-        cameraButton = (Button)findViewById(R.id.cameraButton);
-        soundButton = (Button)findViewById(R.id.soundButton);
-        starButton = (Button)findViewById(R.id.starButton);
-        contentInput = (EditText)findViewById(R.id.contentInput);
-        backButton = (Button)findViewById(R.id.backButton);
+        submitButton = findViewById(R.id.submitButton);
+        sourceInput = findViewById(R.id.sourceInput);
+        authorInput = findViewById(R.id.authorInput);
+        headingInput = findViewById(R.id.headingInput);
+        typeButton = findViewById(R.id.typeButton);
+        cameraButton = findViewById(R.id.cameraButton);
+        soundButton = findViewById(R.id.soundButton);
+        starButton = findViewById(R.id.starButton);
+        contentInput = findViewById(R.id.contentInput);
+        backButton = findViewById(R.id.backButton);
+        cardPic = findViewById(R.id.card_pic);
 
         init();     // 显示原卡片内容
-
         setListener();
     }
 
@@ -70,6 +74,13 @@ public class EditCardActivity extends AppCompatActivity {
         }
         else {
             starButton.setText("❤"); //暂时
+        }
+
+        // 显示图片
+        byte[] images = card.getPicture();
+        if (images != null) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(images, 0, images.length);
+            cardPic.setImageBitmap(bitmap);
         }
 
         // TODO: typeButton,cameraButton,soundButton 状态
