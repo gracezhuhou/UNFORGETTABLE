@@ -77,10 +77,10 @@ public class ReviewActivity extends Fragment{
         forgetButton = view.findViewById(R.id.forgetButton);
         remindButton = view.findViewById(R.id.remindButton);
         cardPic = view.findViewById(R.id.cardPic);
-
-        //LitePal.deleteDatabase("MemoryCards");
-        //dbhelper.addTab("英语");
-        //dbhelper.addTab("高数");
+//
+//        LitePal.deleteDatabase("MemoryCards");
+//        dbhelper.addTab("英语");
+//        dbhelper.addTab("高数");
 
         dbhelper.addStageList();
         dbhelper.deleteOldDayCards();   // 删去todayCardsList中之前的卡片
@@ -127,6 +127,7 @@ public class ReviewActivity extends Fragment{
                     Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
                     // 这一步必须要做,否则不会显示.
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    //starButton.setBackgroundDrawable(drawable);
                     starButton.setCompoundDrawables(null, null, drawable, null);
                     starButton.setTextColor(Color.argb(0, 0, 255, 0));
                 }
@@ -134,6 +135,7 @@ public class ReviewActivity extends Fragment{
                     Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
                     // 这一步必须要做,否则不会显示.
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    //starButton.setBackgroundDrawable(drawable);
                     starButton.setCompoundDrawables(null, null, drawable, null);
                     starButton.setTextColor(Color.argb(0, 0, 255, 0));
                 }

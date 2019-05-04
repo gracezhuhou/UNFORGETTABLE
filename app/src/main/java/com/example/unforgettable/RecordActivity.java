@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,7 +75,7 @@ public class RecordActivity extends Fragment {
     private Button typeButton;
     private Button cameraButton;
     private Button soundButton;
-    private Button starButton;
+    private ImageButton starButton;
     private Button playButton;
     private EditText contentInput;
 
@@ -189,23 +190,18 @@ public class RecordActivity extends Fragment {
             @Override
             public void onClick(View v){
                 // 改收藏按键颜色状态
-                String starText = (String)starButton.getText();
-                if (starText.equals("❤")) {
+                Drawable.ConstantState drawableState = starButton.getDrawable().getConstantState();
+                Drawable.ConstantState drawableState_yel = getResources().getDrawable(R.drawable.ic_star_yel).getConstantState();
+                if (!drawableState.equals(drawableState_yel)) {
                     Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
                     // 这一步必须要做,否则不会显示.
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                    starButton.setCompoundDrawables(null, null, drawable, null);
-                    starButton.setText("已收藏"); //暂时
-                    starButton.setTextColor(Color.argb(0, 0, 255, 0));
+                    starButton.setImageDrawable(drawable);
                     like = true;
                 }
                 else {
                     Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
                     // 这一步必须要做,否则不会显示.
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                    starButton.setCompoundDrawables(null, null, drawable, null);
-                    starButton.setText("❤"); //暂时
-                    starButton.setTextColor(Color.argb(0, 0, 255, 0));
+                    starButton.setImageDrawable(drawable);
                     like = false;
                 }
             }
