@@ -65,6 +65,8 @@ public class Chart3Fragment extends Fragment {
         // TODO: @陈独秀
 
         // 图表
+        getAxisXLables();//获取x轴的标注
+        getAxisPoints();//获取坐标点
         initLineChart();//初始化
 
         return view;
@@ -125,7 +127,7 @@ public class Chart3Fragment extends Fragment {
         //memory数组初始化
         for(int i =0;i<2;i++){
             for(int j=0;j<27;j++){
-                memory[i][j] = 0;
+                memory[i][j] = 1;
             }
         }
 
@@ -217,23 +219,24 @@ public class Chart3Fragment extends Fragment {
             }
 
             int sum = remember+dim+forget;
-            if(sum != 0){
-                memory[1][i] = (float) ((remember + (0.5 * dim)) / (remember + dim + forget));
+            if(sum == 0){
+                //若数据库无数据明细，则用户记忆曲线默认为艾宾浩斯曲线
+                memory[1][i] = memory[0][i];
+            }
+            else {
+                float temp = (float) ((remember + (0.5 * dim)) / (remember + dim + forget));
+                memory[1][i] = 1-temp;
             }
 
         }
 
-
         for (int i = 0; i < 27; i++) {
             mPointValues0.add(new PointValue((float) i, memory[0][i]));
-            mPointValues1.add(new PointValue(i, memory[1][i]));
-
+            mPointValues1.add(new PointValue((float) i, memory[1][i]));
         }
     }
 
     private void initLineChart() {
-        getAxisXLables();//获取x轴的标注
-        getAxisPoints();//获取坐标点
 
         List<Line> lines = new ArrayList<Line>();
         if(!mPointValues0.isEmpty()){
@@ -280,7 +283,7 @@ public class Chart3Fragment extends Fragment {
         // Y轴是根据数据的大小自动设置Y轴上限(在下面我会给出固定Y轴数据个数的解决方案)
         Axis axisY = new Axis();  //Y轴
         axisY.setName("数量");//y轴标注
-        axisY.setTextSize(10);//设置字体大小
+        axisY.setTextSize(5);//设置字体大小
         //axisX.setMaxLabelChars(10);
         data.setAxisYLeft(axisY);  //Y轴设置在左边
         //data.setAxisYRight(axisY);  //y轴设置在右边
