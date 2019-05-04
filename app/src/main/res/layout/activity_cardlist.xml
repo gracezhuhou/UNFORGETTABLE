@@ -4,7 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MemoryCardsList">
+    tools:context=".CardlistActivity">
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/spinner_border"
+        android:entries="@array/reviewtType"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>       <!--通过entries属性指定一个下拉列表项，是一个数组资源-->
+
 
     <Button
         android:id="@+id/card_edit"
@@ -25,9 +38,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/card_edit">
 
-        <android.support.v7.widget.CardView
+        <android.support.v4.app.FragmentTabHost.widget.CardView
+            android:id="@+id/card1"
             android:layout_width="match_parent"
             android:layout_height="131dp">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -63,23 +78,18 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="❤" />
+                    <Button
+                        android:id="@+id/delButton"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="删除" />
                 </LinearLayout>
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </android.support.v4.app.FragmentTabHost.widget.CardView>
 
     </LinearLayout>
 
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation" />
 
 </android.support.constraint.ConstraintLayout>
