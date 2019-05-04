@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
     public void initData() {
         mFragments = new ArrayList<>();
         mFragments.add(new ReviewActivity());
-        mFragments.add(new RecordActivity());
+        mFragments.add(new CardlistActivity());
         mFragments.add(new RecordActivity());
         mFragments.add(new StatisticActivity());
         mFragments.add(new SetActivity());
