@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -77,7 +78,7 @@ public class RecordActivity extends Fragment {
     private Button typeButton;
     private Button cameraButton;
     private Button soundButton;
-    private Button starButton;
+    private ImageButton starButton;
     private Button playButton;
     private EditText contentInput;
     private ProgressBar loading;
@@ -185,30 +186,26 @@ public class RecordActivity extends Fragment {
                 authorInput.setText("");
                 headingInput.setText("");
                 contentInput.setText("");
+                iv_show_picture.setImageBitmap(null);
             }
         });
         // 收藏按钮响应
         starButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                // TODO: 改收藏按键颜色状态  @大冬瓜 @母后
-                String starText = (String)starButton.getText();
-                if (starText.equals("❤")) {
+                // 改收藏按键颜色状态
+                Drawable.ConstantState drawableState = starButton.getDrawable().getConstantState();
+                Drawable.ConstantState drawableState_yel = getResources().getDrawable(R.drawable.ic_star_yel).getConstantState();
+                if (!drawableState.equals(drawableState_yel)) {
                     Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
                     // 这一步必须要做,否则不会显示.
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                    starButton.setCompoundDrawables(null, null, drawable, null);
-                    starButton.setText("已收藏"); //暂时
-                    starButton.setTextColor(Color.argb(0, 0, 255, 0));
+                    starButton.setImageDrawable(drawable);
                     like = true;
                 }
                 else {
                     Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
                     // 这一步必须要做,否则不会显示.
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                    starButton.setCompoundDrawables(null, null, drawable, null);
-                    starButton.setText("❤"); //暂时
-                    starButton.setTextColor(Color.argb(0, 0, 255, 0));
+                    starButton.setImageDrawable(drawable);
                     like = false;
                 }
             }

@@ -13,7 +13,6 @@
         android:layout_marginStart="@dimen/dp_96"
         android:layout_marginLeft="@dimen/dp_96"
         android:layout_marginTop="@dimen/dp_56"
-        android:background="@drawable/ic_logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

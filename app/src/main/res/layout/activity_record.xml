@@ -8,6 +8,22 @@
 
     <!--完成-->
     <Button
+        android:id="@+id/clearButton"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="center"
+        android:text="清空"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView"
+        app:layout_constraintBottom_toTopOf="@+id/authorInput"
+        app:layout_constraintEnd_toStartOf="@+id/submitButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
         android:id="@+id/submitButton"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="@dimen/dp_80"
@@ -132,7 +148,7 @@
         app:layout_constraintTop_toBottomOf="@+id/headingInput" />
 
     <!--收藏-->
-    <Button
+    <ImageButton
         android:id="@+id/starButton"
         android:layout_width="@dimen/dp_75"
         android:layout_height="@dimen/dp_40"
@@ -141,14 +157,15 @@
         android:layout_marginRight="@dimen/dp_4"
         android:layout_marginBottom="@dimen/dp_8"
         android:background="@color/semitransparent"
-        android:drawableRight="@drawable/ic_star_black"
-        android:text="❤"
+        android:src="@drawable/ic_star_black"
         android:textColor="@color/transparent"
         android:textSize="@dimen/sp_8"
         app:layout_constraintBottom_toTopOf="@+id/contentInput"
         app:layout_constraintEnd_toStartOf="@+id/soundButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headingInput" />
+
+
 
     <!--内容-->
     <EditText
