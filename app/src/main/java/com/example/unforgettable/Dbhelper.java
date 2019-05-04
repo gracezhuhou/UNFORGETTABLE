@@ -21,21 +21,21 @@ public class Dbhelper {
     Dbhelper(){
         LitePal.getDatabase();
 
-        for (int i = 0; i < 22; ++i) {
-            statusSumList statusRow = new statusSumList();
-            statusRow.setSpan(i);
-            statusRow.save();
-        }
-        for (int i = 1; i < 4; ++i) {
-            statusSumList statusRow = new statusSumList();
-            statusRow.setSpan(i * 30);
-            statusRow.save();
-        }
-        for (int i = 1; i < 3; ++i) {
-            statusSumList statusRow = new statusSumList();
-            statusRow.setSpan(i * 180);
-            statusRow.save();
-        }
+//        for (int i = 0; i < 22; ++i) {
+//            statusSumList statusRow = new statusSumList();
+//            statusRow.setSpan(i);
+//            statusRow.save();
+//        }
+//        for (int i = 1; i < 4; ++i) {
+//            statusSumList statusRow = new statusSumList();
+//            statusRow.setSpan(i * 30);
+//            statusRow.save();
+//        }
+//        for (int i = 1; i < 3; ++i) {
+//            statusSumList statusRow = new statusSumList();
+//            statusRow.setSpan(i * 180);
+//            statusRow.save();
+//        }
     }
 
     /*
@@ -60,9 +60,7 @@ public class Dbhelper {
         card.setContent(content);
         card.setLike(like);
         card.setTab(tab);
-        Date today = new Date(System.currentTimeMillis());
-        Date reciteDate = new Date(today.getYear(), today.getMonth(), today.getDate());
-        card.setReciteDate(reciteDate);
+        card.setReciteDate(today());
         card.save();
 
         Log.v("数据库","添加卡片--" + heading);
@@ -70,7 +68,6 @@ public class Dbhelper {
     }
 
     // 更新（修改）
-    // 点入修改界面时，oldHeading=此时的标题，再跳转页面
     boolean updateCard(String oldHeading, String source, String author, String heading, String content, boolean like, String tab){
         //检测重名,不可重复Heading
         if (!oldHeading.equals(heading))
@@ -173,10 +170,22 @@ public class Dbhelper {
         return like;
     }
 
+    // 重复次数+1
+    void addRepeatTime(String heading) {
+        memoryCardsList card = findCard(heading);
+        int repeatTime = card.getRepeatTime();
+        card.setRepeatTime(repeatTime + 1);
+        card.updateAll("heading = ?", heading);
+    }
+
+    // 点击记住1 /模糊0 /遗忘-1 后
     // 更新下一次背诵时间
     void updateReciteDate(String heading, int pass) {
         memoryCardsList card = findCard(heading);
         int stage = card.getStage();
+
+        // 记忆卡片《重复次数》列的值+1
+        addRepeatTime(heading);
 
         // 记住单词
         if (pass == 1){
@@ -226,7 +235,7 @@ public class Dbhelper {
             card.updateAll("heading = ?", heading);
             Log.v("数据库","更新已记住卡片的背诵时间至" + reciteDate);
 
-            // 更新至StageList
+            // stage的变化 更新至StageList
             updateStageSum(stage, stage + 1, card.getTab());
         }
         // 忘记单词
@@ -290,22 +299,22 @@ public class Dbhelper {
 
     // 获取标签列表
     List<tabList> getTabList(){
-        List<tabList> tabList = LitePal.order("id").find(com.example.unforgettable.LitepalTable.tabList.class);
+        List<tabList> tabList = LitePal.order("id").find(tabList.class);
         Log.v("数据库","获取标签" + tabList.size() + "个");
         return tabList;
     }
 
-    /*
+    /*****************
     *
      状态统计 stageList
     *
-    */
+    ******************/
     // 添加
     void addStageList(){
         //不可重复日期创建
         Date current = new Date(System.currentTimeMillis());
         Date today = new Date(current.getYear(), current.getMonth(), current.getDate());
-        List<stageList> stageList = LitePal.findAll(com.example.unforgettable.LitepalTable.stageList.class);
+        List<stageList> stageList = LitePal.findAll(stageList.class);
         int size = stageList.size();
         for (int i = 0; i < size; ++i){
             if (stageList.get(i).getDate().compareTo(today) == 0){
@@ -358,13 +367,14 @@ public class Dbhelper {
         }
     }
 
+    // 更新记忆状态Status 记住/模糊/忘记
     private void updateMemoryStatus(String tab, int status) {
-        Date current = new Date(System.currentTimeMillis());
-        Date today = new Date(current.getYear(), current.getMonth(), current.getDate());
+        //Date current = new Date(System.currentTimeMillis());
+        Date today = today();
 
         List<stageList> stageList = getStageList();
         for (int i = 0; i < stageList.size(); i++) {
-            com.example.unforgettable.LitepalTable.stageList todayStage = stageList.get(i);
+            stageList todayStage = stageList.get(i);
             if (todayStage.getDate().compareTo(today) > 0) {
                 if (tab.equals(todayStage.getTab())) {
                     switch (status){
@@ -385,7 +395,7 @@ public class Dbhelper {
 
     // 获取stage统计列表
     List<stageList> getStageList(){
-        List<stageList> stageList = LitePal.order("id").find(com.example.unforgettable.LitepalTable.stageList.class);
+        List<stageList> stageList = LitePal.order("id").find(stageList.class);
         Log.v("数据库","获取阶段列表" + stageList.size() + "个");
         return stageList;
     }
@@ -408,22 +418,27 @@ public class Dbhelper {
     }
 
 
-    /*
+    /********************
     *
     todayCardsList
      *
-     */
+     ********************/
 
-    // 设置初次背诵状态 并更新至StageList & statusSumList
+    // 设置初次背诵状态
+    // 并更新至StageList & statusSumList
     void setReciteStatus(String heading, int status) {
-        //不可重复Heading
+        //不可重复卡片
         if (LitePal.where("heading = ?", heading).find(todayCardsList.class).size() != 0){
             return;
         }
 
+        // 新建今日卡片
         todayCardsList todayCard = new todayCardsList();
         todayCard.setHeading(heading);
         todayCard.setFirstReciteStatus(status);
+        //Date today = new Date(System.currentTimeMillis());
+        //Date date = new Date(today.getYear(), today.getMonth(), today.getDate());
+        todayCard.setDate(today());
         todayCard.save();
 
         Log.v("数据库","添加初次背诵状态");
@@ -433,13 +448,60 @@ public class Dbhelper {
         updateMemoryStatus(card.getTab(), status);
 
         // 更新至StatusSumList
+        updateStatuSumList(heading, status);
+    }
+
+    // 获取今日卡片列表
+    List<todayCardsList> getTodayCardsList(){
+        List<todayCardsList> todayCardsList = LitePal.findAll(com.example.unforgettable.LitepalTable.todayCardsList.class);
+        Log.v("数据库","获取今日卡片" + todayCardsList.size() + "个");
+        return todayCardsList;
+    }
+
+    // 删去todayCardsList中之前日期的卡片
+    void deleteOldDayCards() {
+        List<todayCardsList> todayCardsList = getTodayCardsList();
+        int size = todayCardsList.size();
+
+        for (int i = 0; i < size; ++i) {
+            todayCardsList todayCard = todayCardsList.get(i);
+            if (todayCard.getDate().compareTo(today()) == -1) {
+                deleteTodayCard(todayCard.getHeading());
+            }
+        }
+    }
+
+    // 删除今日卡片
+    void deleteTodayCard(String heading){
+        LitePal.deleteAll(todayCardsList.class, "heading = ?", heading);
+        Log.v("数据库todayCardsList","删除过期卡片--" + heading);
+    }
+
+
+    /************************
+     *
+     * statusSumList
+     *
+     * ************************/
+
+    // 根据span查找唯一行
+    statusSumList findStatusRow(int span){
+        List<statusSumList> statusSumList = LitePal.where("span = ?", Integer.toString(span)).find(statusSumList.class);
+        if (statusSumList.size() == 0)  return null;
+        //statusSumList statusRow = statusSumList.get(0);
+        return statusSumList.get(0);
+    }
+
+    // 更新statuSumList
+    void updateStatuSumList(String heading, int status) {
+        memoryCardsList card = findCard(heading);
         Date recordDate = card.getRecordDate();
-        Date today = new Date(System.currentTimeMillis());
+        //Date today = new Date(System.currentTimeMillis());
         // 计算时间差
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(recordDate);
         int day1 = calendar.get(Calendar.DAY_OF_YEAR);
-        calendar.setTime(today);
+        calendar.setTime(today());
         int day2 = calendar.get(Calendar.DAY_OF_YEAR);
         int span = (day2 - day1);
 
@@ -465,11 +527,10 @@ public class Dbhelper {
         }
     }
 
-    // 根据span查找唯一行
-    statusSumList findStatusRow(int span){
-        List<statusSumList> statusSumList = LitePal.where("span = ?", Integer.toString(span)).find(com.example.unforgettable.LitepalTable.statusSumList.class);
-        if (statusSumList.size() == 0)  return null;
-        com.example.unforgettable.LitepalTable.statusSumList statusRow = statusSumList.get(0);
-        return statusRow;
+
+    // 获取今天年月日
+    private Date today() {
+        Date today = new Date(System.currentTimeMillis());
+        return new Date(today.getYear(), today.getMonth(), today.getDate());
     }
 }
