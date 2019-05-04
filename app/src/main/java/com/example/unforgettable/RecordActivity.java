@@ -570,6 +570,7 @@ public class RecordActivity extends Fragment {
                     //设置到ImageView上
                     iv_show_picture.setImageBitmap(image);
                     //也可以进行一些保存、压缩等操作后上传
+                    //String name = "";
                     String path = saveImage("userHeader", image);
                     File file = new File(path);
                     /*

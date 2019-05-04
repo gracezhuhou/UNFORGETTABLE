@@ -237,11 +237,11 @@ public class Chart3Fragment extends Fragment {
 
         List<Line> lines = new ArrayList<Line>();
         if(!mPointValues0.isEmpty()){
-            Line line0 = new Line(mPointValues0).setColor(Color.parseColor("#FFCD41"));  //折线的颜色（橙色）
+            Line line0 = new Line(mPointValues0).setColor(Color.parseColor("#B0E0E6"));  //折线的颜色（橙色）
             line0.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
-            line0.setCubic(false);//曲线是否平滑，即是曲线还是折线
+            line0.setCubic(true);//曲线是否平滑，即是曲线还是折线
             line0.setFilled(false);//是否填充曲线的面积
-            line0.setHasLabels(true);//曲线的数据坐标是否加上备注
+            line0.setHasLabels(false);//曲线的数据坐标是否加上备注
 //      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
             line0.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
             line0.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
@@ -252,9 +252,9 @@ public class Chart3Fragment extends Fragment {
         if(!mPointValues1.isEmpty()){
             Line line1 = new Line(mPointValues1).setColor(Color.parseColor("#ffe4e1"));  //折线的颜色（浅玫瑰色）
             line1.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
-            line1.setCubic(false);//曲线是否平滑，即是曲线还是折线
+            line1.setCubic(true);//曲线是否平滑，即是曲线还是折线
             line1.setFilled(false);//是否填充曲线的面积
-            line1.setHasLabels(true);//曲线的数据坐标是否加上备注
+            line1.setHasLabels(false);//曲线的数据坐标是否加上备注
 //      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
             line1.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
             line1.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
@@ -269,8 +269,8 @@ public class Chart3Fragment extends Fragment {
         Axis axisX = new Axis(); //X轴
         axisX.setHasTiltedLabels(false);  //X坐标轴字体是斜的显示还是直的，true是斜的显示
         axisX.setTextColor(Color.GRAY);  //设置字体颜色
-        axisX.setName("记忆持久度");  //表格名称
-        axisX.setTextSize(10);//设置字体大小
+        axisX.setName("遗忘曲线");  //表格名称
+        axisX.setTextSize(5);//设置字体大小
         //axisX.setMaxLabelChars(60); //最多几个X轴坐标，意思就是你的缩放让X轴上数据的个数7<=x<=mAxisXValues.length
         axisX.setValues(mAxisXValues);  //填充X轴的坐标名称
         data.setAxisXBottom(axisX); //x 轴在底部
@@ -281,6 +281,7 @@ public class Chart3Fragment extends Fragment {
         Axis axisY = new Axis();  //Y轴
         axisY.setName("数量");//y轴标注
         axisY.setTextSize(10);//设置字体大小
+        //axisX.setMaxLabelChars(10);
         data.setAxisYLeft(axisY);  //Y轴设置在左边
         //data.setAxisYRight(axisY);  //y轴设置在右边
 

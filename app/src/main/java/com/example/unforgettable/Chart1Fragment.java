@@ -49,7 +49,7 @@ public class Chart1Fragment extends Fragment {
 
     private List<AxisValue> mAxisXValues = new ArrayList<AxisValue>();
     private int index;//标签所在下标
-    private String label = "";
+    private String label = "全部";
     private Spinner spinner;
 
     // 数据库相关变量
@@ -92,7 +92,7 @@ public class Chart1Fragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 label = tab[pos];
-                //Toast.makeText(getActivity(), "你点击的是:"+tab[pos], Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), "你点击的是:"+label, Toast.LENGTH_LONG).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -108,7 +108,7 @@ public class Chart1Fragment extends Fragment {
     //设置X 轴的显示
     private void getAxisXLables() {
         for (int i = 56; i >= 0; i--) {
-            mAxisXValues.add(new AxisValue(i).setLabel(i+"天前"));
+            mAxisXValues.add(new AxisValue(i).setLabel((59-i)+"天前"));
         }
         mAxisXValues.add(new AxisValue(59).setLabel("今天"));
         mAxisXValues.add(new AxisValue(58).setLabel("昨天"));
@@ -136,20 +136,24 @@ public class Chart1Fragment extends Fragment {
         //memory[0]记录已加入记忆规划的卡片数量
         //List<StageList> stageList0 = LitePal.where("stage = ? ", "0").order("date").find(StageList.class);
         //判断标签
+//        date.add(Calendar.DATE,-0);
+//        Date stat = date.getTime();
 
         if(label.equals("全部")){
             int i=0;
-            for(; i<60;i++){
+            for(i=59; i<60;i++){
 //                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
                 List<stageList> stageList = dBhelper.getStageList();
+                int temp = 59-i;
+                date.add(Calendar.DATE, -temp);//59-i天前的日期
+                Date statisticDate = date.getTime();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
-                    Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
                         m--;
                     }
                 }
+                if(stageList.isEmpty()){continue;}
                 for(int j=0;j<stageList.size();j++){
                     stageList statistic = stageList.get(j);
                     memory[0][i] = memory[0][i]+statistic.getStage0()+statistic.getStage1()+statistic.getStage2()+statistic.getStage3()
@@ -161,14 +165,15 @@ public class Chart1Fragment extends Fragment {
             int i=0;
             for(; i<60;i++){
                 List<stageList> stageList = dBhelper.getStageList();
+                date.add(Calendar.DATE, -(59-i));//59-i天前的日期
+                Date statisticDate = date.getTime();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
-                    Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
                         m--;
                     }
                 }
+                if(stageList.isEmpty()){continue;}
                 for(int j=0;j<stageList.size();j++){
                     stageList statistic = stageList.get(j);
                     if(statistic.getTab().equals(label)){
@@ -188,14 +193,15 @@ public class Chart1Fragment extends Fragment {
             for(; i<60;i++){
 //                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
                 List<stageList> stageList = dBhelper.getStageList();
+                date.add(Calendar.DATE, -(59-i));//59-i天前的日期
+                Date statisticDate = date.getTime();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
-                    Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
                         m--;
                     }
                 }
+                if(stageList.isEmpty()){continue;}
                 for(int j=0;j<stageList.size();j++){
                     stageList statistic = stageList.get(j);
                     memory[0][i] = memory[0][i]+statistic.getStage3()+statistic.getStage4()+statistic.getStage5()
@@ -207,14 +213,15 @@ public class Chart1Fragment extends Fragment {
             int i=0;
             for(; i<60;i++){
                 List<stageList> stageList = dBhelper.getStageList();
+                date.add(Calendar.DATE, -(59-i));//59-i天前的日期
+                Date statisticDate = date.getTime();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
-                    Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
                         m--;
                     }
                 }
+                if(stageList.isEmpty()){continue;}
                 for(int j=0;j<stageList.size();j++){
                     stageList statistic = stageList.get(j);
                     if(statistic.getTab().equals(label)){
@@ -233,14 +240,15 @@ public class Chart1Fragment extends Fragment {
             for(; i<60;i++){
 //                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
                 List<stageList> stageList = dBhelper.getStageList();
+                date.add(Calendar.DATE, -(59-i));//59-i天前的日期
+                Date statisticDate = date.getTime();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
-                    Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
                         m--;
                     }
                 }
+                if(stageList.isEmpty()){continue;}
                 for(int j=0;j<stageList.size();j++){
                     stageList statistic = stageList.get(j);
                     memory[0][i] = memory[0][i]+statistic.getStage5()+statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
@@ -249,16 +257,17 @@ public class Chart1Fragment extends Fragment {
         }
         else{
             int i=0;
-            for(; i<60;i++){
+            for(i=59; i<60;i++){
                 List<stageList> stageList = dBhelper.getStageList();
+                date.add(Calendar.DATE, -(59-i));//59-i天前的日期
+                Date statisticDate = date.getTime();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
-                    Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
                         m--;
                     }
                 }
+                if(stageList.isEmpty()){continue;}
                 for(int j=0;j<stageList.size();j++){
                     stageList statistic = stageList.get(j);
                     if(statistic.getTab().equals(label)){
@@ -276,14 +285,15 @@ public class Chart1Fragment extends Fragment {
             for(; i<60;i++){
 //                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
                 List<stageList> stageList = dBhelper.getStageList();
+                date.add(Calendar.DATE, -(59-i));//59-i天前的日期
+                Date statisticDate = date.getTime();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
-                    Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
                         m--;
                     }
                 }
+                if(stageList.isEmpty()){continue;}
                 for(int j=0;j<stageList.size();j++){
                     stageList statistic = stageList.get(j);
                     memory[0][i] = memory[0][i]+statistic.getStage6()+statistic.getStage7()+statistic.getStage8();
@@ -294,14 +304,15 @@ public class Chart1Fragment extends Fragment {
             int i=0;
             for(; i<60;i++){
                 List<stageList> stageList = dBhelper.getStageList();
+                date.add(Calendar.DATE, -(59-i));//59-i天前的日期
+                Date statisticDate = date.getTime();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
-                    Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
                         m--;
                     }
                 }
+                if(stageList.isEmpty()){continue;}
                 for(int j=0;j<stageList.size();j++){
                     stageList statistic = stageList.get(j);
                     if(statistic.getTab().equals(label)){
@@ -320,14 +331,15 @@ public class Chart1Fragment extends Fragment {
             for(; i<60;i++){
 //                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
                 List<stageList> stageList = dBhelper.getStageList();
+                date.add(Calendar.DATE, -(59-i));//59i天前的日期
+                Date statisticDate = date.getTime();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -(59-i));//59i天前的日期
-                    Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
                         m--;
                     }
                 }
+                if(stageList.isEmpty()){continue;}
                 for(int j=0;j<stageList.size();j++){
                     stageList statistic = stageList.get(j);
                     memory[0][i] = memory[0][i]+statistic.getStage7()+statistic.getStage8();
@@ -338,14 +350,15 @@ public class Chart1Fragment extends Fragment {
             int i=0;
             for(; i<60;i++){
                 List<stageList> stageList = dBhelper.getStageList();
+                date.add(Calendar.DATE, -(59-i));//59-i天前的日期
+                Date statisticDate = date.getTime();
                 for (int m = 0; m < stageList.size(); m++) {
-                    date.add(Calendar.DATE, -(59-i));//59-i天前的日期
-                    Date statisticDate = date.getTime();
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                         stageList.remove(m);
                         m--;
                     }
                 }
+                if(stageList.isEmpty()){continue;}
                 for(int j=0;j<stageList.size();j++){
                     stageList statistic = stageList.get(j);
                     if(statistic.getTab().equals(label)){
@@ -355,11 +368,11 @@ public class Chart1Fragment extends Fragment {
             }
         }
         for (int i = 0; i < 60; i++) {
-            mPointValues0.add(new PointValue(i, memory[0][i]));
-            mPointValues1.add(new PointValue(i, memory[1][i]));
-            mPointValues2.add(new PointValue(i, memory[2][i]));
-            mPointValues3.add(new PointValue(i, memory[3][i]));
-            mPointValues4.add(new PointValue(i, memory[4][i]));
+            mPointValues0.add(new PointValue(i, memory[0][i]));//已加入记忆规划的全部卡片
+            mPointValues1.add(new PointValue(i, memory[1][i]));//记忆持久度>10天的卡片数量
+            mPointValues2.add(new PointValue(i, memory[2][i]));//记忆持久度>30天的卡片数量
+            mPointValues3.add(new PointValue(i, memory[3][i]));//记忆持久度>60天的卡片数量
+            mPointValues4.add(new PointValue(i, memory[4][i]));//记忆持久度>90天的卡片数量
         }
     }
 
@@ -369,11 +382,11 @@ public class Chart1Fragment extends Fragment {
 
         List<Line> lines = new ArrayList<Line>();
         if(!mPointValues0.isEmpty()){
-            Line line0 = new Line(mPointValues0).setColor(Color.parseColor("#FFCD41"));  //折线的颜色（橙色）
+            Line line0 = new Line(mPointValues0).setColor(Color.parseColor("#FF7F50"));  //折线的颜色（靛青色）
             line0.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
             line0.setCubic(false);//曲线是否平滑，即是曲线还是折线
             line0.setFilled(false);//是否填充曲线的面积
-            line0.setHasLabels(true);//曲线的数据坐标是否加上备注
+            line0.setHasLabels(false);//曲线的数据坐标是否加上备注
 //      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
             line0.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
             line0.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
@@ -386,7 +399,7 @@ public class Chart1Fragment extends Fragment {
             line1.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
             line1.setCubic(false);//曲线是否平滑，即是曲线还是折线
             line1.setFilled(false);//是否填充曲线的面积
-            line1.setHasLabels(true);//曲线的数据坐标是否加上备注
+            line1.setHasLabels(false);//曲线的数据坐标是否加上备注
 //      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
             line1.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
             line1.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
@@ -399,7 +412,7 @@ public class Chart1Fragment extends Fragment {
             line2.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
             line2.setCubic(false);//曲线是否平滑，即是曲线还是折线
             line2.setFilled(false);//是否填充曲线的面积
-            line2.setHasLabels(true);//曲线的数据坐标是否加上备注
+            line2.setHasLabels(false);//曲线的数据坐标是否加上备注
 //      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
             line2.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
             line2.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
@@ -413,7 +426,7 @@ public class Chart1Fragment extends Fragment {
             line3.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
             line3.setCubic(false);//曲线是否平滑，即是曲线还是折线
             line3.setFilled(false);//是否填充曲线的面积
-            line3.setHasLabels(true);//曲线的数据坐标是否加上备注
+            line3.setHasLabels(false);//曲线的数据坐标是否加上备注
 //      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
             line3.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
             line3.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
@@ -426,7 +439,7 @@ public class Chart1Fragment extends Fragment {
             line4.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
             line4.setCubic(false);//曲线是否平滑，即是曲线还是折线
             line4.setFilled(false);//是否填充曲线的面积
-            line4.setHasLabels(true);//曲线的数据坐标是否加上备注
+            line4.setHasLabels(false);//曲线的数据坐标是否加上备注
 //      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
             line4.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
             line4.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
@@ -443,7 +456,7 @@ public class Chart1Fragment extends Fragment {
         axisX.setHasTiltedLabels(false);  //X坐标轴字体是斜的显示还是直的，true是斜的显示
         axisX.setTextColor(Color.GRAY);  //设置字体颜色
         axisX.setName("记忆持久度");  //表格名称
-        axisX.setTextSize(10);//设置字体大小
+        axisX.setTextSize(5);//设置字体大小
         //axisX.setMaxLabelChars(60); //最多几个X轴坐标，意思就是你的缩放让X轴上数据的个数7<=x<=mAxisXValues.length
         axisX.setValues(mAxisXValues);  //填充X轴的坐标名称
         data.setAxisXBottom(axisX); //x 轴在底部
@@ -453,7 +466,7 @@ public class Chart1Fragment extends Fragment {
         // Y轴是根据数据的大小自动设置Y轴上限(在下面我会给出固定Y轴数据个数的解决方案)
         Axis axisY = new Axis();  //Y轴
         axisY.setName("数量");//y轴标注
-        axisY.setTextSize(10);//设置字体大小
+        axisY.setTextSize(5);//设置字体大小
         data.setAxisYLeft(axisY);  //Y轴设置在左边
         //data.setAxisYRight(axisY);  //y轴设置在右边
 
