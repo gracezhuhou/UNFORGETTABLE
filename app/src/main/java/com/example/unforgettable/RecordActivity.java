@@ -108,7 +108,7 @@ public class RecordActivity extends Fragment {
     private File tempFile;
 
     // 创建文件保存拍照的图片
-    File takePhotoImage = new File(Environment.getExternalStorageDirectory(), "take_photo_image.jpg");
+    File takePhotoImage = new File(Environment.getExternalStorageDirectory(), "cardPic.jpg");
 
     //图片转文字相关变量
     private TextView txt;
@@ -579,7 +579,7 @@ public class RecordActivity extends Fragment {
                     iv_show_picture.setImageBitmap(image);
                     //也可以进行一些保存、压缩等操作后上传
                     //String name = "";
-                    String path = saveImage("userHeader", image);
+                    String path = saveImage("cardPic", image);
                     //File file = new File(path);
                     /*
                      *上传文件的额操作
