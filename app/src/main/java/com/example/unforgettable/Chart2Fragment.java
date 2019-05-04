@@ -99,9 +99,9 @@ public class Chart2Fragment extends Fragment {
         for(int i=0; i<30;i++){
 //                List<stageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(stageList.class);
             List<stageList> stageList = dBhelper.getStageList();
+            date.add(Calendar.DATE, -i);//i天前的日期
+            Date statisticDate = date.getTime();
             for (int m = 0; m < stageList.size(); m++) {
-                date.add(Calendar.DATE, -i);//i天前的日期
-                Date statisticDate = date.getTime();
                 if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
                     stageList.remove(m);
                     m--;

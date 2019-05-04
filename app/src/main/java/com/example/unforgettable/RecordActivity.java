@@ -520,6 +520,14 @@ public class RecordActivity extends Fragment {
                     intent.putExtra("scale",true);
                     // 指定输出到文件uri中
                     intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+                    try{
+                        //将拍摄的照片显示出来
+                        Bitmap bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imageUri));
+                        iv_show_picture.setImageBitmap(bitmap);
+                    }
+                    catch (FileNotFoundException e){
+                        e.printStackTrace();
+                    }
                     Currency();
 //                    // 启动intent，开始裁剪
 //                    startActivityForResult(intent, CROP_PHOTO);
@@ -572,13 +580,13 @@ public class RecordActivity extends Fragment {
                     //也可以进行一些保存、压缩等操作后上传
                     //String name = "";
                     String path = saveImage("userHeader", image);
-                    File file = new File(path);
+                    //File file = new File(path);
                     /*
                      *上传文件的额操作
                      */
 
-                    //解析图片进行文字识别
-                    Currency();
+//                    //解析图片进行文字识别
+//                    Currency();
                 }
 
 //                if (resultCode == RESULT_OK) {
