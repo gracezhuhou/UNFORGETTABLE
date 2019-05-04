@@ -6,6 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,12 +33,8 @@ public class CardlistActivity extends Fragment {
     // 前端相关变量
     private Spinner spinner;
     private Button card_edit;
-    private Button delButton;
-
-    private TextView headline;
-    private TextView content_text;
-    private TextView detail_text;
-    private Button starButton;
+    private CardsRecyclerAdapter recyclerAdapter;
+    private RecyclerView cardsRecyclerView;
 
     // 数据库相关变量
     private Dbhelper dbhelper = new Dbhelper();
@@ -52,42 +51,24 @@ public class CardlistActivity extends Fragment {
         View view = inflater.inflate(R.layout.activity_cardlist, container, false);
         LitePal.initialize(this.getActivity());   // 初始化
 
-        headline = view.findViewById(R.id.headline);
-        content_text = view.findViewById(R.id.content_text);
-        detail_text = view.findViewById(R.id.detail_text);
-
+        spinner = view.findViewById(R.id.spinner);
         setSpinner();
+
+        MemoryCardsList = dbhelper.getCardList();   //列表
+        cardsRecyclerView = view.findViewById(R.id.cardsRecyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        cardsRecyclerView.setLayoutManager(layoutManager);
+        recyclerAdapter = new CardsRecyclerAdapter(MemoryCardsList);
+        cardsRecyclerView.setAdapter(recyclerAdapter);
+        cardsRecyclerView.setHasFixedSize(true);
+
         return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //列表
-        List<memoryCardsList> CardsList = dbhelper.getCardList();
-        for(int i = 0; i < CardsList.size(); i++){
-            MemoryCardsList.add(CardsList.get(i));
-        }
 
-        android.support.v4.widget.CardView card = view.findViewById(R.id.card1);
-        card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                memoryCardsList MemoryCardsList = memoryCardsList.get(0);
-
-                headline.setText(MemoryCardsList.getHeading());
-                content_text.setText(MemoryCardsList.getContent());
-                detail_text.setText(MemoryCardsList.getStage());
-            }
-        });
-
-        // 删除按钮
-        delButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                dbhelper.deleteCard(heading);
-            }
-        });
 
         // 下拉菜单点击
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -95,15 +76,12 @@ public class CardlistActivity extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 MemoryCardsList = dbhelper.getReciteTabCards(tab[pos]);
                 //Toast.makeText(getActivity(), "你点击的是:"+tab[pos], Toast.LENGTH_LONG).show();
-
-                Log.v("列表界面","下拉菜单选择");
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // Another interface callback
             }
         });
-
     }
 
     // 设置标签下拉菜单
