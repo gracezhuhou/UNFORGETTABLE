@@ -262,6 +262,17 @@ public class SetActivity extends Fragment {
                 takePhotoOrSelectPicture();
             }
         });
+
+        /*
+        * 编辑用户信息
+        */
+        userName.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), EditUserActivity.class);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     /*

@@ -61,8 +61,7 @@ public class Dbhelper {
         //TODO:获取到图片
         String picPath = Environment.getExternalStorageDirectory().getPath() + "/cardPic.jpg";
         Bitmap pic= BitmapFactory.decodeFile(picPath);
-        //把图片转换字节流
-        byte[] images = img(pic);
+
 
         memoryCardsList card = new memoryCardsList();
         card.setSource(source);
@@ -72,7 +71,11 @@ public class Dbhelper {
         card.setLike(like);
         card.setTab(tab);
         card.setReciteDate(today());
-        card.setPicture(images);    //保存图片
+        if (pic != null) {
+            //把图片转换字节流
+            byte[] images = img(pic);
+            card.setPicture(images);    //保存图片
+        }
         card.save();
 
         // 更新stageList
@@ -400,11 +403,11 @@ public class Dbhelper {
         //Date current = new Date(System.currentTimeMillis());
         Date today = today();
 
-        List<stageList> stageList = getStageList();
+        List<stageList> stageList = LitePal.where("tab = ?", tab).find(stageList.class);
         for (int i = 0; i < stageList.size(); i++) {
             stageList todayStage = stageList.get(i);
             if (todayStage.getDate().compareTo(today) == 0) {
-                if (tab.equals(todayStage.getTab())) {
+                //if (tab.equals(todayStage.getTab())) {
                     switch (status){
                         case 1:
                             todayStage.setRemember(todayStage.getRemember() + 1);
@@ -416,7 +419,7 @@ public class Dbhelper {
                             todayStage.setDim(todayStage.getDim() + 1);
                     }
                     todayStage.updateAll("id = ?", Integer.toString(todayStage.getId()));
-                }
+                //}
             }
         }
     }
@@ -576,5 +579,10 @@ public class Dbhelper {
         return baos.toByteArray();
     }
 
+    private byte[] rcd(Bitmap bitmap){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        return baos.toByteArray();
+    }
 
 }

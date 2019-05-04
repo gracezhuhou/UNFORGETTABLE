@@ -78,11 +78,9 @@ public class ReviewActivity extends Fragment{
         remindButton = view.findViewById(R.id.remindButton);
         cardPic = view.findViewById(R.id.cardPic);
 
-        dbhelper.addTab("英语");
-        dbhelper.addTab("高数");
-        dbhelper.addTab("计网");
-        dbhelper.addTab("公式");
-
+        //LitePal.deleteDatabase("MemoryCards");
+        //dbhelper.addTab("英语");
+        //dbhelper.addTab("高数");
 
         dbhelper.addStageList();
         dbhelper.deleteOldDayCards();   // 删去todayCardsList中之前的卡片
@@ -319,8 +317,10 @@ public class ReviewActivity extends Fragment{
 
         // 显示图片
         byte[] images = recentCard.getPicture();
-        Bitmap bitmap= BitmapFactory.decodeByteArray(images,0,images.length);
-        cardPic.setImageBitmap(bitmap);
+        if (images != null) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(images, 0, images.length);
+            cardPic.setImageBitmap(bitmap);
+        }
 
         Log.v("复习界面","卡片背面显示");
     }
