@@ -73,6 +73,7 @@ public class ReviewActivity extends Fragment{
         forgetButton = view.findViewById(R.id.forgetButton);
         remindButton = view.findViewById(R.id.remindButton);
 
+
         dbhelper.addStageList();
         dbhelper.deleteOldDayCards();   // 删去todayCardsList中之前的卡片
         setSpinner();   // 设置标签

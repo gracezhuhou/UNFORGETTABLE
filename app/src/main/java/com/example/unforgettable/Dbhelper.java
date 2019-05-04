@@ -331,15 +331,15 @@ public class Dbhelper {
             stageRow.setTab(tab);
             int[] stageSum = getStageSum(tab);
             stageRow.setStage0(stageSum[0]);
-            stageRow.setStage0(stageSum[1]);
-            stageRow.setStage0(stageSum[2]);
-            stageRow.setStage0(stageSum[3]);
-            stageRow.setStage0(stageSum[4]);
-            stageRow.setStage0(stageSum[5]);
-            stageRow.setStage0(stageSum[6]);
-            stageRow.setStage0(stageSum[7]);
-            stageRow.setStage0(stageSum[8]);
-            stageRow.setStage0(stageSum[9]);
+            stageRow.setStage1(stageSum[1]);
+            stageRow.setStage2(stageSum[2]);
+            stageRow.setStage3(stageSum[3]);
+            stageRow.setStage4(stageSum[4]);
+            stageRow.setStage5(stageSum[5]);
+            stageRow.setStage6(stageSum[6]);
+            stageRow.setStage7(stageSum[7]);
+            stageRow.setStage8(stageSum[8]);
+            stageRow.setStage9(stageSum[9]);
 
             stageRow.save();
         }

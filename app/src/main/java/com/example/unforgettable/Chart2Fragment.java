@@ -1,5 +1,7 @@
 package com.example.unforgettable;
 
+//学习情况表
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -149,7 +151,8 @@ public class Chart2Fragment extends Fragment {
         //柱形图每段高度获取
         String []text = new String[41];
         for(int i=0;i<41;i++){
-            text[i] = "Math.max(memory[0].length+memory[1].length+memory[2].length,memory[3].length)";
+            int temp = Math.max(memory[0].length+memory[1].length+memory[2].length,memory[3].length);
+            text[i] = String.valueOf(temp);
         }
         chartView1.SetData(memory[0],memory[1],memory[2],memory[3],500,text);
     }
