@@ -22,8 +22,6 @@ public class RegisterActivity extends AppCompatActivity {
     EditText passwordInput;
     EditText passwordInputAgain;
     EditText emailInput;
-    Button emailButton;
-    TextView authenticText;
     Button registerButton;
 
 
@@ -60,6 +58,8 @@ public class RegisterActivity extends AppCompatActivity {
                 // 两次密码输入不一致
                 if (!password.equals(passwordAgain)) {
                     Toast.makeText(getApplicationContext(), "两次密码输入不一致", Toast.LENGTH_LONG).show();
+                    passwordInput.setText("");
+                    passwordInputAgain.setText("");
                     return;
                 }
 

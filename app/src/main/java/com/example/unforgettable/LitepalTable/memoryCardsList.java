@@ -16,6 +16,8 @@ public class memoryCardsList extends LitePalSupport {
     private boolean like;   // 收藏
     private String tab;     // 标签
     private boolean finish = false; // 归档
+    private int repeatTime = 0; // 重复次数
+    private byte[] picture; // 图片
 
     // 背诵时间
     private Date recordDate = new Date(System.currentTimeMillis());
@@ -107,5 +109,21 @@ public class memoryCardsList extends LitePalSupport {
 
     public void setStage(int stage) {
         this.stage = stage;
+    }
+
+    public int getRepeatTime() {
+        return repeatTime;
+    }
+
+    public void setRepeatTime(int repeatTime) {
+        this.repeatTime = repeatTime;
+    }
+
+    public byte[] getPicture() {
+        return picture;
+    }
+
+    public void setPicture(byte[] picture) {
+        this.picture = picture;
     }
 }
