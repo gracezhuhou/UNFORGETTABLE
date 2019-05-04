@@ -63,6 +63,9 @@ public class Dbhelper {
         card.setReciteDate(today());
         card.save();
 
+        // 更新stageList
+        addNewStage(tab);
+
         Log.v("数据库","添加卡片--" + heading);
         return true;
     }
@@ -312,8 +315,8 @@ public class Dbhelper {
     // 添加
     void addStageList(){
         //不可重复日期创建
-        Date current = new Date(System.currentTimeMillis());
-        Date today = new Date(current.getYear(), current.getMonth(), current.getDate());
+        //Date current = new Date(System.currentTimeMillis());
+        Date today = today();
         List<stageList> stageList = LitePal.findAll(stageList.class);
         int size = stageList.size();
         for (int i = 0; i < size; ++i){
@@ -326,7 +329,7 @@ public class Dbhelper {
         size = tabList.size();
         for (int i = 0; i< size; ++i){
             String tab = tabList.get(i).getTabName();
-            com.example.unforgettable.LitepalTable.stageList stageRow = new stageList();
+            stageList stageRow = new stageList();
             stageRow.setDate(today);
             stageRow.setTab(tab);
             int[] stageSum = getStageSum(tab);
@@ -343,26 +346,39 @@ public class Dbhelper {
 
             stageRow.save();
         }
-
         Log.v("数据库","添加统计状态行");
+    }
+
+    // 新建记忆卡片时增加stage0
+    void addNewStage(String tab) {
+        List<stageList> stageList =  LitePal.where("tab = ?", tab).find(stageList.class);
+        Date today = today();
+        for (int i = 0; i < stageList.size(); i++) {
+            stageList todayStage = stageList.get(i);
+            if (todayStage.getDate().compareTo(today) == 0) {
+                int stageSum = todayStage.getStage0() + 1;
+                todayStage.setStage0(stageSum);
+                todayStage.updateAll("id = ?", Integer.toString(todayStage.getId()));
+            }
+        }
     }
 
     // 更新某类别的状态更改
     private void updateStageSum (int stage, int newStage, String tab) {
-        Date current = new Date(System.currentTimeMillis());
-        Date today = new Date(current.getYear(), current.getMonth(), current.getDate());
+        //Date current = new Date(System.currentTimeMillis());
+        Date today = today();
 
-        List<stageList> stageList = getStageList();
+        List<stageList> stageList =  LitePal.where("tab = ?", tab).find(stageList.class);
         for (int i = 0; i < stageList.size(); i++) {
-            com.example.unforgettable.LitepalTable.stageList todayStage = stageList.get(i);
-            if (todayStage.getDate().compareTo(today) == 1) {
-                if (tab.equals(todayStage.getTab())) {
-                    int stageSum = todayStage.getStage(stage) - 1;
-                    int newStageSum = todayStage.getStage(newStage) + 1;
-                    todayStage.setStage(stage,stageSum);
-                    todayStage.setStage(newStage,newStageSum);
-                    todayStage.save();
-                }
+            stageList todayStage = stageList.get(i);
+            if (todayStage.getDate().compareTo(today) == 0) {
+               // if (tab.equals(todayStage.getTab())) {
+                int stageSum = todayStage.getStage(stage) - 1;
+                int newStageSum = todayStage.getStage(newStage) + 1;
+                todayStage.setStage(stage,stageSum);
+                todayStage.setStage(newStage,newStageSum);
+                todayStage.updateAll("id = ?", Integer.toString(todayStage.getId()));
+               // }
             }
         }
     }
@@ -375,7 +391,7 @@ public class Dbhelper {
         List<stageList> stageList = getStageList();
         for (int i = 0; i < stageList.size(); i++) {
             stageList todayStage = stageList.get(i);
-            if (todayStage.getDate().compareTo(today) > 0) {
+            if (todayStage.getDate().compareTo(today) == 0) {
                 if (tab.equals(todayStage.getTab())) {
                     switch (status){
                         case 1:
@@ -387,7 +403,7 @@ public class Dbhelper {
                         case 0:
                             todayStage.setDim(todayStage.getDim() + 1);
                     }
-                    todayStage.save();
+                    todayStage.updateAll("id = ?", Integer.toString(todayStage.getId()));
                 }
             }
         }
