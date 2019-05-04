@@ -265,14 +265,14 @@ public class ReviewActivity extends Fragment{
                 // 这一步必须要做,否则不会显示.
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                 starButton.setCompoundDrawables(null, null, drawable, null);
-                starButton.setTextColor(Color.argb(0, 0, 255, 0));
+                //starButton.setTextColor(Color.argb(0, 0, 255, 0));
             }
             else {
                 Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
                 // 这一步必须要做,否则不会显示.
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                 starButton.setCompoundDrawables(null, null, drawable, null);
-                starButton.setTextColor(Color.argb(0, 0, 255, 0));
+               // starButton.setTextColor(Color.argb(0, 0, 255, 0));
             }
         }
         // 隐藏

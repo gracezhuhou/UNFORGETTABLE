@@ -181,13 +181,14 @@ public class RecordActivity extends Fragment {
                 authorInput.setText("");
                 headingInput.setText("");
                 contentInput.setText("");
+                iv_show_picture.setImageBitmap(null);
             }
         });
         // 收藏按钮响应
         starButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                // TODO: 改收藏按键颜色状态  @大冬瓜 @母后
+                // 改收藏按键颜色状态
                 String starText = (String)starButton.getText();
                 if (starText.equals("❤")) {
                     Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
@@ -571,22 +572,25 @@ public class RecordActivity extends Fragment {
 
                 break;
             case CROP_PHOTO:// 裁剪后展示图片
-                Bundle bundle = data.getExtras();
-                if (bundle != null) {
-                    //在这里获得了剪裁后的Bitmap对象，可以用于上传
-                    Bitmap image = bundle.getParcelable("data");
-                    //设置到ImageView上
-                    iv_show_picture.setImageBitmap(image);
-                    //也可以进行一些保存、压缩等操作后上传
-                    //String name = "";
-                    String path = saveImage("cardPic", image);
-                    //File file = new File(path);
-                    /*
-                     *上传文件的额操作
-                     */
+                if(data!=null){
+                    Bundle bundle = data.getExtras();
+                    if (bundle != null) {
+                        //在这里获得了剪裁后的Bitmap对象，可以用于上传
+                        Bitmap image = bundle.getParcelable("data");
+                        //设置到ImageView上
+                        iv_show_picture.setImageBitmap(image);
+                        //也可以进行一些保存、压缩等操作后上传
+                        //String name = "";
+                        String path = saveImage("cardPic", image);
+                        //File file = new File(path);
+                        /*
+                         *上传文件的额操作
+                         */
 
 //                    //解析图片进行文字识别
 //                    Currency();
+                    }
+
                 }
 
 //                if (resultCode == RESULT_OK) {

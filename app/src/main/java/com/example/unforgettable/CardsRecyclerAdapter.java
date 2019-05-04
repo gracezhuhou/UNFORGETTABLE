@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.unforgettable.LitepalTable.memoryCardsList;
@@ -23,15 +25,16 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
         private TextView content_text;
         private TextView detail_text;
         private Button starButton;
-        private CardView cardView;
+        private LinearLayout cardView;
 
         public ViewHolder(View view){
             super(view);
             headline = view.findViewById(R.id.headline);
             content_text = view.findViewById(R.id.content_text);
             detail_text = view.findViewById(R.id.detail_text);
-            cardView = view.findViewById(R.id.cardView);
             delButton = view.findViewById(R.id.delButton);
+            cardView = view.findViewById(R.id.cardView);
+            starButton = view.findViewById(R.id.starButton);
         }
     }
 
@@ -65,6 +68,7 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
             }
         });
 
+        // 点击编辑
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){

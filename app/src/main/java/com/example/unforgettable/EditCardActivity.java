@@ -3,6 +3,8 @@ package com.example.unforgettable;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -69,11 +71,24 @@ public class EditCardActivity extends AppCompatActivity {
         headingInput.setText(oldheading);
         contentInput.setText(card.getContent());
         // TODO: 改按键颜色状态    @大冬瓜 @母后
-        if (card.isLike()) {
+        String starText = (String)starButton.getText();
+        if (starText.equals("❤")) {
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
+            // 这一步必须要做,否则不会显示.
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            starButton.setCompoundDrawables(null, null, drawable, null);
             starButton.setText("已收藏"); //暂时
+            starButton.setTextColor(Color.argb(0, 0, 255, 0));
+            like = true;
         }
         else {
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
+            // 这一步必须要做,否则不会显示.
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            starButton.setCompoundDrawables(null, null, drawable, null);
             starButton.setText("❤"); //暂时
+            starButton.setTextColor(Color.argb(0, 0, 255, 0));
+            like = false;
         }
 
         // 显示图片
@@ -111,11 +126,21 @@ public class EditCardActivity extends AppCompatActivity {
                 // TODO: 改收藏按键颜色状态  @大冬瓜 @母后
                 String starText = (String)starButton.getText();
                 if (starText.equals("❤")) {
+                    Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
+                    // 这一步必须要做,否则不会显示.
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    starButton.setCompoundDrawables(null, null, drawable, null);
                     starButton.setText("已收藏"); //暂时
+                    starButton.setTextColor(Color.argb(0, 0, 255, 0));
                     like = true;
                 }
                 else {
+                    Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
+                    // 这一步必须要做,否则不会显示.
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    starButton.setCompoundDrawables(null, null, drawable, null);
                     starButton.setText("❤"); //暂时
+                    starButton.setTextColor(Color.argb(0, 0, 255, 0));
                     like = false;
                 }
                 Log.v("卡片编辑界面","收藏按钮点击事件");
