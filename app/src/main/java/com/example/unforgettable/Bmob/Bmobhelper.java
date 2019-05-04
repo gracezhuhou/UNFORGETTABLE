@@ -137,7 +137,7 @@ public class Bmobhelper {
         // TODO: 路径
         String picPath = Environment.getExternalStorageDirectory().getPath() + "/userPic.jpg";
         Log.v("Bmob","databasePath");
-        Toast.makeText(getApplicationContext(), picPath, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), picPath, Toast.LENGTH_LONG).show();
         final BmobFile bmobFile = new BmobFile(new File(picPath));
         // 上传文件
         bmobFile.uploadblock(new UploadFileListener() {
@@ -148,7 +148,7 @@ public class Bmobhelper {
                     Log.v("Bmob","上传头像成功:" + bmobFile.getFileUrl());  //bmobFile.getFileUrl()--返回的上传文件的完整地址
                     // 更新至用户表内
                     MyUser newUser = new MyUser();
-                    newUser.setDatabase(bmobFile);
+                    newUser.setPicture(bmobFile);
                     MyUser myUser = MyUser.getCurrentUser(MyUser.class);
                     newUser.update(myUser.getObjectId(), new UpdateListener() {
                         @Override
@@ -169,7 +169,7 @@ public class Bmobhelper {
             @Override
             public void onProgress(Integer value) {
                 // 返回的上传进度（百分比）
-                Toast.makeText(getApplicationContext(), "上传中："+ value, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "上传中："+ value, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -203,8 +203,8 @@ public class Bmobhelper {
         // 允许设置下载文件的存储路径，默认下载文件的目录为：context.getApplicationContext().getCacheDir()+"/bmob/"
         // File saveFile = new File(Environment.getExternalStorageDirectory(), file.getFilename());
         // TODO: 路径
-        String databasePath = Environment.getExternalStorageDirectory().getPath();
-        File saveFile = new File(databasePath, file.getFilename());
+        String picPath = Environment.getExternalStorageDirectory().getPath();
+        File saveFile = new File(picPath, file.getFilename());
         file.download(saveFile, new DownloadFileListener() {
             @Override
             public void onStart() {
