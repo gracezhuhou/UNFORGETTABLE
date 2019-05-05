@@ -71,7 +71,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/snycButton" />
+        app:layout_constraintTop_toBottomOf="@+id/relativelayout" />
 
     <RelativeLayout
         android:id="@+id/relativelayout"
@@ -86,7 +86,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/surface_management">
+        app:layout_constraintTop_toBottomOf="@+id/snycButton">
 
         <TextView
             android:id="@+id/set_time"
@@ -124,5 +124,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativelayout" />
+        app:layout_constraintTop_toBottomOf="@+id/surface_management" />
 </android.support.constraint.ConstraintLayout>
