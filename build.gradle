@@ -22,6 +22,7 @@ allprojects {
         jcenter()
         maven { url "https://jitpack.io" }
         maven { url "https://raw.github.com/bmob/bmob-android-sdk/master" } //Bmob的maven仓库地址
+        maven { url 'https://jitpack.io' }//MPAndroidChart
     }
 }
 
