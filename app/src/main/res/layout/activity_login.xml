@@ -46,8 +46,8 @@
 
     <Button
         android:id="@+id/login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_170"
+        android:layout_height="@dimen/dp_39"
         android:layout_gravity="start"
         android:layout_marginStart="48dp"
         android:layout_marginTop="16dp"
@@ -55,7 +55,7 @@
         android:layout_marginBottom="64dp"
         android:background="@color/semitransparent"
         android:enabled="false"
-        android:text="@string/action_sign_in"
+        android:text="登录"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,8 +80,8 @@
 
     <Button
         android:id="@+id/registerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_170"
+        android:layout_height="@dimen/dp_39"
         android:layout_marginStart="153dp"
         android:layout_marginLeft="153dp"
         android:layout_marginTop="52dp"
