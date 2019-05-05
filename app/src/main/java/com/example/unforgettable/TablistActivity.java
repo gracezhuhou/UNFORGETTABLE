@@ -25,7 +25,6 @@ public class TablistActivity extends AppCompatActivity {
     // 前端相关变量
     private ListView listView;
     private Button tab_add;
-    private Button submitButton;
 
     // 数据库相关变量
     private Dbhelper dbhelper = new Dbhelper();
@@ -41,7 +40,6 @@ public class TablistActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
         tab_add = findViewById(R.id.tab_add);
-        submitButton = findViewById(R.id.submitButton);
 
         // 获取所有标签
         List<tabList> tapList = dbhelper.getTabList();
@@ -65,17 +63,7 @@ public class TablistActivity extends AppCompatActivity {
                 dialog_show();
             }
         });
-
-        // 完成按钮
-        submitButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent(v.getContext(), EditCardActivity.class);
-//                intent.putExtra("tab", "");
-//                startActivity(intent);
-                finish();
-            }
-        });
+        
     }
 
     //添加标签框
