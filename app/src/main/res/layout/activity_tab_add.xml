@@ -9,8 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/dialogname"
-        android:layout_editor_absoluteX="10dp">
+        android:id="@+id/dialogname">
 
         <TextView android:layout_height="wrap_content"
             android:layout_width="wrap_content"
