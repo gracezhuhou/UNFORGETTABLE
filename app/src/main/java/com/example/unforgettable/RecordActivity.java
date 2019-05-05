@@ -247,6 +247,16 @@ public class RecordActivity extends Fragment {
             }
         });
 
+        // 标签按钮监听
+        typeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(),TablistActivity.class);
+                startActivity(intent);
+            }
+        });
+
         initAccessTokenWithAkSk();
     }
 
