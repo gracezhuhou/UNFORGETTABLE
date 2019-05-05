@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Chart1Fragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
+        android:layout_width="406dp"
+        android:layout_height="663dp"
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         tools:context=".MainActivity">
 
         <Spinner
@@ -23,22 +22,29 @@
             android:entries="@array/reviewtType"></Spinner>
 
 
-        <com.example.unforgettable.BarChartView
-            android:id="@+id/bar_view1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginBottom="45dp"
-            android:background="@color/semitransparent"
-            app:firstBarColor="@color/colorAccent"
-            app:secondeBarColor="@color/colorPrimary"
-            app:textColor="@color/colorPrimaryDark"
-            app:textMargin="15dp"
-            app:textSize="12sp" />
+        <!--<com.example.unforgettable.BarChartView-->
+        <!--android:id="@+id/bar_view1"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginLeft="24dp"-->
+        <!--android:layout_marginTop="24dp"-->
+        <!--android:layout_marginRight="24dp"-->
+        <!--android:layout_marginBottom="45dp"-->
+        <!--android:background="@color/semitransparent"-->
+        <!--app:firstBarColor="@color/colorAccent"-->
+        <!--app:secondeBarColor="@color/colorPrimary"-->
+        <!--app:textColor="@color/colorPrimaryDark"-->
+        <!--app:textMargin="15dp"-->
+        <!--app:textSize="12sp" />-->
 
     </RelativeLayout>
 
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/mBarChart"
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:layout_below="@id/spinner"
+        android:layout_weight="1" />
 
 </FrameLayout>

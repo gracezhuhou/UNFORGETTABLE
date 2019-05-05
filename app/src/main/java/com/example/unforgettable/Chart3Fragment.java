@@ -1,23 +1,17 @@
-//记忆持久度图表
+//遗忘曲线图表
 package com.example.unforgettable;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import org.litepal.LitePal;
+import com.example.unforgettable.LitepalTable.tabList;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,8 +29,6 @@ import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.ValueShape;
 import lecho.lib.hellocharts.view.LineChartView;
-
-import com.example.unforgettable.LitepalTable.*;
 
 public class Chart3Fragment extends Fragment {
 
@@ -101,6 +93,28 @@ public class Chart3Fragment extends Fragment {
 //        });
 
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            //now invisible to user
+            Log.v("遗忘曲线", "页面隐藏");
+        } else {
+            dBhelper = new Dbhelper();
+            initLineChart();
+            //now visible to user
+            Log.v("遗忘曲线", "刷新页面");
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        dBhelper = new Dbhelper();
+        initLineChart();
+    }
+
 
     //图表
     //LineChart
