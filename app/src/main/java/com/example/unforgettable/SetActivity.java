@@ -144,7 +144,13 @@ public class SetActivity extends Fragment {
         relativeLayout = view.findViewById(R.id.relativelayout);
 
         set_time = view.findViewById(R.id.time);
-        set_time.setText("不提醒");
+
+        SharedPreferences pref;
+        pref = getActivity().getSharedPreferences("Alert", MODE_PRIVATE);
+        temp = pref.getString("alertTime", "");
+        if (temp.equals("")) {
+            set_time.setText("不提醒");
+        }
 
         return view;
     }
@@ -251,8 +257,8 @@ public class SetActivity extends Fragment {
                     @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onClick(View view) {
-                        // time = "不提醒";
-                        set_time.setText(time);
+                        //time = "不提醒";
+                        set_time.setText("不提醒");
                         if (dialog != null && dialog.isShowing()) {
                             dialog.dismiss();
                         }
