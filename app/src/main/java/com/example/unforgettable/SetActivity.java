@@ -1,5 +1,6 @@
 package com.example.unforgettable;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -13,6 +14,7 @@ import android.content.Intent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -22,8 +24,10 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Base64;
 import android.support.v7.app.AppCompatActivity;
@@ -100,6 +104,9 @@ public class SetActivity extends Fragment {
     private NotificationManager notificationManager;
     private NotificationCompat.Builder builder;
 
+    private String temp;
+    private SharedPreferences pref;
+
 //    private Bitmap mBitmap;
 //    protected static final int CHOOSE_PICTURE = 0;
 //    protected static final int TAKE_PICTURE = 1;
@@ -107,7 +114,7 @@ public class SetActivity extends Fragment {
 //    private static final int CROP_SMALL_PICTURE = 2;
 
     // 创建文件保存拍照的图片
-    File takePhotoImage = new File(Environment.getExternalStorageDirectory(), "user_image.jpg");
+    File takePhotoImage = new File(Environment.getExternalStorageDirectory(), "userPic.jpg");
     private Uri imageUri;// 拍照时的图片uri
     //拍照相关变量
     private static final int TAKE_PHOTO = 11;// 拍照
@@ -347,10 +354,21 @@ public class SetActivity extends Fragment {
                             // 调用系统图库
                             case 1:
                                 // 创建Intent，用于打开手机本地图库选择图片
-                                Intent intent1 = new Intent(Intent.ACTION_PICK,
-                                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                // 启动intent打开本地图库
-                                startActivityForResult(intent1,LOCAL_CROP);
+                                if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                                {
+                                    ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+                                    Intent intent1 = new Intent(Intent.ACTION_PICK,
+                                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                                    // 启动intent打开本地图库
+                                    startActivityForResult(intent1,LOCAL_CROP);
+                                } else {
+                                    Intent intent1 = new Intent(Intent.ACTION_PICK,
+                                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                                    // 启动intent打开本地图库
+                                    startActivityForResult(intent1,LOCAL_CROP);
+                                }
                                 break;
                         }
                     }

@@ -29,6 +29,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import cn.bmob.v3.Bmob;
@@ -45,10 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
     private int hour;
     private int minute;
-    private Calendar instance;
-    private AlarmManager alarmManager;
-    private Intent intent;
-    private PendingIntent pi;
     private String temp;
     private SharedPreferences pref;
 
@@ -69,15 +66,28 @@ public class MainActivity extends AppCompatActivity {
         setTime();
 
         if(!temp.equals("")) {
-            alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-            instance = Calendar.getInstance();
+            Calendar instance = Calendar.getInstance();
+            //是设置日历的时间，主要是让日历的年月日和当前同步
+            instance.setTimeInMillis(System.currentTimeMillis());
+            // 这里时区需要设置一下，不然可能个别手机会有8个小时的时间差
+            instance.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+
+            long systemTime = System.currentTimeMillis();
             instance.set(Calendar.HOUR_OF_DAY, hour);
             instance.set(Calendar.MINUTE, minute);
             instance.set(Calendar.SECOND, 0);
+            instance.set(Calendar.MILLISECOND, 0);
+            long selectTime = instance.getTimeInMillis();
 
-            intent = new Intent(this, AlarmReceiver.class);
+            // 如果当前时间大于设置的时间，那么就从第二天的设定时间开始
+            if(systemTime > selectTime) {
+                instance.add(Calendar.DAY_OF_MONTH, 1);
+            }
+
+            AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(this, AlarmReceiver.class);
             intent.setAction("NOTIFICATION");
-            pi = PendingIntent.getBroadcast(this, 0, intent, 0);
+            PendingIntent pi = PendingIntent.getBroadcast(this, 0, intent, 0);
 
             int type = AlarmManager.RTC_WAKEUP;
             alarmManager.set(type, instance.getTimeInMillis(), pi);

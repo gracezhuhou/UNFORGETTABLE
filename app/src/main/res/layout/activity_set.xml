@@ -104,7 +104,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/dp_30"
             android:textSize="@dimen/sp_16"
-            android:gravity="center" />
+            android:gravity="center"
+            android:text="不提醒"/>
 
     </RelativeLayout>
 
