@@ -1,5 +1,8 @@
 package com.example.unforgettable;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,9 +16,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -33,8 +39,12 @@ public class CardlistActivity extends Fragment {
     // 前端相关变量
     private Spinner spinner;
     private Button card_edit;
+    private Button tab_add;
     private CardsRecyclerAdapter recyclerAdapter;
     private RecyclerView cardsRecyclerView;
+    private TextView headline;
+    private TextView content_text;
+    private TextView detail_text;
 
     // 数据库相关变量
     private Dbhelper dbhelper = new Dbhelper();
@@ -62,6 +72,9 @@ public class CardlistActivity extends Fragment {
         cardsRecyclerView.setAdapter(recyclerAdapter);
         cardsRecyclerView.setHasFixedSize(true);
 
+        tab_add = view.findViewById(R.id.tab_add);
+
+
         return view;
     }
 
@@ -69,17 +82,30 @@ public class CardlistActivity extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
         // 下拉菜单点击
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                MemoryCardsList = dbhelper.getReciteTabCards(tab[pos]);
-                //Toast.makeText(getActivity(), "你点击的是:"+tab[pos], Toast.LENGTH_LONG).show();
+                MemoryCardsList = dbhelper.getAllTabCards(tab[pos]);   //获得该标签下卡片
+                cardsRecyclerView = view.findViewById(R.id.cardsRecyclerView);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                cardsRecyclerView.setLayoutManager(layoutManager);
+                recyclerAdapter = new CardsRecyclerAdapter(MemoryCardsList);
+                cardsRecyclerView.setAdapter(recyclerAdapter);
+                cardsRecyclerView.setHasFixedSize(true);
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // Another interface callback
+            }
+        });
+
+        //添加标签按钮
+        tab_add.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                dialog_show();
             }
         });
     }
@@ -98,5 +124,35 @@ public class CardlistActivity extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item , tab);  //创建一个数组适配器
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);     //设置下拉列表框的下拉选项样式
         spinner.setAdapter(adapter);
+    }
+
+    //添加标签框
+    protected void dialog_show(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater factory = LayoutInflater.from(getActivity());
+        final View textEntryView = factory.inflate(R.layout.activity_tab_add, null);
+
+        builder.setTitle("添加标签");
+        builder.setView(textEntryView);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                EditText tab =  textEntryView.findViewById(R.id.ettab);
+                showDialog("标签 ："  + tab.getText().toString() );
+                dbhelper.addTab(tab.getText().toString());
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
+    }
+
+    private void showDialog(String str) {
+        new AlertDialog.Builder(getActivity())
+                .setMessage(str)
+                .show();
     }
 }

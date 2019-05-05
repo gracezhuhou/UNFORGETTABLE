@@ -146,6 +146,24 @@ public class Dbhelper {
         return reciteCardList;
     }
 
+    // 获取某一标签下全部列表
+    List<memoryCardsList> getAllTabCards(String tabName) {
+        if (tabName.equals("全部")) return getCardList();
+
+        List<memoryCardsList> AllCardList = LitePal.order("id").find(memoryCardsList.class);
+
+        for (int i = 0; i < AllCardList.size(); i++) {
+            // 标签
+            String tab = AllCardList.get(i).getTab();
+            if (tab == null || !tab.equals(tabName)){
+                AllCardList.remove(i);
+                i--;
+            }
+        }
+        Log.v("数据库","获取" + tabName + "全部卡片" + AllCardList.size()+"张");
+        return AllCardList;
+    }
+
     // 获取某一标签应背列表
     List<memoryCardsList> getReciteTabCards(String tabName) {
         if (tabName.equals("全部")) return getReciteCards();
