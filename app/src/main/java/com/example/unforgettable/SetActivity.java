@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -42,6 +43,8 @@ import com.example.unforgettable.Bmob.MyUser;
 import com.example.unforgettable.data.LoginDataSource;
 import com.example.unforgettable.data.LoginRepository;
 import com.example.unforgettable.ui.login.LoginActivity;
+import com.squareup.picasso.Picasso;
+
 import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
@@ -55,10 +58,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
@@ -144,6 +149,9 @@ public class SetActivity extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 上传云端
+                //bmobhelper.logout();
+
                 // 登出
                 loginRepository.logout();
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
@@ -279,8 +287,17 @@ public class SetActivity extends Fragment {
      * 显示当前用户
      */
     private void showUser() {
-        MyUser myUser = BmobUser.getCurrentUser(MyUser.class);
+        MyUser myUser = MyUser.getCurrentUser(MyUser.class);
         userName.setText(myUser.getNickname());
+        if (myUser.getPicture() != null) {
+            String picUrl = myUser.getPicture().getUrl();
+            Picasso.get().load(picUrl).into(userPic);
+        }
+        else {
+            //Drawable drawable = getResources().getDrawable(R.drawable.ic_logo);
+            //userPic.setImageDrawable(drawable);
+            userPic.setBackgroundResource(R.drawable.ic_logo);
+        }
     }
 
 
@@ -357,14 +374,14 @@ public class SetActivity extends Fragment {
                     // 指定输出到文件uri中
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                     // 启动intent，开始裁剪
-                    startActivityForResult(intent, CROP_PHOTO);
+                    //startActivityForResult(intent, CROP_PHOTO);
 
                     // 用相机返回的照片去调用剪裁也需要对Uri进行处理
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         imageUri = FileProvider.getUriForFile(getActivity(),"com.example.unforgettable.fileprovider", takePhotoImage);
-                        //cropPhoto(imageUri);//裁剪图片
+                        cropPhoto(imageUri);//裁剪图片
                     } else {
-                        //cropPhoto(Uri.fromFile(takePhotoImage));//裁剪图片
+                        cropPhoto(Uri.fromFile(takePhotoImage));//裁剪图片
                     }
 
                     try{

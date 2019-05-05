@@ -13,10 +13,14 @@ public class BarChartView extends View {
     Paint textPaint; //文字画笔
     Paint barPaint; //第二柱形图画笔
     Paint barPaint1;//第一柱形图画笔
+    Paint barPaint2;//第三柱形图画笔
+    Paint barPaint3;//第四柱形图画笔
 
     int textColor = 0xDDFFFFFF;//文字颜色
     int barColor = 0xDDFF9246; //第二柱形图画笔颜色
     int barColor1 = 0xDDFFAC72;//第一柱形图画笔颜色
+    int barColor2 = 0xDEAFAC72;//第三柱形图画笔颜色
+    int barColor3 = 0xDFEEAC72;//第四柱形图画笔颜色
 
     int dataFirst[]; //第一柱形图数据
     int dataSecond[]; //第二柱形图数据
@@ -66,6 +70,14 @@ public class BarChartView extends View {
         barPaint1 = new Paint();
         barPaint1.setAntiAlias(true);
         barPaint1.setColor(barColor1);
+
+        barPaint2 = new Paint();
+        barPaint2.setAntiAlias(true);
+        barPaint2.setColor(barColor2);
+
+        barPaint3 = new Paint();
+        barPaint3.setAntiAlias(true);
+        barPaint3.setColor(barColor3);
     }
 
     @Override
@@ -76,22 +88,92 @@ public class BarChartView extends View {
         //获取总高度
         int totalHeight = canvas.getHeight();
         for(int i=0;i<dataFirst.length;i++){
-            //画第二柱
-            float secondBarHeight = (dataSecond[i] / yMax )* totalHeight;
-            float y = totalHeight - secondBarHeight;
-            float x = getLeft();
-            canvas.drawRect(x,y,x+barWidth,totalHeight,barPaint1);
 
-            //画第一柱
-            float firstBarHeght = (dataFirst[i] / yMax )* totalHeight;
-            float firstY = totalHeight - firstBarHeght;
-            canvas.drawRect(x,firstY,x+barWidth,y,barPaint);
-            //画文字
-            Rect rect = new Rect();
-            textPaint.getTextBounds(String.valueOf(text[i]), 0, String.valueOf(text[i]).length(), rect);
-            int w = rect.width();
-            int h = rect.height();
-            canvas.drawText(String.valueOf(text[i]),(x+barWidth)/2 - w/2,firstY - h/2 - textMagin,textPaint);
+            float fourBarHeight = 0;
+            float firstY = 0;
+
+            if(i == 30 && dataFourth[30] != 0){
+                //画第四柱
+                fourBarHeight = (dataFourth[i] / yMax )* totalHeight;
+                float y3 = totalHeight - fourBarHeight;
+                float x3 = getLeft();
+                canvas.drawRect(x3,y3,x3+barWidth,totalHeight,barPaint3);
+
+                //画文字
+                Rect rect = new Rect();
+                textPaint.getTextBounds(String.valueOf(text[i]), 0, String.valueOf(text[i]).length(), rect);
+                int w = rect.width();
+                int h = rect.height();
+                canvas.drawText(String.valueOf(text[i]),(x3+barWidth)/2 - w/2,y3 - h/2 - textMagin,textPaint);
+            }
+            else if(i>30){
+                //画第四柱
+                fourBarHeight = (dataFourth[i] / yMax )* totalHeight;
+                float y3 = totalHeight - fourBarHeight;
+                float x3 = getLeft();
+                canvas.drawRect(x3,y3,x3+barWidth,totalHeight,barPaint3);
+
+                //画文字
+                Rect rect = new Rect();
+                textPaint.getTextBounds(String.valueOf(text[i]), 0, String.valueOf(text[i]).length(), rect);
+                int w = rect.width();
+                int h = rect.height();
+                canvas.drawText(String.valueOf(text[i]),(x3+barWidth)/2 - w/2,y3 - h/2 - textMagin,textPaint);
+            }
+
+            if(i<30){
+                //画第三柱
+                float thirdBarHeight = (dataThird[i] / yMax )* totalHeight;
+                float y2 = totalHeight - thirdBarHeight;
+                float x2 = getLeft();
+                canvas.drawRect(x2,y2,x2+barWidth,totalHeight,barPaint2);
+
+                //画第二柱
+                float secondBarHeight = (dataSecond[i] / yMax )* totalHeight;
+                float y = totalHeight - secondBarHeight;
+                float x = getLeft();
+                canvas.drawRect(x,y,x+barWidth,totalHeight,barPaint1);
+
+                //画第一柱
+                float firstBarHeght = (dataFirst[i] / yMax )* totalHeight;
+                firstY = totalHeight - secondBarHeight - thirdBarHeight - fourBarHeight;
+                canvas.drawRect(x,firstY,x+barWidth,y,barPaint);
+
+                //画文字
+                Rect rect = new Rect();
+                textPaint.getTextBounds(String.valueOf(text[i]), 0, String.valueOf(text[i]).length(), rect);
+                int w = rect.width();
+                int h = rect.height();
+                canvas.drawText(String.valueOf(text[i]),(x2+barWidth)/2 - w/2,y2 - h/2 - textMagin,textPaint);
+            }
+            else if(i==30 && dataFourth[30] == 0){
+                //画第三柱
+                float thirdBarHeight = (dataThird[i] / yMax )* totalHeight;
+                float y2 = totalHeight - thirdBarHeight;
+                float x2 = getLeft();
+                canvas.drawRect(x2,y2,x2+barWidth,totalHeight,barPaint2);
+
+                //画第二柱
+                float secondBarHeight = (dataSecond[i] / yMax )* totalHeight;
+                float y = totalHeight - secondBarHeight;
+                float x = getLeft();
+                canvas.drawRect(x,y,x+barWidth,totalHeight,barPaint1);
+
+                //画第一柱
+                float firstBarHeght = (dataFirst[i] / yMax )* totalHeight;
+                firstY = totalHeight - secondBarHeight - thirdBarHeight - fourBarHeight;
+                canvas.drawRect(x,firstY,x+barWidth,y,barPaint);
+
+                //画文字
+                Rect rect = new Rect();
+                textPaint.getTextBounds(String.valueOf(text[i]), 0, String.valueOf(text[i]).length(), rect);
+                int w = rect.width();
+                int h = rect.height();
+                canvas.drawText(String.valueOf(text[i]),(x2+barWidth)/2 - w/2,y2 - h/2 - textMagin,textPaint);
+
+            }
+
+
         }
 
     }

@@ -32,8 +32,8 @@ public class LoginDataSource {
     }
 
     public void logout() {
-        // TODO: revoke authentication
+        // revoke authentication
         MyUser.logOut();   //清除缓存用户对象
-        MyUser currentUser = MyUser.getCurrentUser(MyUser.class); //现在的currentUser是null
+        //MyUser currentUser = MyUser.getCurrentUser(MyUser.class); //现在的currentUser是null
     }
 }

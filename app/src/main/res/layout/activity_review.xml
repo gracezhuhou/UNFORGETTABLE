@@ -9,12 +9,13 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="94dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="@dimen/dp_90"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_8"
         android:background="@drawable/spinner_border"
         android:entries="@array/reviewtType"
         android:gravity="center"
+        android:textSize="@dimen/sp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">       <!--通过entries属性指定一个下拉列表项，是一个数组资源-->
@@ -22,43 +23,40 @@
 
     <Button
         android:id="@+id/fileButton"
-        android:layout_width="25dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_width="@dimen/dp_22"
+        android:layout_height="@dimen/dp_22"
+        android:layout_marginRight="@dimen/dp_8"
         android:background="@color/transparent"
         android:drawableRight="@drawable/ic_archive"
         android:text=""
         android:textColor="@color/transparent"
-        android:textSize="1sp"
+        android:textSize="@dimen/sp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <Button
         android:id="@+id/editButton"
-        android:layout_width="25dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="17dp"
-        android:layout_marginRight="17dp"
+        android:layout_width="@dimen/dp_22"
+        android:layout_height="@dimen/dp_22"
+        android:layout_marginRight="@dimen/dp_8"
         android:drawableRight="@drawable/ic_edit"
         android:text=""
         android:background="@color/transparent"
         android:textColor="@color/transparent"
-        android:textSize="1sp"
+        android:textSize="@dimen/sp_10"
         app:layout_constraintEnd_toStartOf="@+id/fileButton"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <Button
         android:id="@+id/starButton"
-        android:layout_width="25dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="17dp"
-        android:layout_marginRight="17dp"
+        android:layout_width="@dimen/dp_22"
+        android:layout_height="@dimen/dp_22"
+        android:layout_marginRight="@dimen/dp_8"
         android:background="@color/transparent"
         android:drawableRight="@drawable/ic_star_black"
         android:text=""
         android:textColor="@color/transparent"
-        android:textSize="1sp"
+        android:textSize="@dimen/sp_10"
         app:layout_constraintEnd_toStartOf="@+id/editButton"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
@@ -66,23 +64,22 @@
         android:id="@+id/typeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginRight="@dimen/dp_10"
         android:text="计网"
-        android:textSize="16sp"
+        android:textSize="@dimen/sp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/starButton" />
 
     <TextView
         android:id="@+id/headingText"
-        android:layout_width="57dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="@dimen/dp_56"
+        android:layout_height="@dimen/dp_24"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
         android:text="标题"
-        android:textSize="16sp"
+        android:textSize="@dimen/sp_16"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/typeText" />
 
@@ -90,26 +87,24 @@
         android:id="@+id/detailText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
         android:text="记录于昨天 第n此重复"
-        android:textSize="16sp"
+        android:textSize="@dimen/sp_16"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headingText" />
 
     <TextView
         android:id="@+id/contentText"
-        android:layout_width="381dp"
-        android:layout_height="208dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="@dimen/dp_330"
+        android:layout_height="@dimen/dp_300"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginRight="@dimen/dp_16"
         android:background="@color/semitransparent"
         android:text="内容"
-        android:textSize="16sp"
+        android:textSize="@dimen/sp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailText" />
@@ -118,10 +113,10 @@
         android:id="@+id/passDayText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="@dimen/dp_85"
+        android:layout_marginTop="@dimen/dp_8"
         android:text="+n天"
+        android:textSize="@dimen/sp_16"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contentText" />
 
@@ -129,10 +124,10 @@
         android:id="@+id/dimDayText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
-        android:layout_marginLeft="128dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="@dimen/dp_95"
+        android:layout_marginTop="@dimen/dp_8"
         android:text="今天"
+        android:textSize="@dimen/sp_16"
         app:layout_constraintStart_toEndOf="@+id/passDayText"
         app:layout_constraintTop_toBottomOf="@+id/contentText" />
 
@@ -140,21 +135,20 @@
         android:id="@+id/forgetDayText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginLeft="64dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_8"
         android:text="今天"
+        android:textSize="@dimen/sp_16"
         app:layout_constraintStart_toEndOf="@+id/dimDayText"
         app:layout_constraintTop_toBottomOf="@+id/contentText" />
 
 
     <Button
         android:id="@+id/passButton"
-        android:layout_width="200dp"
+        android:layout_width="@dimen/dp_160"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
         android:background="@drawable/btn_background"
         android:text="√"
         app:layout_constraintStart_toStartOf="parent"
@@ -162,11 +156,10 @@
 
     <Button
         android:id="@+id/dimButton"
-        android:layout_width="70dp"
+        android:layout_width="@dimen/dp_64"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_8"
         android:background="@drawable/btn_background"
         android:text="模糊"
         app:layout_constraintStart_toEndOf="@+id/passButton"
@@ -174,11 +167,10 @@
 
     <Button
         android:id="@+id/forgetButton"
-        android:layout_width="70dp"
+        android:layout_width="@dimen/dp_64"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_8"
         android:background="@drawable/btn_background"
         android:text="忘记"
         app:layout_constraintStart_toEndOf="@+id/dimButton"
@@ -187,29 +179,30 @@
     <RelativeLayout
         android:id="@+id/remindButton"
         android:layout_width="match_parent"
-        android:layout_height="570dp"
+        android:layout_height="@dimen/dp_400"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="0dp">
+        android:layout_marginBottom="@dimen/dp_64">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="点击显示答案"
-            android:textSize="18sp"
+            android:textSize="@dimen/sp_16"
             android:layout_centerInParent="true"/>
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/cardPic"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="@dimen/dp_200"
+        android:layout_marginTop="@dimen/dp_64"
+        android:layout_marginLeft="@dimen/dp_65"
+        android:layout_marginRight="@dimen/dp_65"
         app:layout_constraintEnd_toEndOf="@+id/contentText"
-        app:layout_constraintTop_toTopOf="@+id/remindButton" />
+        app:layout_constraintLeft_toLeftOf="@+id/contentText"
+        app:layout_constraintTop_toTopOf="@+id/contentText" />
 
 
 </android.support.constraint.ConstraintLayout>

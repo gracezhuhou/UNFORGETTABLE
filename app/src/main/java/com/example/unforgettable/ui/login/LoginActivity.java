@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.unforgettable.Bmob.Bmobhelper;
 import com.example.unforgettable.MainActivity;
 import com.example.unforgettable.Bmob.MyUser;
 import com.example.unforgettable.R;
@@ -151,6 +152,10 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"请至" + myUser.getEmail() + "邮箱中进行激活",Toast.LENGTH_LONG).show();
                                 return;
                             }
+                            // 下载database
+                            Bmobhelper bmobhelper = new Bmobhelper();
+                            bmobhelper.download();  // 同步云端数据
+
                             // 登录
                             loginViewModel.login(usernameEditText.getText().toString(), passwordEditText.getText().toString());
                         }

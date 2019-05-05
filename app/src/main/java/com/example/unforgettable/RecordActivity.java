@@ -16,6 +16,7 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,13 +27,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,10 +78,10 @@ public class RecordActivity extends Fragment {
     private Button typeButton;
     private Button cameraButton;
     private Button soundButton;
-    private Button starButton;
+    private ImageButton starButton;
     private Button playButton;
     private EditText contentInput;
-
+    private ProgressBar loading;
 
     // 数据库相关变量
     private Dbhelper dbhelper = new Dbhelper();
@@ -144,6 +148,7 @@ public class RecordActivity extends Fragment {
         contentInput = view.findViewById(R.id.contentInput);
         playButton = view.findViewById(R.id.playbutton);
         iv_show_picture = view.findViewById(R.id.iv_show_picture);
+        loading = view.findViewById(R.id.loading);
 
         return view;
     }
@@ -181,30 +186,26 @@ public class RecordActivity extends Fragment {
                 authorInput.setText("");
                 headingInput.setText("");
                 contentInput.setText("");
+                iv_show_picture.setImageBitmap(null);
             }
         });
         // 收藏按钮响应
         starButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                // TODO: 改收藏按键颜色状态  @大冬瓜 @母后
-                String starText = (String)starButton.getText();
-                if (starText.equals("❤")) {
+                // 改收藏按键颜色状态
+                Drawable.ConstantState drawableState = starButton.getDrawable().getConstantState();
+                Drawable.ConstantState drawableState_yel = getResources().getDrawable(R.drawable.ic_star_yel).getConstantState();
+                if (!drawableState.equals(drawableState_yel)) {
                     Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
                     // 这一步必须要做,否则不会显示.
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                    starButton.setCompoundDrawables(null, null, drawable, null);
-                    starButton.setText("已收藏"); //暂时
-                    starButton.setTextColor(Color.argb(0, 0, 255, 0));
+                    starButton.setImageDrawable(drawable);
                     like = true;
                 }
                 else {
                     Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
                     // 这一步必须要做,否则不会显示.
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                    starButton.setCompoundDrawables(null, null, drawable, null);
-                    starButton.setText("❤"); //暂时
-                    starButton.setTextColor(Color.argb(0, 0, 255, 0));
+                    starButton.setImageDrawable(drawable);
                     like = false;
                 }
             }
@@ -264,6 +265,7 @@ public class RecordActivity extends Fragment {
                             switch (which){
                                 // 选择了保存录音
                                 case 0:
+                                    //Toast.makeText(getActivity(), "请讲话", Toast.LENGTH_LONG);
                                     // 判断录音按钮的状态，根据相应的状态处理事务
                                     soundButton.setText(R.string.wait_for);
                                     soundButton.setEnabled(false);
@@ -295,7 +297,9 @@ public class RecordActivity extends Fragment {
                                                 //返回的result为识别后的汉字,直接赋值到TextView上即可
                                                 String result = parseVoice(recognizerResult.getResultString());
                                                 content = content + result;
+                                                //content.substring(4,content.length()-1);
                                                 contentInput.setText(content);
+                                                contentInput.getText().delete(0,4);
                                             }
                                         }
 
@@ -336,6 +340,7 @@ public class RecordActivity extends Fragment {
      * 开始录音
      */
     private void startRecording() {
+
         mRecorder = new MediaRecorder();
         // 设置声音来源
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -528,7 +533,31 @@ public class RecordActivity extends Fragment {
                     catch (FileNotFoundException e){
                         e.printStackTrace();
                     }
+
+                    loading.setVisibility(View.VISIBLE);
+                    final Toast toast =  Toast.makeText(getActivity(), "正在识别中，请稍等...", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    toast.show();
+                    //延长土司时间
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            toast.cancel();
+                        }
+                    },100000);
+
                     Currency();
+
+//                    loading.setVisibility(View.GONE);
+                    //若识别出字符
+                    if(content!=null){
+                        loading.setVisibility(View.GONE);
+                        Toast.makeText(getActivity(), "识别成功", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        loading.setVisibility(View.GONE);
+                        Toast.makeText(getActivity(), "无法识别", Toast.LENGTH_LONG).show();
+                    }
 //                    // 启动intent，开始裁剪
 //                    startActivityForResult(intent, CROP_PHOTO);
 
@@ -571,28 +600,28 @@ public class RecordActivity extends Fragment {
 
                 break;
             case CROP_PHOTO:// 裁剪后展示图片
-                Bundle bundle = data.getExtras();
-                if (bundle != null) {
-                    //在这里获得了剪裁后的Bitmap对象，可以用于上传
-                    Bitmap image = bundle.getParcelable("data");
-                    //设置到ImageView上
-                    iv_show_picture.setImageBitmap(image);
-                    //也可以进行一些保存、压缩等操作后上传
-                    //String name = "";
-                    String path = saveImage("cardPic", image);
-                    //File file = new File(path);
-                    /*
-                     *上传文件的额操作
-                     */
+                if(data != null){
+                    Bundle bundle = data.getExtras();
+                    if (bundle != null) {
+                        //在这里获得了剪裁后的Bitmap对象，可以用于上传
+                        Bitmap image = bundle.getParcelable("data");
+                        //设置到ImageView上
+                        iv_show_picture.setImageBitmap(image);
+                        //也可以进行一些保存、压缩等操作后上传
+                        //String name = "";
+                        String path = saveImage("cardPic", image);
+                        //File file = new File(path);
+                        /*
+                         *上传文件的额操作
+                         */
 
 //                    //解析图片进行文字识别
 //                    Currency();
+                    }
                 }
-
 //                if (resultCode == RESULT_OK) {
 //                    try {
 //                        bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imageUri));
-//                        Currency();
 //                    } catch (FileNotFoundException e) {
 //                        e.printStackTrace();
 //                    }
@@ -718,6 +747,7 @@ public class RecordActivity extends Fragment {
                     sb.append(wordSimple.getWords());
                     sb.append("\n");
                 }
+                content = sb.toString();
                 contentInput.setText(sb.toString());
                 // json格式返回字符串
 //                listener.onResult(result.getJsonRes());

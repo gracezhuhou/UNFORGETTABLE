@@ -8,6 +8,22 @@
 
     <!--完成-->
     <Button
+        android:id="@+id/clearButton"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="center"
+        android:text="清空"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView"
+        app:layout_constraintBottom_toTopOf="@+id/authorInput"
+        app:layout_constraintEnd_toStartOf="@+id/submitButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
         android:id="@+id/submitButton"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="@dimen/dp_80"
@@ -26,7 +42,7 @@
     <EditText
         android:id="@+id/sourceInput"
         style="@style/Widget.AppCompat.EditText"
-        android:layout_width="@dimen/dp_150"
+        android:layout_width="@dimen/dp_155"
         android:layout_height="@dimen/dp_40"
         android:layout_marginStart="@dimen/dp_16"
         android:layout_marginLeft="@dimen/dp_16"
@@ -43,7 +59,7 @@
     <!--作者-->
     <EditText
         android:id="@+id/authorInput"
-        android:layout_width="@dimen/dp_150"
+        android:layout_width="@dimen/dp_155"
         android:layout_height="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginRight="@dimen/dp_16"
@@ -78,8 +94,8 @@
     <!--标签-->
     <Button
         android:id="@+id/typeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_75"
+        android:layout_height="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginRight="@dimen/dp_16"
         android:layout_marginBottom="@dimen/dp_8"
@@ -93,16 +109,20 @@
         app:layout_constraintTop_toBottomOf="@+id/headingInput" />
     <!--app:layout_constraintHorizontal_chainStyle="spread_inside"-->
     <!--app:layout_constraintBaseline_toBaselineOf="@+id/cameraButton"-->
+=======
+        <!--app:layout_constraintHorizontal_chainStyle="spread_inside"-->
+        <!--app:layout_constraintBaseline_toBaselineOf="@+id/cameraButton"-->
+>>>>>>> origin/WuKaiWen_Branch
 
 
     <!--拍照记录-->
     <Button
         android:id="@+id/cameraButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_75"
+        android:layout_height="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginRight="@dimen/dp_4"
-        android:layout_marginLeft="@dimen/dp_4"
+        android:layout_marginLeft="@dimen/dp_8"
         android:layout_marginBottom="@dimen/dp_8"
         android:background="@color/semitransparent"
         android:text="拍照"
@@ -114,8 +134,8 @@
     <!--录音-->
     <Button
         android:id="@+id/soundButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_75"
+        android:layout_height="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginRight="@dimen/dp_4"
         android:layout_marginLeft="@dimen/dp_4"
@@ -128,17 +148,16 @@
         app:layout_constraintTop_toBottomOf="@+id/headingInput" />
 
     <!--收藏-->
-    <Button
+    <ImageButton
         android:id="@+id/starButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_75"
+        android:layout_height="@dimen/dp_40"
         android:layout_marginLeft="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginRight="@dimen/dp_4"
         android:layout_marginBottom="@dimen/dp_8"
         android:background="@color/semitransparent"
-        android:drawableRight="@drawable/ic_star_black"
-        android:text="❤"
+        android:src="@drawable/ic_star_black"
         android:textColor="@color/transparent"
         android:textSize="@dimen/sp_8"
         app:layout_constraintBottom_toTopOf="@+id/contentInput"
@@ -146,11 +165,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headingInput" />
 
+
+
     <!--内容-->
     <EditText
         android:id="@+id/contentInput"
         android:layout_width="@dimen/dp_330"
-        android:layout_height="@dimen/dp_280"
+        android:layout_height="@dimen/dp_290"
         android:layout_marginLeft="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginRight="@dimen/dp_16"
@@ -179,15 +200,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="62dp"
+        android:layout_height="53dp"
+        android:layout_gravity="center"
+        style="?android:attr/progressBarStyleSmall"
+        android:visibility="gone"
+        tools:ignore="MissingConstraints" />
+
     <ImageView
         android:id="@+id/iv_show_picture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
         android:layout_marginStart="@dimen/dp_16"
         android:layout_marginLeft="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_8"
-        android:layout_marginBottom="@dimen/dp_45"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contentInput"
         tools:ignore="MissingConstraints"
@@ -195,14 +223,12 @@
 
     <Button
         android:id="@+id/playbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_75"
+        android:layout_height="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_16"
         android:layout_marginRight="@dimen/dp_16"
-        android:layout_marginBottom="@dimen/dp_110"
-        android:background="@color/transparent"
+        android:background="@color/semitransparent"
         android:text="播放"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contentInput"
         tools:ignore="MissingConstraints" />
