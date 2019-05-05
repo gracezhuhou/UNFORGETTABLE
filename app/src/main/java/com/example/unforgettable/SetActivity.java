@@ -68,6 +68,8 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
+
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 
@@ -251,6 +253,34 @@ public class SetActivity extends Fragment {
                         editor = getActivity().getSharedPreferences("Alert", MODE_PRIVATE).edit();
                         editor.putString("alertTime", time);
                         editor.apply();
+
+                        if(!temp.equals("")) {
+                            Calendar instance = Calendar.getInstance();
+                            //是设置日历的时间，主要是让日历的年月日和当前同步
+                            instance.setTimeInMillis(System.currentTimeMillis());
+                            // 这里时区需要设置一下，不然可能个别手机会有8个小时的时间差
+                            instance.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+
+                            long systemTime = System.currentTimeMillis();
+                            instance.set(Calendar.HOUR_OF_DAY, hour);
+                            instance.set(Calendar.MINUTE, minute);
+                            instance.set(Calendar.SECOND, 0);
+                            instance.set(Calendar.MILLISECOND, 0);
+                            long selectTime = instance.getTimeInMillis();
+
+                            // 如果当前时间大于设置的时间，那么就从第二天的设定时间开始
+                            if(systemTime > selectTime) {
+                                instance.add(Calendar.DAY_OF_MONTH, 1);
+                            }
+
+                            AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+                            Intent intent = new Intent(getActivity(), AlarmReceiver.class);
+                            intent.setAction("NOTIFICATION");
+                            PendingIntent pi = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
+
+                            int type = AlarmManager.RTC_WAKEUP;
+                            alarmManager.set(type, instance.getTimeInMillis(), pi);
+                        }
                     }
                 });
                 no.setOnClickListener(new View.OnClickListener() {
@@ -296,6 +326,16 @@ public class SetActivity extends Fragment {
                 v.getContext().startActivity(intent);
             }
         });
+    }
+
+    public void setTime() {
+        pref = getActivity().getSharedPreferences("Alert", MODE_PRIVATE);
+        temp = pref.getString("alertTime", "");
+        if(!temp.equals("")) {
+            String[] ptr = temp.split(":");
+            hour = Integer.parseInt(ptr[0]);
+            minute = Integer.parseInt(ptr[1]);
+        }
     }
 
     /*
