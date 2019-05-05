@@ -1,10 +1,20 @@
 package com.example.unforgettable.Bmob;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.unforgettable.Dbhelper;
+import com.example.unforgettable.LitepalTable.memoryCardsList;
+import com.example.unforgettable.R;
+
+import org.litepal.LitePal;
+import org.litepal.LitePalDB;
+
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
@@ -57,7 +67,7 @@ public class Bmobhelper {
             @Override
             public void onProgress(Integer value) {
                 // 返回的上传进度（百分比）
-                Toast.makeText(getApplicationContext(), "上传中："+ value, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "上传中："+ value + "%", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -114,6 +124,14 @@ public class Bmobhelper {
                 if(e == null){
                     Toast.makeText(getApplicationContext(), "下载成功", Toast.LENGTH_SHORT).show();
                     Log.v("Bmob","下载成功,保存路径:"+savePath);
+
+                    LitePal.getDatabase();
+                    //动态创建数据库 避免SD卡删除数据库文件 造成的CRUD报错
+                    LitePalDB litePalDB = LitePalDB.fromDefault("MemoryCards");
+                    LitePal.use(litePalDB);
+                    Dbhelper db = new Dbhelper();
+                    List<memoryCardsList> a = db.getCardList();
+
                 }else{
                     Toast.makeText(getApplicationContext(), "下载失败", Toast.LENGTH_SHORT).show();
                     Log.e("BMOB", "下载失败："+e.getErrorCode()+","+e.getMessage());
@@ -122,7 +140,8 @@ public class Bmobhelper {
 
             @Override
             public void onProgress(Integer value, long newworkSpeed) {
-                Log.i("Bmob","下载进度：" + value + "," + newworkSpeed);
+                //Toast.makeText(getApplicationContext(), "下载进度：" + value + "%," + newworkSpeed, Toast.LENGTH_SHORT).show();
+                Log.i("Bmob","下载进度：" + value + "%," + newworkSpeed);
             }
         });
     }
@@ -169,7 +188,7 @@ public class Bmobhelper {
             @Override
             public void onProgress(Integer value) {
                 // 返回的上传进度（百分比）
-                Toast.makeText(getApplicationContext(), "上传中："+ value, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "上传中："+ value + "%", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -224,7 +243,8 @@ public class Bmobhelper {
 
             @Override
             public void onProgress(Integer value, long newworkSpeed) {
-                Log.i("Bmob","下载进度：" + value + "," + newworkSpeed);
+                //Toast.makeText(getApplicationContext(), "下载进度：" + value + "%," + newworkSpeed, Toast.LENGTH_SHORT).show();
+                Log.i("Bmob","下载进度：" + value + "%," + newworkSpeed);
             }
         });
     }
@@ -264,9 +284,10 @@ public class Bmobhelper {
             @Override
             public void onProgress(Integer value) {
                 // 返回的上传进度（百分比）
-                Toast.makeText(getApplicationContext(), "上传中："+ value, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "上传中："+ value + "%", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
+
 }

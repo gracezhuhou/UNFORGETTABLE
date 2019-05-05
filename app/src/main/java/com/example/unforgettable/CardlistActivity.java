@@ -42,6 +42,7 @@ public class CardlistActivity extends Fragment {
     private Button tab_add;
     private CardsRecyclerAdapter recyclerAdapter;
     private RecyclerView cardsRecyclerView;
+    private LinearLayoutManager layoutManager;
     private TextView headline;
     private TextView content_text;
     private TextView detail_text;
@@ -66,7 +67,7 @@ public class CardlistActivity extends Fragment {
 
         MemoryCardsList = dbhelper.getCardList();   //列表
         cardsRecyclerView = view.findViewById(R.id.cardsRecyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new LinearLayoutManager(getActivity());
         cardsRecyclerView.setLayoutManager(layoutManager);
         recyclerAdapter = new CardsRecyclerAdapter(MemoryCardsList);
         cardsRecyclerView.setAdapter(recyclerAdapter);
@@ -79,6 +80,38 @@ public class CardlistActivity extends Fragment {
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            //now invisible to user
+
+        } else {
+            //now visible to user
+            MemoryCardsList = dbhelper.getCardList();   //列表
+            //LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            //cardsRecyclerView.setLayoutManager(layoutManager);
+            recyclerAdapter = new CardsRecyclerAdapter(MemoryCardsList);
+            cardsRecyclerView.setAdapter(recyclerAdapter);
+            cardsRecyclerView.setHasFixedSize(true);
+            setSpinner();
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        MemoryCardsList = dbhelper.getCardList();   //列表
+        //LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        //cardsRecyclerView.setLayoutManager(layoutManager);
+        recyclerAdapter = new CardsRecyclerAdapter(MemoryCardsList);
+        cardsRecyclerView.setAdapter(recyclerAdapter);
+        cardsRecyclerView.setHasFixedSize(true);
+        setSpinner();
+    }
+
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -87,13 +120,11 @@ public class CardlistActivity extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 MemoryCardsList = dbhelper.getAllTabCards(tab[pos]);   //获得该标签下卡片
-                cardsRecyclerView = view.findViewById(R.id.cardsRecyclerView);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                cardsRecyclerView.setLayoutManager(layoutManager);
+                //LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                //cardsRecyclerView.setLayoutManager(layoutManager);
                 recyclerAdapter = new CardsRecyclerAdapter(MemoryCardsList);
                 cardsRecyclerView.setAdapter(recyclerAdapter);
                 cardsRecyclerView.setHasFixedSize(true);
-
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {

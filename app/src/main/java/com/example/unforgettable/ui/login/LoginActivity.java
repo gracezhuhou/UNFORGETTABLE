@@ -170,7 +170,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
+        String welcome = "欢迎~" + model.getDisplayName();
         // TODO : initiate successful logged in experience
         Toast.makeText(this, welcome, Toast.LENGTH_LONG).show();
 

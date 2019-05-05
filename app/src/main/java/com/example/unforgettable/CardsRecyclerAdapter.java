@@ -1,19 +1,25 @@
 package com.example.unforgettable;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.example.unforgettable.Bmob.Bmobhelper;
 import com.example.unforgettable.LitepalTable.memoryCardsList;
 
 import java.util.List;
+
+import static cn.bmob.v3.Bmob.getApplicationContext;
 
 public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdapter.ViewHolder>{
     private List<memoryCardsList> myCardsList;
@@ -24,7 +30,7 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
         private TextView headline;
         private TextView content_text;
         private TextView detail_text;
-        private Button starButton;
+        private ImageButton starButton;
         private LinearLayout cardView;
 
         public ViewHolder(View view){
@@ -55,6 +61,10 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
         holder.content_text.setText(cardsList.getContent());
         String str = "第" + cardsList.getRepeatTime() + "次重复";
         holder.detail_text.setText(str);
+        if (cardsList.isLike()) {
+            Drawable drawable = getApplicationContext().getResources().getDrawable(R.drawable.ic_star_yel);
+            holder.starButton.setImageDrawable(drawable);
+        }
 
         //点击删除按钮
         holder.delButton.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +86,24 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
                 Intent intent = new Intent(v.getContext(), EditCardActivity.class);
                 intent.putExtra("heading_extra", heading);
                 v.getContext().startActivity(intent);
+            }
+        });
+
+        // 点击收藏
+        holder.starButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                String heading = holder.headline.getText().toString();
+                boolean like = dbhelper.changeLike(heading);
+                // 改按键颜色状态
+                if (like) {
+                    Drawable drawable = getApplicationContext().getResources().getDrawable(R.drawable.ic_star_yel);
+                    holder.starButton.setImageDrawable(drawable);
+                }
+                else {
+                    Drawable drawable = getApplicationContext().getResources().getDrawable(R.drawable.ic_star_black);
+                    holder.starButton.setImageDrawable(drawable);
+                }
             }
         });
     }

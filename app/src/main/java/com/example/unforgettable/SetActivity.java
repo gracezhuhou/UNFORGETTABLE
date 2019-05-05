@@ -52,6 +52,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import org.litepal.LitePal;
 import org.w3c.dom.Text;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -291,6 +293,7 @@ public class SetActivity extends Fragment {
         userName.setText(myUser.getNickname());
         if (myUser.getPicture() != null) {
             String picUrl = myUser.getPicture().getUrl();
+            userPic.setBackgroundResource(R.drawable.ic_logo);
             Picasso.get().load(picUrl).into(userPic);
         }
         else {
@@ -374,20 +377,24 @@ public class SetActivity extends Fragment {
                     // 指定输出到文件uri中
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                     // 启动intent，开始裁剪
-                    //startActivityForResult(intent, CROP_PHOTO);
+                    startActivityForResult(intent, CROP_PHOTO);
 
-                    // 用相机返回的照片去调用剪裁也需要对Uri进行处理
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        imageUri = FileProvider.getUriForFile(getActivity(),"com.example.unforgettable.fileprovider", takePhotoImage);
-                        cropPhoto(imageUri);//裁剪图片
-                    } else {
-                        cropPhoto(Uri.fromFile(takePhotoImage));//裁剪图片
-                    }
+//                    // 用相机返回的照片去调用剪裁也需要对Uri进行处理
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                        imageUri = FileProvider.getUriForFile(getActivity(),"com.example.unforgettable.fileprovider", takePhotoImage);
+//                        cropPhoto(imageUri);//裁剪图片
+//                    } else {
+//                        cropPhoto(Uri.fromFile(takePhotoImage));//裁剪图片
+//                    }
 
                     try{
                         //将拍摄的照片显示出来
                         Bitmap bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imageUri));
                         userPic.setImageBitmap(bitmap);
+
+                        // todo:
+                        saveImage("userPic", bitmap);
+                        bmobhelper.uploadPic();
                     }
                     catch (FileNotFoundException e){
                         e.printStackTrace();
@@ -413,17 +420,19 @@ public class SetActivity extends Fragment {
 
                 break;
             case CROP_PHOTO:// 裁剪后展示图片
-                Bundle bundle = data.getExtras();
-                if (bundle != null) {
-                    //在这里获得了剪裁后的Bitmap对象，可以用于上传
-                    Bitmap image = bundle.getParcelable("data");
-                    //设置到ImageView上
-                    userPic.setImageBitmap(image);
-                    //也可以进行一些保存、压缩等操作后上传
-                    String path = saveImage("userPic", image);
-                    bmobhelper.uploadPic();
+                if (data != null) {
+                    Bundle bundle = data.getExtras();
+                    if (bundle != null) {
+                        //在这里获得了剪裁后的Bitmap对象，可以用于上传
+                        Bitmap image = bundle.getParcelable("data");
+                        //设置到ImageView上
+                        userPic.setImageBitmap(image);
+                        //也可以进行一些保存、压缩等操作后上传
+                        String path = saveImage("userPic", image);
+                        bmobhelper.uploadPic();
 
-                    //File file = new File(path);
+                        //File file = new File(path);
+                    }
                 }
 //                if (resultCode == RESULT_OK) {
 //                    try {
