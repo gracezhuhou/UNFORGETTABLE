@@ -22,7 +22,7 @@ import java.util.List;
 // 用于数据库增删改查等操作
 
 public class Dbhelper {
-    Dbhelper(){
+    public Dbhelper(){
         LitePal.getDatabase();
 
 //        for (int i = 0; i < 22; ++i) {
@@ -58,7 +58,7 @@ public class Dbhelper {
         if (heading.equals("") || content.equals(""))  return false;
 
 
-        //TODO:获取到图片
+        //获取图片
         String picPath = Environment.getExternalStorageDirectory().getPath() + "/cardPic.jpg";
         Bitmap pic= BitmapFactory.decodeFile(picPath);
 
@@ -117,7 +117,7 @@ public class Dbhelper {
     }
 
     // 获取列表
-    List<memoryCardsList> getCardList(){
+    public List<memoryCardsList> getCardList(){
         List<memoryCardsList> cardList = LitePal.order("id").find(memoryCardsList.class);
         Log.v("数据库","获取卡片列表" + cardList.size() + "张");
         return cardList;
@@ -144,6 +144,24 @@ public class Dbhelper {
         }
         Log.v("数据库","获取今日应背卡片" + reciteCardList.size()+"张");
         return reciteCardList;
+    }
+
+    // 获取某一标签下全部列表
+    List<memoryCardsList> getAllTabCards(String tabName) {
+        if (tabName.equals("全部")) return getCardList();
+
+        List<memoryCardsList> AllCardList = LitePal.order("id").find(memoryCardsList.class);
+
+        for (int i = 0; i < AllCardList.size(); i++) {
+            // 标签
+            String tab = AllCardList.get(i).getTab();
+            if (tab == null || !tab.equals(tabName)){
+                AllCardList.remove(i);
+                i--;
+            }
+        }
+        Log.v("数据库","获取" + tabName + "全部卡片" + AllCardList.size()+"张");
+        return AllCardList;
     }
 
     // 获取某一标签应背列表

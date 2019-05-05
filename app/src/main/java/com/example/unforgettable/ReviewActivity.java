@@ -25,6 +25,7 @@ import com.example.unforgettable.LitepalTable.tabList;
 
 import org.litepal.LitePal;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -84,7 +85,7 @@ public class ReviewActivity extends Fragment{
 
         dbhelper.addStageList();
         dbhelper.deleteOldDayCards();   // 删去todayCardsList中之前的卡片
-        setSpinner();   // 设置标签
+        //setSpinner();   // 设置标签
         init();  // 初始化背诵列表&初始界面
 
         return view;
@@ -97,7 +98,8 @@ public class ReviewActivity extends Fragment{
             //now invisible to user
             Log.v("复习界面", "页面隐藏");
         } else {
-            dbhelper = new Dbhelper();
+            //LitePal.initialize(this.getActivity());
+            //dbhelper = new Dbhelper();
             init();
             //now visible to user
             Log.v("复习界面", "刷新页面");
@@ -107,11 +109,17 @@ public class ReviewActivity extends Fragment{
     @Override
     public void onResume(){
         super.onResume();
-        dbhelper = new Dbhelper();
+        //LitePal.initialize(this.getActivity());
+        //dbhelper = new Dbhelper();
         init();
     }
 
-    // 按键监听
+
+    /*
+     *
+     *按键监听
+     *
+     */
     // 控件的点击事件写在onActivityCreated中
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -244,11 +252,17 @@ public class ReviewActivity extends Fragment{
     // 初始化背诵列表 & 初始界面
     private void init() {
         reciteCardList = dbhelper.getReciteCards();
+        setSpinner();
         showHeading();
         Log.v("复习界面","初始化界面完成");
     }
 
-    // 显示卡片正面
+
+    /*
+     *
+     * 显示卡片正面
+     *
+     */
     private void showHeading() {
         if (reciteCardList.size() == 0) {
             headingText.setText("无背诵卡片");
@@ -289,10 +303,15 @@ public class ReviewActivity extends Fragment{
         passButton.setVisibility(View.INVISIBLE);
         dimButton.setVisibility(View.INVISIBLE);
         forgetButton.setVisibility(View.INVISIBLE);
+        cardPic.setImageBitmap(null);
         Log.v("复习界面","卡片正面显示");
     }
 
-    // 显示卡片背面
+    /*
+     *
+     * 显示卡片背面
+     *
+     */
     private void showContent() {
         // 显示内容部分
         fileButton.setVisibility(View.VISIBLE);
@@ -309,10 +328,13 @@ public class ReviewActivity extends Fragment{
         // 隐藏
         remindButton.setVisibility(View.INVISIBLE);
 
+        // 显示卡片内容
         memoryCardsList recentCard = dbhelper.findCard((String)headingText.getText());
         int stage = recentCard.getStage();
         contentText.setText(recentCard.getContent());
-        String cardDetail = "记录于"+ recentCard.getRecordDate() + " 第" + recentCard.getRepeatTime()+ "次重复";
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(recentCard.getRecordDate());
+        String cardDetail = "记录于"+ dateString + " 第" + recentCard.getRepeatTime()+ "次重复";
         detailText.setText(cardDetail);
         String addDay[] = new String[]{"+1天", "+2天", "+4天", "+7天", "+15天", "+1个月", "+3个月", "+6个月", "+1年"};
         passDayText.setText(addDay[stage]);

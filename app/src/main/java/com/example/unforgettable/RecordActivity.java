@@ -610,6 +610,8 @@ public class RecordActivity extends Fragment {
                         //也可以进行一些保存、压缩等操作后上传
                         //String name = "";
                         String path = saveImage("cardPic", image);
+
+                        Toast.makeText(getActivity(),"图片已保存", Toast.LENGTH_SHORT).show();
                         //File file = new File(path);
                         /*
                          *上传文件的额操作
