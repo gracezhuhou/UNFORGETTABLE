@@ -357,6 +357,13 @@ public class Dbhelper {
         return tabList;
     }
 
+    // 获取某一标签
+    tabList getTabList(String tab){
+        List<tabList> tabList = LitePal.where("tabName = ?", tab).find(tabList.class);
+        Log.v("数据库","获取标签" + tabList.size() + "个");
+        return tabList.get(0);
+    }
+
     /*****************
     *
      状态统计 stageList
