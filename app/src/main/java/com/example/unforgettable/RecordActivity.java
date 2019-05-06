@@ -98,7 +98,7 @@ public class RecordActivity extends Fragment {
     private static final int LOCAL_CROP = 13;// 本地图库
 
     private ImageView iv_show_picture;
-    private Button btdel;
+    private ImageButton btdel;
     private String path = "";
     private Uri imageUri;// 拍照时的图片uri
     //调用照相机返回图片文件

@@ -221,13 +221,16 @@
         tools:ignore="MissingConstraints"
         tools:src="@tools:sample/avatars" />
 
-    <Button
+    <ImageButton
         android:id="@+id/bt_del"
-        android:layout_width="83dp"
-        android:layout_height="61dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="删除"
-        tools:ignore="MissingConstraints" />
+        android:background="@color/transparent"
+        android:src="@drawable/ic_close"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="104dp"
+        tools:layout_editor_absoluteY="556dp" />
 
     <Button
         android:id="@+id/playbutton"
