@@ -36,7 +36,6 @@ import java.util.List;
 
 
 public class Chart2Fragment extends Fragment implements OnChartValueSelectedListener {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     private String label = "全部";
@@ -60,8 +59,6 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
         super.onActivityCreated(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_chart2, container, false);
 
-        // TODO: @陈独秀
-
         //chartView1 = view.findViewById(R.id.bar_view1);
         spinner = view.findViewById(R.id.spinner);
         //堆叠条形图
@@ -76,7 +73,6 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // TODO: @陈独秀  这里写监听事件
         final String []tab = new String[tabList.size()+1];
 
         tab[0] = "全部";
@@ -94,6 +90,8 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 label = tab[pos];
                 //Toast.makeText(getActivity(), "你点击的是:"+tab[pos], Toast.LENGTH_LONG).show();
+                // TODO: @陈独秀
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -109,7 +107,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
             //now invisible to user
             Log.v("学习情况", "页面隐藏");
         } else {
-            dBhelper = new Dbhelper();
+            //dBhelper = new Dbhelper();
             initView();
             //now visible to user
             Log.v("学习情况", "刷新页面");
@@ -119,7 +117,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
     @Override
     public void onResume(){
         super.onResume();
-        dBhelper = new Dbhelper();
+        //dBhelper = new Dbhelper();
         initView();
     }
 

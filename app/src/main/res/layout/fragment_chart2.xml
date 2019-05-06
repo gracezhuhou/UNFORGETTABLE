@@ -37,14 +37,13 @@
         <!--app:textMargin="15dp"-->
         <!--app:textSize="12sp" />-->
 
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/mBarChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/spinner"
+            android:layout_weight="1" />
+
     </RelativeLayout>
-
-
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/mBarChart"
-        android:layout_width="match_parent"
-        android:layout_height="77dp"
-        android:layout_below="@id/spinner"
-        android:layout_weight="1" />
 
 </FrameLayout>

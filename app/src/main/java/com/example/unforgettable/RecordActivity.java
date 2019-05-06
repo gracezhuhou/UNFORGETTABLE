@@ -263,8 +263,6 @@ public class RecordActivity extends Fragment {
         soundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isAudio = true;
-                playButton.setVisibility(View.VISIBLE);
                 initSpeech(getActivity());
             }
         });
@@ -370,6 +368,8 @@ public class RecordActivity extends Fragment {
                             switch (which){
                                 // 选择了保存录音
                                 case 0:
+                                    isAudio = true;
+                                    playButton.setVisibility(View.VISIBLE);
                                     Toast.makeText(getActivity(), "正在录音，请讲话", Toast.LENGTH_LONG).show();
                                     // 判断录音按钮的状态，根据相应的状态处理事务
                                     soundButton.setText(R.string.wait_for);
