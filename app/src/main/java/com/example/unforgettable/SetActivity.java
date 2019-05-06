@@ -437,7 +437,6 @@ public class SetActivity extends Fragment {
 
                         // todo:
                         String path = Environment.getExternalStorageDirectory().getPath()+"/userPic.jpg";
-
                         bitmap = getSmallBitmap(path);
 //                        MCompressor.from()
 //                                .compressFormat(Bitmap.CompressFormat.JPEG)

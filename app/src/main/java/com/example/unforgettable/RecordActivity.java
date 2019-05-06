@@ -50,6 +50,7 @@ import com.iflytek.cloud.ui.RecognizerDialogListener;
 
 import org.litepal.LitePal;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -574,10 +575,18 @@ public class RecordActivity extends Fragment {
                         Bitmap bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imageUri));
                         iv_show_picture.setImageBitmap(bitmap);
                         btdel.setVisibility(View.VISIBLE);
+
+                        String path = Environment.getExternalStorageDirectory().getPath()+"/cardPic.jpg";
+                        bitmap = getSmallBitmap(path);
+                        saveImage("cardPic", bitmap);
+
                     }
                     catch (FileNotFoundException e){
                         e.printStackTrace();
                     }
+
+
+                    //getSmallBitmap(path);
 
                     final Toast toast =  Toast.makeText(getActivity(), "正在识别中，请稍等...", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER,0,0);
@@ -588,18 +597,19 @@ public class RecordActivity extends Fragment {
                         public void run() {
                             toast.cancel();
                         }
-                    },100000);
+                    },1000000);
 
                     Currency();
 
 //                    loading.setVisibility(View.GONE);
+
 //                    //若识别出字符
 //                    if(content!=null){
-//                        loading.setVisibility(View.GONE);
+//                        //loading.setVisibility(View.GONE);
 //                        Toast.makeText(getActivity(), "识别成功", Toast.LENGTH_LONG).show();
 //                    }
 //                    else {
-//                        loading.setVisibility(View.GONE);
+//                        //loading.setVisibility(View.GONE);
 //                        Toast.makeText(getActivity(), "无法识别", Toast.LENGTH_LONG).show();
 //                    }
 //                    // 启动intent，开始裁剪
@@ -654,6 +664,7 @@ public class RecordActivity extends Fragment {
                         btdel.setVisibility(View.VISIBLE);
                         //也可以进行一些保存、压缩等操作后上传
                         //String name = "";
+
                         path = saveImage("cardPic", image);
 
                         Toast.makeText(getActivity(),"图片已保存", Toast.LENGTH_SHORT).show();
@@ -829,25 +840,25 @@ public class RecordActivity extends Fragment {
     //图片压缩
 
 //    //质量压缩
-//    public static void compressBmpToFile(Bitmap bmp,File file){
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        int options = 80;
-//        bmp.compress(Bitmap.CompressFormat.JPEG,options,baos);
-//        while(baos.toByteArray().length/1024>100){
-//            baos.reset();
-//            options -= 10;
-//            bmp.compress(Bitmap.CompressFormat.JPEG,options,baos);
-//        }
-//        try{
-//            FileOutputStream fos = new FileOutputStream(file);
-//            fos.write(baos.toByteArray());
-//            fos.flush();
-//            fos.close();
-//        }
-//        catch(Exception e){
-//            e.printStackTrace();
-//        }
-//    }
+    public static void compressBmpToFile(Bitmap bmp,File file){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int options = 80;
+        bmp.compress(Bitmap.CompressFormat.JPEG,options,baos);
+        while(baos.toByteArray().length/1024>100){
+            baos.reset();
+            options -= 10;
+            bmp.compress(Bitmap.CompressFormat.JPEG,options,baos);
+        }
+        try{
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(baos.toByteArray());
+            fos.flush();
+            fos.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 //
 //    //尺寸压缩
 //    private Bitmap sizeCompress(String path, int rqsW, int rqsH) {
