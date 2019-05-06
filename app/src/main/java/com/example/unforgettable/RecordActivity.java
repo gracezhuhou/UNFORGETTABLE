@@ -1,35 +1,28 @@
 package com.example.unforgettable;
 
-import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -62,12 +55,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Currency;
 
 import static android.app.Activity.RESULT_OK;
 import static cn.bmob.v3.Bmob.getApplicationContext;
-
-import com.example.unforgettable.BuildConfig;
 
 public class RecordActivity extends Fragment {
     // 前端相关变量
@@ -275,7 +265,17 @@ public class RecordActivity extends Fragment {
                             switch (which){
                                 // 选择了保存录音
                                 case 0:
-                                    //Toast.makeText(getActivity(), "请讲话", Toast.LENGTH_LONG);
+                                    Toast.makeText(getActivity(), "请讲话", Toast.LENGTH_LONG);
+                                    final Toast toast =  Toast.makeText(getActivity(), "正在录音，请讲话", Toast.LENGTH_LONG);
+                                    toast.setGravity(Gravity.CENTER,0,0);
+                                    toast.show();
+                                    //延长土司时间
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            toast.cancel();
+                                        }
+                                    },100000);
                                     // 判断录音按钮的状态，根据相应的状态处理事务
                                     soundButton.setText(R.string.wait_for);
                                     soundButton.setEnabled(false);
