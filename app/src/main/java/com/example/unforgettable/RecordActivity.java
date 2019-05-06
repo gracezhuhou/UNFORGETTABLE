@@ -248,6 +248,39 @@ public class RecordActivity extends Fragment {
             }
         });
 
+
+        iv_show_picture.setOnLongClickListener(new View.OnLongClickListener() {
+                                                       @Override
+                                                       public boolean onLongClick(View v) {
+//                                                           AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+////                                                           builder.setTitle("提升");
+////                                                           builder.setMessage("");
+//                                                           builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+//                                                               @Override
+//                                                               public void onClick(DialogInterface dialog, int which) {
+//                                                                   //删除系统缩略图
+//                                                                   getContext().getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, MediaStore.Images.Media.DATA + "=?", new String[]{path});
+//                                                                   //删除手机中图片
+//                                                                   file.delete();
+//
+//                                                                   iv_show_picture.setBackgroundResource(0);
+//                                                                   //当BackgroundResource的值设置为0的时候遇有R里面没有这个值，所以默认背景图片就不会显示了
+//                                                                   iv_show_picture.setImageBitmap(bitmap);
+//
+//                                                                   //判断是否删除成功
+//                                                                   if(iv_show_picture.getDrawable() == null){
+//                                                                       Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
+//                                                                    }
+//                                                                }
+//                                                       });
+//                                                           builder.setNegativeButton("",null);
+//                                                           builder.show();
+                                                           btdel.setVisibility(View.VISIBLE);
+                                                           btdel.bringToFront();
+                                                           return true;
+                                                       }
+                                               });
+
         //删除按钮监听
         btdel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -574,11 +607,12 @@ public class RecordActivity extends Fragment {
                         //将拍摄的照片显示出来
                         Bitmap bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imageUri));
                         iv_show_picture.setImageBitmap(bitmap);
-                        btdel.setVisibility(View.VISIBLE);
+                        //btdel.setVisibility(View.VISIBLE);
 
                         String path = Environment.getExternalStorageDirectory().getPath()+"/cardPic.jpg";
                         bitmap = getSmallBitmap(path);
                         saveImage("cardPic", bitmap);
+                        file = takePhotoImage;
 
                     }
                     catch (FileNotFoundException e){
@@ -661,7 +695,7 @@ public class RecordActivity extends Fragment {
                         Bitmap image = bundle.getParcelable("data");
                         //设置到ImageView上
                         iv_show_picture.setImageBitmap(image);
-                        btdel.setVisibility(View.VISIBLE);
+                        //btdel.setVisibility(View.VISIBLE);
                         //也可以进行一些保存、压缩等操作后上传
                         //String name = "";
 
