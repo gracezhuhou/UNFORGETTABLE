@@ -386,6 +386,7 @@ public class SetActivity extends Fragment {
                                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
                                     // 启动intent打开本地图库
+                                    // 根据路径名自动的创建一个新的空文件
                                     startActivityForResult(intent1,LOCAL_CROP);
                                 } else {
                                     Intent intent1 = new Intent(Intent.ACTION_PICK,
@@ -420,15 +421,15 @@ public class SetActivity extends Fragment {
                     // 指定输出到文件uri中
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                     // 启动intent，开始裁剪
-                    startActivityForResult(intent, CROP_PHOTO);
+//                    startActivityForResult(intent, CROP_PHOTO);
 
-//                    // 用相机返回的照片去调用剪裁也需要对Uri进行处理
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                        imageUri = FileProvider.getUriForFile(getActivity(),"com.example.unforgettable.fileprovider", takePhotoImage);
-//                        cropPhoto(imageUri);//裁剪图片
-//                    } else {
-//                        cropPhoto(Uri.fromFile(takePhotoImage));//裁剪图片
-//                    }
+                    // 用相机返回的照片去调用剪裁也需要对Uri进行处理
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        imageUri = FileProvider.getUriForFile(getActivity(),"com.example.unforgettable.fileprovider", takePhotoImage);
+                        cropPhoto(imageUri);//裁剪图片
+                    } else {
+                        cropPhoto(Uri.fromFile(takePhotoImage));//裁剪图片
+                    }
 
                     try{
                         //将拍摄的照片显示出来

@@ -89,6 +89,8 @@ public class Chart1Fragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 label = tab[pos];
                 //Toast.makeText(getActivity(), "你点击的是:"+label, Toast.LENGTH_LONG).show();
+                getAxisPoints();
+                initLineChart();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {

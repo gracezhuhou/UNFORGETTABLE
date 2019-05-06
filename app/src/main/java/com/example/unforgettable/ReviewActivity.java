@@ -8,11 +8,10 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -97,7 +96,7 @@ public class ReviewActivity extends Fragment{
 //        dbhelper.addTab("高数");
 
         //LitePal.deleteAll("memoryCardsList");
-        LitePal.deleteAll("statusSumList");
+        //LitePal.deleteAll("statusSumList");
 
         dbhelper.addStageList();
         dbhelper.deleteOldDayCards();   // 删去todayCardsList中之前的卡片

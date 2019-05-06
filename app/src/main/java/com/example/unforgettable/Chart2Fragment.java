@@ -91,6 +91,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
                 label = tab[pos];
                 //Toast.makeText(getActivity(), "你点击的是:"+tab[pos], Toast.LENGTH_LONG).show();
                 // TODO: @陈独秀
+                initView();
 
             }
             @Override
