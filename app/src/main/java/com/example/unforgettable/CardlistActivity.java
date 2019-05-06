@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 
@@ -39,12 +40,15 @@ public class CardlistActivity extends Fragment {
     // 前端相关变量
     private Spinner spinner;
     private Button card_edit;
+    private Button tab_add;
     private CardsRecyclerAdapter recyclerAdapter;
     private RecyclerView cardsRecyclerView;
     private LinearLayoutManager layoutManager;
     private TextView headline;
     private TextView content_text;
     private TextView detail_text;
+    private ConstraintLayout constraintLayout;
+    private int bt_height;
 
     // 数据库相关变量
     private Dbhelper dbhelper = new Dbhelper();
@@ -65,12 +69,15 @@ public class CardlistActivity extends Fragment {
         setSpinner();
 
         MemoryCardsList = dbhelper.getCardList();   //列表
+        card_edit = view.findViewById(R.id.card_edit);
         cardsRecyclerView = view.findViewById(R.id.cardsRecyclerView);
         layoutManager = new LinearLayoutManager(getActivity());
         cardsRecyclerView.setLayoutManager(layoutManager);
         recyclerAdapter = new CardsRecyclerAdapter(MemoryCardsList);
         cardsRecyclerView.setAdapter(recyclerAdapter);
         cardsRecyclerView.setHasFixedSize(true);
+        constraintLayout = view.findViewById(R.id.Constraint);
+        tab_add = view.findViewById(R.id.tab_add);
 
         return view;
     }
@@ -128,6 +135,13 @@ public class CardlistActivity extends Fragment {
             }
         });
 
+        //添加标签按钮
+        tab_add.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                dialog_show();
+            }
+        });
     }
 
     // 设置标签下拉菜单
@@ -146,5 +160,33 @@ public class CardlistActivity extends Fragment {
         spinner.setAdapter(adapter);
     }
 
+    //添加标签框
+    protected void dialog_show(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater factory = LayoutInflater.from(getActivity());
+        final View textEntryView = factory.inflate(R.layout.activity_tab_add, null);
 
+        builder.setTitle("添加标签");
+        builder.setView(textEntryView);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                EditText tab =  textEntryView.findViewById(R.id.ettab);
+                showDialog("标签 ："  + tab.getText().toString() );
+                dbhelper.addTab(tab.getText().toString());
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
+    }
+
+    private void showDialog(String str) {
+        new AlertDialog.Builder(getActivity())
+                .setMessage(str)
+                .show();
+    }
 }

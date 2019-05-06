@@ -19,6 +19,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -49,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     private String temp;
     private SharedPreferences pref;
     private int para;
+    private int height;
+    private int bn_height;
+    private int shortof;
 
     private int position;
 
@@ -74,9 +78,14 @@ public class MainActivity extends AppCompatActivity {
         Intent intent2 = getIntent();
         para = intent2.getIntExtra("para",0);
 
+        //获取屏幕尺寸
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        height = dm.heightPixels;
+
         initData();
         initBottomNavigation();
 
+        shortof = height - bn_height;
         setTime();
 
         if(!temp.equals("")) {
@@ -175,7 +184,14 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        // 初始化展示MessageFragment
+        if(para == 0) {
+            position = 0;
+        } else if(para == 1) {
+            position = 4;
+        }
         mBottomNavigationView.setSelectedItemId(mBottomNavigationView.getMenu().getItem(position).getItemId());
+        position = 0;
     }
 
     public void setTime() {
@@ -222,13 +238,6 @@ public class MainActivity extends AppCompatActivity {
         mFragments.add(new RecordActivity());
         mFragments.add(new StatisticActivity());
         mFragments.add(new SetActivity());
-        // 初始化展示MessageFragment
-        if(para == 0) {
-            position = 0;
-        } else if(para == 1) {
-            position = 4;
-        }
-
     };
 
     private void setFragmentPosition(int position) {
@@ -244,5 +253,4 @@ public class MainActivity extends AppCompatActivity {
         ft.show(currentFragment);
         ft.commitAllowingStateLoss();
     }
-
 }

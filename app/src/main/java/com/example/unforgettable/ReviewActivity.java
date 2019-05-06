@@ -255,14 +255,14 @@ public class ReviewActivity extends Fragment{
                 // 判断播放按钮的状态，根据相应的状态处理事务
                 audioBt.setEnabled(false);
                 Drawable.ConstantState drawableState = audioBt.getDrawable().getConstantState();
-                Drawable.ConstantState drawableState_yel = getResources().getDrawable(R.drawable.ic_star_yel).getConstantState();
+                Drawable.ConstantState drawableState_yel = getResources().getDrawable(R.drawable.ic_trumpet_yel).getConstantState();
                 if (drawableState.equals(drawableState_yel)) {
                     stopPlay();
-                    Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
+                    Drawable drawable = getResources().getDrawable(R.drawable.ic_trumpet_black);
                     audioBt.setImageDrawable(drawable);
                 } else {
                     startPlay();
-                    Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
+                    Drawable drawable = getResources().getDrawable(R.drawable.ic_trumpet_yel);
                     audioBt.setImageDrawable(drawable);
                 }
                 //mIsPlayState = !mIsPlayState;
@@ -411,7 +411,7 @@ public class ReviewActivity extends Fragment{
         } catch (IOException e) {
             Log.e(TAG, getString(R.string.e_play));
             Toast.makeText(getActivity(), "播放失败", Toast.LENGTH_SHORT).show();
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_trumpet_black);
             audioBt.setImageDrawable(drawable);
         }
         // 播放完成，改变按钮状态
@@ -420,7 +420,7 @@ public class ReviewActivity extends Fragment{
             @Override
             public void onCompletion(MediaPlayer mp) {
                 //mIsPlayState = !mIsPlayState;
-                Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
+                Drawable drawable = getResources().getDrawable(R.drawable.ic_trumpet_black);
                 audioBt.setImageDrawable(drawable);
             }
         });

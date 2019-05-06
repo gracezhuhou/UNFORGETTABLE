@@ -390,13 +390,6 @@ public class SetActivity extends Fragment {
                                 if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
                                 {
                                     ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA},1);
-                                    // 创建Intent，用于启动手机的照相机拍照
-                                    Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                                    // 指定输出到文件uri中
-                                    intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
-                                    // 启动intent开始拍照
-                                    startActivityForResult(intent, TAKE_PHOTO);
-                                    //getPicFromCamera();//调用相机
                                 } else {
                                     // 创建Intent，用于启动手机的照相机拍照
                                     Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
@@ -415,12 +408,6 @@ public class SetActivity extends Fragment {
                                 if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
                                 {
                                     ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-                                    Intent intent1 = new Intent(Intent.ACTION_PICK,
-                                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                                    // 启动intent打开本地图库
-                                    // 根据路径名自动的创建一个新的空文件
-                                    startActivityForResult(intent1,LOCAL_CROP);
                                 } else {
                                     Intent intent1 = new Intent(Intent.ACTION_PICK,
                                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

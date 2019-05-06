@@ -1,25 +1,34 @@
 package com.example.unforgettable;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.provider.MediaStore;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.unforgettable.Bmob.Bmobhelper;
 import com.example.unforgettable.LitepalTable.memoryCardsList;
 
 import java.util.List;
 
+import static android.app.AlertDialog.*;
 import static cn.bmob.v3.Bmob.getApplicationContext;
+import static org.litepal.LitePalApplication.getContext;
 
 public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdapter.ViewHolder>{
     private List<memoryCardsList> myCardsList;
@@ -31,7 +40,7 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
         private TextView content_text;
         private TextView detail_text;
         private ImageButton starButton;
-        private LinearLayout cardView;
+        private RelativeLayout cardView;
 
         public ViewHolder(View view){
             super(view);
@@ -67,16 +76,16 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
         }
 
         //点击删除按钮
-        holder.delButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                String heading = holder.headline.getText().toString();
-                myCardsList.remove(holder.getAdapterPosition());
-                notifyDataSetChanged();
-                // 数据库删除
-                dbhelper.deleteCard(heading);
-            }
-        });
+//        holder.delButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v){
+//                String heading = holder.headline.getText().toString();
+//                myCardsList.remove(holder.getAdapterPosition());
+//                notifyDataSetChanged();
+//                // 数据库删除
+//                dbhelper.deleteCard(heading);
+//            }
+//        });
 
         // 点击编辑
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +95,30 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
                 Intent intent = new Intent(v.getContext(), EditCardActivity.class);
                 intent.putExtra("heading_extra", heading);
                 v.getContext().startActivity(intent);
+            }
+        });
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder builder = new Builder(getContext());
+                builder.setTitle("确认");
+                builder.setMessage("您确定要删除这条记录吗？");
+                builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //showPopMenu(,holder.getAdapterPosition());
+                        String heading = holder.headline.getText().toString();
+                        myCardsList.remove(holder.getAdapterPosition());
+                        notifyDataSetChanged();
+                        // 数据库删除
+                        dbhelper.deleteCard(heading);
+                        Toast.makeText(getContext(), "删除成功", Toast.LENGTH_LONG).show();
+                    }
+                });
+                builder.setNegativeButton("取消",null);
+                builder.show();
+
+                return true;
             }
         });
 
