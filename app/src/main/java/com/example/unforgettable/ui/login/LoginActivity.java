@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -34,7 +35,9 @@ import org.litepal.LitePalDB;
 import java.io.File;
 
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FetchUserInfoListener;
 import cn.bmob.v3.listener.SaveListener;
 
 public class LoginActivity extends AppCompatActivity {
@@ -71,6 +74,32 @@ public class LoginActivity extends AppCompatActivity {
         if(user != null){
             Intent intent = new Intent(this, MainActivity.class);
             this.startActivity(intent);
+
+            // 更新登陆状态
+            user.login(new SaveListener<MyUser>() {
+                @Override
+                public void done(MyUser myUser, BmobException e) {
+                    if (e == null) {
+                        Log.v("Bmob", myUser.getNickname() + "登录成功");
+
+                        BmobUser.fetchUserInfo(new FetchUserInfoListener<BmobUser>() {
+                            @Override
+                            public void done(BmobUser user, BmobException e) {
+                                if (e == null) {
+                                    //final MyUser myUser = BmobUser.getCurrentUser(MyUser.class);
+                                    Log.v("Bmob", "更新用户本地缓存信息成功");
+                                } else {
+                                    Log.e("BmobError","更新用户本地缓存信息失败：" + e.getMessage());
+                                }
+                            }
+                        });
+
+                    }
+                    else {
+                        Log.e("Bmob", "登录失败，原因: ", e);
+                    }
+                }
+            });
             finish();
         }
 

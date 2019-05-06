@@ -34,7 +34,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -140,24 +139,6 @@ public class SetActivity extends Fragment {
 
         return view;
     }
-
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//    }
-//
-//    @Override
-//    public void onResume(){
-//        super.onResume();
-//        pref = getActivity().getSharedPreferences("Alert", MODE_PRIVATE);
-//        int mode = pref.getInt("background", -1);
-//        if (mode == -1) {
-//            getActivity().setTheme(R.style.AppTheme_Base_Base);
-//        }
-//        else {
-//            getActivity().setTheme(mode);
-//        }
-//    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

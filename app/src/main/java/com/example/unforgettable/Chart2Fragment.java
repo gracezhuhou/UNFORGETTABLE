@@ -91,6 +91,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
                 label = tab[pos];
                 //Toast.makeText(getActivity(), "你点击的是:"+tab[pos], Toast.LENGTH_LONG).show();
                 // TODO: @陈独秀
+                mBarChart.clear();
                 initView();
 
             }
@@ -106,6 +107,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
         super.onHiddenChanged(hidden);
         if (hidden) {
             //now invisible to user
+            mBarChart.clear();
             Log.v("学习情况", "页面隐藏");
         } else {
             //dBhelper = new Dbhelper();
@@ -118,6 +120,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
     @Override
     public void onResume(){
         super.onResume();
+        mBarChart.clear();
         //dBhelper = new Dbhelper();
         initView();
     }
@@ -264,44 +267,89 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
         //今天之后各天需背卡片数量
 
         //提取今天当前标签下的应复习卡片
-        List<stageList> todaystage = dBhelper.getStageList();
-        date.setTime(today);
-        for (int m = 0; m < todaystage.size(); m++) {
-            if (todaystage.get(m).getDate().compareTo(today) != 0 || todaystage.get(m).getTab().compareTo(label)!= 0 ) {
-                todaystage.remove(m);
-                m--;
-            }
-        }
-
-        for(int i=0;i<todaystage.size();i++){
-            if(todaystage.get(i).getRemember()!=0 || todaystage.get(i).getDim()!=0 || todaystage.get(i).getForget() != 0){
-                //今日卡片已经开始背诵
-                memory[0][30] = memory[0][30]+ todaystage.get(i).getRemember();
-                memory[1][30] = memory[1][30]+ todaystage.get(i).getDim();
-                memory[2][30] = memory[2][30]+ todaystage.get(i).getForget();
-            }
-            else if(i==todaystage.size()-1 && memory[0][30] == 0 && memory[1][30] == 0 && memory[2][30] == 0){
-                //如果今天的卡片还未开始背诵，获取今天应背卡片个数
-                memory[3][30] = dBhelper.getReciteCards().size();
-            }
-        }
-
-        date.setTime(today);
-
-        for(int i=1;i<10;i++){
-            List<memoryCardsList> memoryList = dBhelper.getCardList();
+        if(label.equals("全部")){
+            List<stageList> todaystage = dBhelper.getStageList();
             date.setTime(today);
-            date.add(Calendar.DATE, i);//i天后的日期
-            Date statisticDate = date.getTime();
-            //获取i天后当前标签应背卡片
-            for (int m = 0; m < memoryList.size(); m++) {
-                if (memoryList.get(m).getReciteDate().compareTo(statisticDate) != 0 || memoryList.get(m).getTab().compareTo(label) !=0 ) {
-                    memoryList.remove(m);
+            for (int m = 0; m < todaystage.size(); m++) {
+                if (todaystage.get(m).getDate().compareTo(today) != 0) {
+                    todaystage.remove(m);
                     m--;
                 }
             }
-            memory[3][30+i] = memoryList.size();
+
+            for(int i=0;i<todaystage.size();i++){
+                if(todaystage.get(i).getRemember()!=0 || todaystage.get(i).getDim()!=0 || todaystage.get(i).getForget() != 0){
+                    //今日卡片已经开始背诵
+                    memory[0][30] = memory[0][30]+ todaystage.get(i).getRemember();
+                    memory[1][30] = memory[1][30]+ todaystage.get(i).getDim();
+                    memory[2][30] = memory[2][30]+ todaystage.get(i).getForget();
+                }
+                else if(i==todaystage.size()-1 && memory[0][30] == 0 && memory[1][30] == 0 && memory[2][30] == 0){
+                    //如果今天的卡片还未开始背诵，获取今天应背卡片个数
+                    memory[3][30] = dBhelper.getReciteCards().size();
+                }
+            }
         }
+        else{
+            List<stageList> todaystage = dBhelper.getStageList();
+            date.setTime(today);
+            for (int m = 0; m < todaystage.size(); m++) {
+                if (todaystage.get(m).getDate().compareTo(today) != 0 || todaystage.get(m).getTab().compareTo(label) != 0) {
+                    todaystage.remove(m);
+                    m--;
+                }
+            }
+
+            for(int i=0;i<todaystage.size();i++){
+                if(todaystage.get(i).getRemember()!=0 || todaystage.get(i).getDim()!=0 || todaystage.get(i).getForget() != 0){
+                    //今日卡片已经开始背诵
+                    memory[0][30] = memory[0][30]+ todaystage.get(i).getRemember();
+                    memory[1][30] = memory[1][30]+ todaystage.get(i).getDim();
+                    memory[2][30] = memory[2][30]+ todaystage.get(i).getForget();
+                }
+                else if(i==todaystage.size()-1 && memory[0][30] == 0 && memory[1][30] == 0 && memory[2][30] == 0){
+                    //如果今天的卡片还未开始背诵，获取今天应背卡片个数
+                    memory[3][30] = dBhelper.getReciteCards().size();
+                }
+            }
+        }
+
+
+        date.setTime(today);
+
+        if(label.equals("全部")){
+            for(int i=1;i<10;i++){
+                List<memoryCardsList> memoryList = dBhelper.getCardList();
+                date.setTime(today);
+                date.add(Calendar.DATE, i);//i天后的日期
+                Date statisticDate = date.getTime();
+                //获取i天后当前标签应背卡片
+                for (int m = 0; m < memoryList.size(); m++) {
+                    if (memoryList.get(m).getReciteDate().compareTo(statisticDate) != 0) {
+                        memoryList.remove(m);
+                        m--;
+                    }
+                }
+                memory[3][30+i] = memoryList.size();
+            }
+        }
+        else {
+            for(int i=1;i<10;i++){
+                List<memoryCardsList> memoryList = dBhelper.getCardList();
+                date.setTime(today);
+                date.add(Calendar.DATE, i);//i天后的日期
+                Date statisticDate = date.getTime();
+                //获取i天后当前标签应背卡片
+                for (int m = 0; m < memoryList.size(); m++) {
+                    if (memoryList.get(m).getReciteDate().compareTo(statisticDate) != 0 || memoryList.get(m).getTab().compareTo(label) != 0) {
+                        memoryList.remove(m);
+                        m--;
+                    }
+                }
+                memory[3][30+i] = memoryList.size();
+            }
+        }
+
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
@@ -310,21 +358,23 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
             float val1 = (float) memory[0][i];
             float val2 = (float) memory[1][i];
             float val3 = (float) memory[2][i];
+            float val4 = (float)0;
 //            float mult = (50 + 1);
 //            float val1 = (float) (Math.random() * mult) + mult / 3;
 //            float val2 = (float) (Math.random() * mult) + mult / 3;
 //            float val3 = (float) (Math.random() * mult) + mult / 3;
 
-            yVals1.add(new BarEntry(i, new float[]{val1, val2, val3}));
+            yVals1.add(new BarEntry(i, new float[]{val1, val2, val3,val4}));
         }
 
         //录入今天的学习情况
         if(memory[3][30]!=0){
             //如果今天还未开始背诵
-            float val1 = (float) memory[3][30];
+            float val1 = (float) 0;
             float val2 = (float) 0;
             float val3 = (float) 0;
-            yVals1.add(new BarEntry(30, new float[]{val1, val2, val3}));
+            float val4 = (float) memory[3][30];
+            yVals1.add(new BarEntry(30, new float[]{val1, val2, val3,val4}));
 
         }
         else {
@@ -332,20 +382,22 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
             float val1 = (float) memory[0][30];
             float val2 = (float) memory[1][30];
             float val3 = (float) memory[2][30];
-            yVals1.add(new BarEntry(30, new float[]{val1, val2, val3}));
+            float val4 = (float)0;
+            yVals1.add(new BarEntry(30, new float[]{val1, val2, val3, val4}));
         }
 
         //录入今天之后的学习情况
         for (int i = 31; i < 41; i++) {
-            float val1 = (float) memory[3][i];
+            float val1 = (float) 0;
             float val2 = (float) 0;
             float val3 = (float) 0;
+            float val4 = (float)memory[3][i];
 //            float mult = (50 + 1);
 //            float val1 = (float) (Math.random() * mult) + mult / 3;
 //            float val2 = (float) (Math.random() * mult) + mult / 3;
 //            float val3 = (float) (Math.random() * mult) + mult / 3;
 
-            yVals1.add(new BarEntry(i, new float[]{val1, val2, val3}));
+            yVals1.add(new BarEntry(i, new float[]{val1, val2, val3, val4}));
         }
 
         BarDataSet set1;
@@ -358,8 +410,11 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
             mBarChart.notifyDataSetChanged();
         } else {
             set1 = new BarDataSet(yVals1, "学习情况");
-            set1.setColors(getColors());
-            set1.setStackLabels(new String[]{"忘记", "模糊", "记得"});
+//            set1.setColors(getColors());
+            //6、设置柱状图的颜色
+            set1.setColors(new int[]{Color.rgb(255, 192, 203), Color.rgb(176, 224, 230),
+                    Color.rgb(230, 230, 250), Color.rgb(220, 220, 220)});
+            set1.setStackLabels(new String[]{"忘记", "模糊", "记得", "今后每日需复习"});
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
             dataSets.add(set1);
@@ -375,7 +430,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
     }
 
     private int[] getColors() {
-        int stacksize = 3;
+        int stacksize = 4;
         //有尽可能多的颜色每项堆栈值
         int[] colors = new int[stacksize];
         for (int i = 0; i < colors.length; i++) {

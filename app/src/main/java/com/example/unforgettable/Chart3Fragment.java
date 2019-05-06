@@ -1,4 +1,4 @@
-//遗忘曲线图表
+//记忆持久度图表
 package com.example.unforgettable;
 
 import android.graphics.Color;
@@ -9,8 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.example.unforgettable.LitepalTable.stageList;
 import com.example.unforgettable.LitepalTable.tabList;
 
 import java.text.ParseException;
@@ -35,7 +38,9 @@ public class Chart3Fragment extends Fragment {
     private LineChartView lineChart;
     private List<PointValue> mPointValues0 = new ArrayList<PointValue>();
     private List<PointValue> mPointValues1 = new ArrayList<PointValue>();
-
+    private List<PointValue> mPointValues2 = new ArrayList<PointValue>();
+    private List<PointValue> mPointValues3 = new ArrayList<PointValue>();
+    private List<PointValue> mPointValues4 = new ArrayList<PointValue>();
 
     private List<AxisValue> mAxisXValues = new ArrayList<AxisValue>();
     private int index;//标签所在下标
@@ -44,7 +49,7 @@ public class Chart3Fragment extends Fragment {
 
     // 数据库相关变量
     private Dbhelper dBhelper = new Dbhelper();
-    private float [][] memory = new float [2][27];
+    private int [][] memory = new int [5][60];
     private List<tabList> tabList = dBhelper.getTabList();    //背诵卡片列表
 
     @Override
@@ -52,13 +57,20 @@ public class Chart3Fragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_chart3, container, false);
 
-//        spinner = (Spinner)view.findViewById(R.id.spinner);
+        mPointValues0.clear();
+        mPointValues1.clear();
+        mPointValues2.clear();
+        mPointValues3.clear();
+        mPointValues4.clear();
+
+        mAxisXValues.clear();
+
+        spinner = (Spinner)view.findViewById(R.id.spinner);
+        spinner.bringToFront();
         lineChart = (LineChartView)view.findViewById(R.id.chart);
         // TODO: @陈独秀
 
         // 图表
-        getAxisXLables();//获取x轴的标注
-        getAxisPoints();//获取坐标点
         initLineChart();//初始化
 
         return view;
@@ -68,29 +80,39 @@ public class Chart3Fragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // TODO: @DaiSmallEast  这里写监听事件
-//        final String []tab = new String[tabList.size()+1];
-//
-//        tab[0] = "全部";
-//
-//        for (int i=0;i<tabList.size();i++){
-//            tab[i+1] = tabList.get(i).getTabName();
-//        }
-//
-//        final ArrayAdapter<String> adpter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item ,tab);
-//        adpter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner.setAdapter(adpter);
-//
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-//                label = tab[pos];
-//                //Toast.makeText(getActivity(), "你点击的是:"+tab[pos], Toast.LENGTH_LONG).show();
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                // Another interface callback
-//            }
-//        });
+        final String []tab = new String[tabList.size()+1];
+
+        tab[0] = "全部";
+
+        for (int i=0;i<tabList.size();i++){
+            tab[i+1] = tabList.get(i).getTabName();
+        }
+
+        final ArrayAdapter<String> adpter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item ,tab);
+        adpter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adpter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                label = tab[pos];
+                //Toast.makeText(getActivity(), "你点击的是:"+label, Toast.LENGTH_LONG).show();
+                mPointValues0.clear();
+                mPointValues1.clear();
+                mPointValues2.clear();
+                mPointValues3.clear();
+                mPointValues4.clear();
+
+                mAxisXValues.clear();
+                //getAxisXLables();
+                //getAxisPoints();
+                initLineChart();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Another interface callback
+            }
+        });
 
     }
 
@@ -99,19 +121,38 @@ public class Chart3Fragment extends Fragment {
         super.onHiddenChanged(hidden);
         if (hidden) {
             //now invisible to user
-            Log.v("遗忘曲线", "页面隐藏");
+            Log.v("记忆持久度", "页面隐藏");
+            mPointValues0.clear();
+            mPointValues1.clear();
+            mPointValues2.clear();
+            mPointValues3.clear();
+            mPointValues4.clear();
+
+            mAxisXValues.clear();
+
         } else {
             dBhelper = new Dbhelper();
+            //getAxisPoints();
+            //getAxisXLables();
             initLineChart();
             //now visible to user
-            Log.v("遗忘曲线", "刷新页面");
+            Log.v("记忆持久度", "刷新页面");
         }
     }
 
     @Override
     public void onResume(){
         super.onResume();
+        mPointValues0.clear();
+        mPointValues1.clear();
+        mPointValues2.clear();
+        mPointValues3.clear();
+        mPointValues4.clear();
+        mAxisXValues.clear();
         dBhelper = new Dbhelper();
+
+        getAxisPoints();
+        getAxisXLables();
         initLineChart();
     }
 
@@ -121,17 +162,12 @@ public class Chart3Fragment extends Fragment {
 
     //设置X 轴的显示
     private void getAxisXLables() {
-        mAxisXValues.add(new AxisValue(0).setLabel("今天"));
-        mAxisXValues.add(new AxisValue(1).setLabel("明天"));
-        mAxisXValues.add(new AxisValue(2).setLabel("后天"));
-        for (int i = 3; i < 22; i++) {
-            mAxisXValues.add(new AxisValue(i).setLabel(i+"天后"));
+        for (int i = 56; i >= 0; i--) {
+            mAxisXValues.add(new AxisValue(i).setLabel((59-i)+"天前"));
         }
-        mAxisXValues.add(new AxisValue(22).setLabel("1个月后"));
-        mAxisXValues.add(new AxisValue(23).setLabel("2个月后"));
-        mAxisXValues.add(new AxisValue(24).setLabel("3个月后"));
-        mAxisXValues.add(new AxisValue(25).setLabel("半年后"));
-        mAxisXValues.add(new AxisValue(26).setLabel("1年后"));
+        mAxisXValues.add(new AxisValue(59).setLabel("今天"));
+        mAxisXValues.add(new AxisValue(58).setLabel("昨天"));
+        mAxisXValues.add(new AxisValue(57).setLabel("前天"));
     }
 
     //图表的每个点的显示
@@ -139,9 +175,9 @@ public class Chart3Fragment extends Fragment {
     private void getAxisPoints() {
 
         //memory数组初始化
-        for(int i =0;i<2;i++){
-            for(int j=0;j<27;j++){
-                memory[i][j] = 1;
+        for(int i =0;i<5;i++){
+            for(int j=0;j<60;j++){
+                memory[i][j] = 0;
             }
         }
 
@@ -151,112 +187,160 @@ public class Chart3Fragment extends Fragment {
         Calendar date = Calendar.getInstance();
         date.setTime(today);
 
-        //艾宾浩斯遗忘曲线
-        //每过i天的记忆率，设初次记忆后经过了x小时，那么记忆率y近似地满足y=1-0.56x^0.06
-        for(int i=0;i<22;i++){
-            int j = i*24;
-            memory[0][i] = 1 - (float)0.56 * (float) Math.pow(j,0.06);
+        //获取已加入记忆规划的全部背卡片数量,stage=0
+        //memory[0]记录已加入记忆规划的卡片数量
+        //获取记忆持久度>10天的全部背卡片数量,stage=3
+        //memory[1]记录记忆持久度>10天的卡片数量
+        //获取记忆持久度>30天的全部背卡片数量,stage=5
+        //memory[2]记录记忆持久度>30天的卡片数量
+        //获取记忆持久度>60天的全部背卡片数量,stage=6
+        //memory[3]记录记忆持久度>60天的卡片数量
+        //获取记忆持久度>90天的全部背卡片数量,stage=7
+        //memory[4]记录记忆持久度>90天的卡片数量
+        if(label.equals("全部")){
+            int i=0;
+            for(; i<60;i++){
+//                List<StageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(StageList.class);
+                List<stageList> stageList = dBhelper.getStageList();
+                int temp = 59-i;
+                date.setTime(today);
+                date.add(Calendar.DATE, -temp);//59-i天前的日期
+                Date statisticDate = date.getTime();
+                for (int m = 0; m < stageList.size(); m++) {
+                    if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
+                        stageList.remove(m);
+                        m--;
+                    }
+                }
+                for(int j=0;j<stageList.size();j++){
+                    stageList statistic = stageList.get(j);
+                    if(statistic.getStage0() != 0){
+                        memory[0][i] = memory[0][i]+statistic.getStage0();
+                    }
+                    if(statistic.getStage1() != 0){
+                        memory[0][i] = memory[0][i]+statistic.getStage1();
+                    }
+                    if(statistic.getStage2() != 0){
+                        memory[0][i] = memory[0][i]+statistic.getStage2();
+                    }
+                    if(statistic.getStage3() != 0){
+                        memory[0][i] = memory[0][i]+statistic.getStage3();
+                        memory[1][i] = memory[1][i]+statistic.getStage3();
+                    }
+                    if(statistic.getStage4() != 0){
+                        memory[0][i] = memory[0][i]+statistic.getStage4();
+                        memory[1][i] = memory[1][i]+statistic.getStage4();
+                    }
+                    if(statistic.getStage5() != 0){
+                        memory[0][i] = memory[0][i]+statistic.getStage5();
+                        memory[1][i] = memory[1][i]+statistic.getStage5();
+                        memory[2][i] = memory[2][i]+statistic.getStage5();
+                    }
+                    if(statistic.getStage6() != 0){
+                        memory[0][i] = memory[0][i]+statistic.getStage6();
+                        memory[1][i] = memory[1][i]+statistic.getStage6();
+                        memory[2][i] = memory[2][i]+statistic.getStage6();
+                        memory[3][i] = memory[3][i]+statistic.getStage6();
+                    }
+                    if(statistic.getStage7() != 0){
+                        memory[0][i] = memory[0][i]+statistic.getStage7();
+                        memory[1][i] = memory[1][i]+statistic.getStage7();
+                        memory[2][i] = memory[2][i]+statistic.getStage7();
+                        memory[3][i] = memory[3][i]+statistic.getStage7();
+                        memory[4][i] = memory[4][i]+statistic.getStage7();
+                    }
+                    if(statistic.getStage8() != 0){
+                        memory[0][i] = memory[0][i]+statistic.getStage8();
+                        memory[1][i] = memory[1][i]+statistic.getStage8();
+                        memory[2][i] = memory[2][i]+statistic.getStage8();
+                        memory[3][i] = memory[3][i]+statistic.getStage8();
+                        memory[4][i] = memory[4][i]+statistic.getStage8();
+                    }
+                }
+            }
         }
-        //一个月后
-        memory[0][22] = 1 - (float)0.56 * (float)Math.pow(30*24,0.06);
-        //2个月后
-        memory[0][23] = 1 - (float)0.56 * (float)Math.pow(60*24,0.06);
-        //3个月后
-        memory[0][24] = 1 - (float)0.56 * (float)Math.pow(90*24,0.06);
-        //6个月后
-        memory[0][25] = 1 - (float)0.56 * (float)Math.pow(180*24,0.06);
-        //1年后
-        memory[0][26] = 1 - (float)0.56 * (float)Math.pow(360*24,0.06);
+        else{
+            int i=0;
+            for(; i<60;i++){
+                List<stageList> stageList = dBhelper.getStageList();
+                date.setTime(today);
+                date.add(Calendar.DATE, -(59-i));//59-i天前的日期
+                Date statisticDate = date.getTime();
+                for (int m = 0; m < stageList.size(); m++) {
+                    if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
+                        stageList.remove(m);
+                        m--;
+                    }
+                }
+                for(int j=0;j<stageList.size();j++){
+                    stageList statistic = stageList.get(j);
+                    if(statistic.getTab().equals(label)){
+                        if(statistic.getStage0() != 0){
+                            memory[0][i] = memory[0][i]+statistic.getStage0();
+                        }
+                        if(statistic.getStage1() != 0){
+                            memory[0][i] = memory[0][i]+statistic.getStage1();
+                        }
+                        if(statistic.getStage2() != 0){
+                            memory[0][i] = memory[0][i]+statistic.getStage2();
+                        }
+                        if(statistic.getStage3() != 0){
+                            memory[0][i] = memory[0][i]+statistic.getStage3();
+                            memory[1][i] = memory[1][i]+statistic.getStage3();
+                        }
+                        if(statistic.getStage4() != 0){
+                            memory[0][i] = memory[0][i]+statistic.getStage4();
+                            memory[1][i] = memory[1][i]+statistic.getStage4();
+                        }
+                        if(statistic.getStage5() != 0){
+                            memory[0][i] = memory[0][i]+statistic.getStage5();
+                            memory[1][i] = memory[1][i]+statistic.getStage5();
+                            memory[2][i] = memory[2][i]+statistic.getStage5();
+                        }
+                        if(statistic.getStage6() != 0){
+                            memory[0][i] = memory[0][i]+statistic.getStage6();
+                            memory[1][i] = memory[1][i]+statistic.getStage6();
+                            memory[2][i] = memory[2][i]+statistic.getStage6();
+                            memory[3][i] = memory[3][i]+statistic.getStage6();
+                        }
+                        if(statistic.getStage7() != 0){
+                            memory[0][i] = memory[0][i]+statistic.getStage7();
+                            memory[1][i] = memory[1][i]+statistic.getStage7();
+                            memory[2][i] = memory[2][i]+statistic.getStage7();
+                            memory[3][i] = memory[3][i]+statistic.getStage7();
+                            memory[4][i] = memory[4][i]+statistic.getStage7();
+                        }
+                        if(statistic.getStage8() != 0){
+                            memory[0][i] = memory[0][i]+statistic.getStage8();
+                            memory[1][i] = memory[1][i]+statistic.getStage8();
+                            memory[2][i] = memory[2][i]+statistic.getStage8();
+                            memory[3][i] = memory[3][i]+statistic.getStage8();
+                            memory[4][i] = memory[4][i]+statistic.getStage8();
+                        }
 
-        //用户遗忘曲线
- //       memory[1][0] = 1;
-        //获取用户今天的背诵记录比例
-//        List<StageList> stageList = dBhelper.getStageList();
-//        for(int m=0;m<stageList.size();m++){
-//            if (stageList.get(m).getDate().compareTo(today) != 0) {
-//                stageList.remove(m);
-//                m--;
-//            }
-//        }
-//        int remember = 0;
-//        int dim = 0;
-//        int forget = 0;
-//        for(int j=0;j<stageList.size();j++){
-//            remember = remember + stageList.get(j).getRemember();
-//            dim = dim + stageList.get(j).getDim();
-//            forget = forget + stageList.get(j).getForget();
-//        }
-//
-//        float rate = (float) ((forget+0.5*dim)/(remember+dim+forget));
-//        memory[1][1] = memory[1][0]-rate;
-//
-//        for(int i=2;i<22;i++){//1天后~21天后的遗忘曲线
-//            List<MemoryCardsList> memoryList = dBhelper.getReciteCards();
-//
-//            //获取未来背诵日期与记录日期相隔为i天的应背卡片
-//            for(int m=0;m<memoryList.size();m++){
-//                if (getGapCount(memoryList.get(m).getRecordDate(),memoryList.get(m).getReciteDate()) != i) {
-//                    memoryList.remove(m);
-//                    m--;
-//                }
-//            }
-//            for(int n=0;n<memoryList.size();n++){
-//
-//            }
-//
-//        }
-
-        //用户遗忘曲线
-        for(int i=0;i<27;i++){
-
-            int remember = 0;
-            int dim = 0;
-            int forget = 0;
-            int span = 0;
-
-            if(i<22){span = i;}
-            else if(i == 22) span = 30;
-            else if(i == 23) span = 60;
-            else if(i == 24) span = 90;
-            else if(i == 25) span = 180;
-            else span = 360;
-
-            if(dBhelper.findStatusRow(span) == null){
-                remember = 0;
-                dim = 0;
-                forget = 0;
+                    }
+                }
             }
-            else{
-                remember = dBhelper.findStatusRow(span).getRememberSum();
-                dim = dBhelper.findStatusRow(span).getDimSum();
-                forget = dBhelper.findStatusRow(span).getForgetSum();
-            }
-
-            int sum = remember+dim+forget;
-            if(sum == 0){
-                //若数据库无数据明细，则用户记忆曲线默认为艾宾浩斯曲线
-                memory[1][i] = memory[0][i];
-            }
-            else {
-                float temp = (float) ((remember + (0.5 * dim)) / (remember + dim + forget));
-                memory[1][i] = 1-temp;
-            }
-
         }
 
-        for (int i = 0; i < 27; i++) {
-            mPointValues0.add(new PointValue((float) i, memory[0][i]));
-            mPointValues1.add(new PointValue((float) i, memory[1][i]));
+        for (int i = 0; i < 60; i++) {
+            mPointValues0.add(new PointValue(i, memory[0][i]));//已加入记忆规划的全部卡片
+            mPointValues1.add(new PointValue(i, memory[1][i]));//记忆持久度>10天的卡片数量
+            mPointValues2.add(new PointValue(i, memory[2][i]));//记忆持久度>30天的卡片数量
+            mPointValues3.add(new PointValue(i, memory[3][i]));//记忆持久度>60天的卡片数量
+            mPointValues4.add(new PointValue(i, memory[4][i]));//记忆持久度>90天的卡片数量
         }
     }
 
     private void initLineChart() {
+        getAxisXLables();//获取x轴的标注
+        getAxisPoints();//获取坐标点
 
         List<Line> lines = new ArrayList<Line>();
         if(!mPointValues0.isEmpty()){
-            Line line0 = new Line(mPointValues0).setColor(Color.parseColor("#B0E0E6"));  //折线的颜色（橙色）
+            Line line0 = new Line(mPointValues0).setColor(Color.parseColor("#AFEEEE"));  //折线的颜色（苍宝石绿）
             line0.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
-            line0.setCubic(true);//曲线是否平滑，即是曲线还是折线
+            line0.setCubic(false);//曲线是否平滑，即是曲线还是折线
             line0.setFilled(false);//是否填充曲线的面积
             line0.setHasLabels(false);//曲线的数据坐标是否加上备注
 //      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
@@ -269,7 +353,7 @@ public class Chart3Fragment extends Fragment {
         if(!mPointValues1.isEmpty()){
             Line line1 = new Line(mPointValues1).setColor(Color.parseColor("#ffe4e1"));  //折线的颜色（浅玫瑰色）
             line1.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
-            line1.setCubic(true);//曲线是否平滑，即是曲线还是折线
+            line1.setCubic(false);//曲线是否平滑，即是曲线还是折线
             line1.setFilled(false);//是否填充曲线的面积
             line1.setHasLabels(false);//曲线的数据坐标是否加上备注
 //      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
@@ -279,6 +363,47 @@ public class Chart3Fragment extends Fragment {
             lines.add(line1);
         }
 
+        if(!mPointValues2.isEmpty()){
+            Line line2 = new Line(mPointValues2).setColor(Color.parseColor("#f0ffff"));  //折线的颜色（天蓝色）
+            line2.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
+            line2.setCubic(false);//曲线是否平滑，即是曲线还是折线
+            line2.setFilled(false);//是否填充曲线的面积
+            line2.setHasLabels(false);//曲线的数据坐标是否加上备注
+//      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
+            line2.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
+            line2.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
+
+            lines.add(line2);
+
+        }
+
+        if(!mPointValues3.isEmpty()){
+            Line line3 = new Line(mPointValues3).setColor(Color.parseColor("#f08080"));  //折线的颜色（珊瑚色）
+            line3.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
+            line3.setCubic(false);//曲线是否平滑，即是曲线还是折线
+            line3.setFilled(false);//是否填充曲线的面积
+            line3.setHasLabels(false);//曲线的数据坐标是否加上备注
+//      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
+            line3.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
+            line3.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
+
+            lines.add(line3);
+        }
+
+        if(!mPointValues4.isEmpty()){
+            Line line4 = new Line(mPointValues4).setColor(Color.parseColor("#e6e6fa"));  //折线的颜色（淡紫色）
+            line4.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
+            line4.setCubic(false);//曲线是否平滑，即是曲线还是折线
+            line4.setFilled(false);//是否填充曲线的面积
+            line4.setHasLabels(false);//曲线的数据坐标是否加上备注
+//      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
+            line4.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
+            line4.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
+
+            lines.add(line4);
+
+        }
+
         LineChartData data = new LineChartData();
         data.setLines(lines);
 
@@ -286,7 +411,7 @@ public class Chart3Fragment extends Fragment {
         Axis axisX = new Axis(); //X轴
         axisX.setHasTiltedLabels(false);  //X坐标轴字体是斜的显示还是直的，true是斜的显示
         axisX.setTextColor(Color.GRAY);  //设置字体颜色
-        axisX.setName("遗忘曲线");  //表格名称
+        axisX.setName("记忆持久度");  //表格名称
         axisX.setTextSize(5);//设置字体大小
         //axisX.setMaxLabelChars(60); //最多几个X轴坐标，意思就是你的缩放让X轴上数据的个数7<=x<=mAxisXValues.length
         axisX.setValues(mAxisXValues);  //填充X轴的坐标名称
@@ -298,7 +423,6 @@ public class Chart3Fragment extends Fragment {
         Axis axisY = new Axis();  //Y轴
         axisY.setName("数量");//y轴标注
         axisY.setTextSize(5);//设置字体大小
-        //axisX.setMaxLabelChars(10);
         data.setAxisYLeft(axisY);  //Y轴设置在左边
         //data.setAxisYRight(axisY);  //y轴设置在右边
 
@@ -316,6 +440,7 @@ public class Chart3Fragment extends Fragment {
          v.left = 0;
          v.right = 3;
          lineChart.setCurrentViewport(v);*/
+        lineChart.invalidate();
     }
 
     /**
