@@ -185,8 +185,11 @@ public class RecordActivity extends Fragment {
             public void onClick(View v) {
                 getInput(); //获取用户输入内容
 
-                // TODO: 选择标签
-                tab = "英语"; //暂时
+                // 选择标签
+                if (typeButton.getText() == "标签") {
+                    tab = "";
+                }
+                else tab = typeButton.getText().toString();
 
                 //添加记录
                 if (dbhelper.addCard(source, author, heading, content, like, tab, isAudio)) {
@@ -199,18 +202,8 @@ public class RecordActivity extends Fragment {
                     }
 
                     // TODO: 清空页面
-                    sourceInput.setText("");
-                    authorInput.setText("");
-                    headingInput.setText("");
-                    contentInput.setText("");
-                    iv_show_picture.setImageBitmap(null);
-                    playButton.setVisibility(View.INVISIBLE);
-                    String picPath = Environment.getExternalStorageDirectory().getPath() + "/cardPic.jpg";
-                    File picFile = new File(picPath);
-                    if (picFile.exists()){
-                        picFile.delete();
-                    }
-                    isAudio = false;
+                    clearAll();
+
                 }
             }
         });
@@ -328,22 +321,7 @@ public class RecordActivity extends Fragment {
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sourceInput.setText("");
-                authorInput.setText("");
-                headingInput.setText("");
-                contentInput.setText("");
-                iv_show_picture.setImageBitmap(null);
-                playButton.setVisibility(View.INVISIBLE);
-                String picPath = Environment.getExternalStorageDirectory().getPath() + "/cardPic.jpg";
-                File audioFile = new File(mFileName);
-                File picFile = new File(picPath);
-                if (picFile.exists()){
-                    picFile.delete();
-                }
-                if (audioFile.exists()){
-                    audioFile.delete();
-                }
-                isAudio = false;
+                clearAll();
             }
         });
 
@@ -1002,6 +980,28 @@ public class RecordActivity extends Fragment {
             Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    void clearAll(){
+        sourceInput.setText("");
+        authorInput.setText("");
+        headingInput.setText("");
+        contentInput.setText("");
+        iv_show_picture.setImageBitmap(null);
+        playButton.setVisibility(View.INVISIBLE);
+        String picPath = Environment.getExternalStorageDirectory().getPath() + "/cardPic.jpg";
+        File picFile = new File(picPath);
+        if (picFile.exists()){
+            picFile.delete();
+        }
+        isAudio = false;
+        File audioFile = new File(mFileName);
+        if (audioFile.exists()){
+            audioFile.delete();
+        }
+        typeButton.setText("标签");
+        Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
+        starButton.setImageDrawable(drawable);
     }
 }
 

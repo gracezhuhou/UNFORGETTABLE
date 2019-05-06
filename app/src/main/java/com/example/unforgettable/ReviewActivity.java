@@ -278,10 +278,11 @@ public class ReviewActivity extends Fragment{
         // 获取所有标签
         List<tabList> tapList = dbhelper.getTabList();
         int size = tapList.size();
-        tab = new String[size + 1];
+        tab = new String[size + 2];
         tab[0] = "全部";
+        tab[1] = "未分类";
         for (int i = 0; i < size; ++i){
-            tab[i + 1] = tapList.get(i).getTabName();
+            tab[i + 2] = tapList.get(i).getTabName();
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item , tab);  //创建一个数组适配器

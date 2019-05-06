@@ -114,6 +114,7 @@ public class TablistActivity extends AppCompatActivity {
                 showDialog("标签 ："  + tabText.getText().toString() );
                 dbhelper.addTab(tabText.getText().toString());
 
+
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -123,6 +124,8 @@ public class TablistActivity extends AppCompatActivity {
         });
 
         builder.show();
+
+
     }
 
     private void showDialog(String str) {
