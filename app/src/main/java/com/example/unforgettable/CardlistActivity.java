@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 
@@ -46,6 +47,8 @@ public class CardlistActivity extends Fragment {
     private TextView headline;
     private TextView content_text;
     private TextView detail_text;
+    private ConstraintLayout constraintLayout;
+    private int bt_height;
 
     // 数据库相关变量
     private Dbhelper dbhelper = new Dbhelper();
@@ -66,15 +69,15 @@ public class CardlistActivity extends Fragment {
         setSpinner();
 
         MemoryCardsList = dbhelper.getCardList();   //列表
+        card_edit = view.findViewById(R.id.card_edit);
         cardsRecyclerView = view.findViewById(R.id.cardsRecyclerView);
         layoutManager = new LinearLayoutManager(getActivity());
         cardsRecyclerView.setLayoutManager(layoutManager);
         recyclerAdapter = new CardsRecyclerAdapter(MemoryCardsList);
         cardsRecyclerView.setAdapter(recyclerAdapter);
         cardsRecyclerView.setHasFixedSize(true);
-
+        constraintLayout = view.findViewById(R.id.Constraint);
         tab_add = view.findViewById(R.id.tab_add);
-
 
         return view;
     }

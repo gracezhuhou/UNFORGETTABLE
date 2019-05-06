@@ -10,7 +10,7 @@
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="@dimen/dp_70"
-        android:layout_height="@dimen/dp_40"
+        android:layout_height="@dimen/dp_30"
         android:layout_marginTop="@dimen/dp_8"
         android:background="@drawable/spinner_border"
         android:entries="@array/reviewtType"
@@ -208,7 +208,7 @@
         android:id="@+id/audioButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_star_black"
+        android:src="@drawable/ic_trumpet_black"
         app:layout_constraintEnd_toEndOf="@+id/contentText"
         app:layout_constraintTop_toTopOf="@+id/remindButton" />
 
