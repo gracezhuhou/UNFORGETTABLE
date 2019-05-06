@@ -75,6 +75,7 @@ public class RecordActivity extends Fragment {
     private ImageButton starButton;
     private Button playButton;
     private EditText contentInput;
+    private Button clearButton;
     private ProgressBar loading;
 
     // 数据库相关变量
@@ -94,6 +95,7 @@ public class RecordActivity extends Fragment {
     private String mFileName = null;// 录音存储路径
     private String TAG = getClass().getSimpleName();
     private boolean isAudio = false;
+    private boolean isReadFinish = true;
 
 
     //拍照相关变量
@@ -149,6 +151,7 @@ public class RecordActivity extends Fragment {
         iv_show_picture = view.findViewById(R.id.iv_show_picture);
         btdel = view.findViewById(R.id.bt_del);
         loading = view.findViewById(R.id.loading);
+        clearButton = view.findViewById(R.id.clearButton);
 
         playButton.setVisibility(View.INVISIBLE);
         if(iv_show_picture.getDrawable() == null){
@@ -193,39 +196,6 @@ public class RecordActivity extends Fragment {
                         File newfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), fileName);
                         // 文件重命名
                         audioFile.renameTo(newfile);
-
-//                        String newFileName = getActivity().getFilesDir() + "/" + heading + ".3gp";
-//                        FileWriter fw = null;
-//                        FileReader fr = null;
-//                        try {
-//                            fr = new FileReader(mFileName);//读
-//                            fw = new FileWriter(newFileName);//写
-//                            char[] buf = new char[1024];//缓冲区
-//                            int len;
-//                            while ((len = fr.read(buf)) != -1) {
-//                                fw.write(buf, 0, len);//读几个写几个
-//                            }
-//                        } catch (IOException e) {
-//                            System.out.println(e.getMessage());
-//                        } finally {
-//                            if (fr != null) {
-//                                try {
-//                                    fr.close();
-//                                } catch (IOException e) {
-//                                    System.out.println(e.getMessage());
-//                                }
-//                            }
-//
-//                            if (fw != null) {
-//                                try {
-//                                    fw.flush();
-//                                    fw.close();
-//                                } catch (IOException e) {
-//                                    System.out.println(e.getMessage());
-//                                }
-//                            }
-//                        }
-
                     }
 
                     // TODO: 清空页面
@@ -235,7 +205,12 @@ public class RecordActivity extends Fragment {
                     contentInput.setText("");
                     iv_show_picture.setImageBitmap(null);
                     playButton.setVisibility(View.INVISIBLE);
-                    if (file != null) deletePic();
+                    String picPath = Environment.getExternalStorageDirectory().getPath() + "/cardPic.jpg";
+                    File picFile = new File(picPath);
+                    if (picFile.exists()){
+                        picFile.delete();
+                    }
+                    isAudio = false;
                 }
             }
         });
@@ -347,6 +322,29 @@ public class RecordActivity extends Fragment {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(),TablistActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        // 清空按钮
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sourceInput.setText("");
+                authorInput.setText("");
+                headingInput.setText("");
+                contentInput.setText("");
+                iv_show_picture.setImageBitmap(null);
+                playButton.setVisibility(View.INVISIBLE);
+                String picPath = Environment.getExternalStorageDirectory().getPath() + "/cardPic.jpg";
+                File audioFile = new File(mFileName);
+                File picFile = new File(picPath);
+                if (picFile.exists()){
+                    picFile.delete();
+                }
+                if (audioFile.exists()){
+                    audioFile.delete();
+                }
+                isAudio = false;
             }
         });
 
@@ -870,11 +868,13 @@ public class RecordActivity extends Fragment {
                 // json格式返回字符串
 //                listener.onResult(result.getJsonRes());
                 Toast.makeText(getActivity(),"文字识别完成", Toast.LENGTH_SHORT).show();
+                isReadFinish = true;
             }
             @Override
             public void onError(OCRError error) {
                 // 调用失败，返回OCRError对象
                 Toast.makeText(getActivity(),"无法识别文字", Toast.LENGTH_SHORT).show();
+                isReadFinish = true;
             }
         });
     }

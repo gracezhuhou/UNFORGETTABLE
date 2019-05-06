@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.unforgettable.LitepalTable.memoryCardsList;
 import com.example.unforgettable.LitepalTable.stageList;
@@ -17,6 +18,8 @@ import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static cn.bmob.v3.Bmob.getApplicationContext;
 
 
 // 用于数据库增删改查等操作
@@ -55,10 +58,14 @@ public class Dbhelper {
     boolean addCard(String source, String author, String heading, String content, boolean like, String tab, boolean isAudio){
         // 不可重复Heading
         if (LitePal.where("heading = ?", heading).find(memoryCardsList.class).size() != 0){
+            Toast.makeText(getApplicationContext(),"标题不可重复", Toast.LENGTH_SHORT).show();
             return false;
         };
         // Heading不可为空
-        if (heading.equals("") || content.equals(""))  return false;
+        if (heading.equals("")) {
+            Toast.makeText(getApplicationContext(),"标题不可为空", Toast.LENGTH_SHORT).show();
+            return false;
+        }
 
 
         //获取图片

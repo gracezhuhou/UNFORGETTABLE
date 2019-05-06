@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,11 @@ import com.example.unforgettable.MainActivity;
 import com.example.unforgettable.Bmob.MyUser;
 import com.example.unforgettable.R;
 import com.example.unforgettable.RegisterActivity;
+
+import org.litepal.LitePal;
+import org.litepal.LitePalDB;
+
+import java.io.File;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.exception.BmobException;
@@ -152,6 +158,33 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"请至" + myUser.getEmail() + "邮箱中进行激活",Toast.LENGTH_LONG).show();
                                 return;
                             }
+
+                            // 删除前登陆用户的数据
+                            String cardPicPath = Environment.getExternalStorageDirectory().getPath() + "/cardPic.jpg";
+                            String userPicPath = Environment.getExternalStorageDirectory().getPath() + "/userPic.jpg";
+                            String audioPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/audio.3gp";
+                            String databasePath = "data/data/com.example.unforgettable/databases/MemoryCards.db";
+                            File cardPicFile = new File(cardPicPath);
+                            File audioFile = new File(audioPath);
+                            File userPicFile = new File(userPicPath);
+                            File databaseFile = new File(databasePath);
+                            if (cardPicFile.exists()){
+                                cardPicFile.delete();
+                            }
+                            if (audioFile.exists()){
+                                audioFile.delete();
+                            }
+                            if (userPicFile.exists()){
+                                userPicFile.delete();
+                            }
+                            if (databaseFile.exists()){
+                                databaseFile.delete();
+                                LitePal.getDatabase();
+                                //动态创建数据库 避免SD卡删除数据库文件 造成的CRUD报错
+                                LitePalDB litePalDB = LitePalDB.fromDefault("MemoryCards");
+                                LitePal.use(litePalDB);
+                            }
+
                             // 下载database
                             Bmobhelper bmobhelper = new Bmobhelper();
                             bmobhelper.download();  // 同步云端数据
@@ -162,6 +195,9 @@ public class LoginActivity extends AppCompatActivity {
                         else {
                             Log.e("Bmob", "登录失败，原因: ", e);
                             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                            loadingProgressBar.setVisibility(View.INVISIBLE);
+                            usernameEditText.setText("");
+                            passwordEditText.setText("");
                         }
                     }
                 });

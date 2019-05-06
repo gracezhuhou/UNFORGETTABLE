@@ -129,8 +129,6 @@ public class Bmobhelper {
                     //动态创建数据库 避免SD卡删除数据库文件 造成的CRUD报错
                     LitePalDB litePalDB = LitePalDB.fromDefault("MemoryCards");
                     LitePal.use(litePalDB);
-                    Dbhelper db = new Dbhelper();
-                    List<memoryCardsList> a = db.getCardList();
 
                 }else{
                     Toast.makeText(getApplicationContext(), "下载失败", Toast.LENGTH_SHORT).show();
