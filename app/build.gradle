@@ -69,4 +69,8 @@ dependencies {
     //MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.0'
 
+//    implementation 'com.wgd.gdcp.gdcplibrary:ImageCompress:1.0.10'
+
+    implementation 'com.github.chenxkang:MCompressor:1.0.4'
+
 }

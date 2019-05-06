@@ -1,25 +1,21 @@
 package com.example.unforgettable;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -29,19 +25,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.util.Base64;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
+
 import com.example.unforgettable.Bmob.Bmobhelper;
 import com.example.unforgettable.Bmob.MyUser;
 import com.example.unforgettable.data.LoginDataSource;
@@ -49,34 +45,17 @@ import com.example.unforgettable.data.LoginRepository;
 import com.example.unforgettable.ui.login.LoginActivity;
 import com.squareup.picasso.Picasso;
 
-import android.view.WindowManager;
-import android.widget.CompoundButton;
-import android.widget.RelativeLayout;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
-
-import org.litepal.LitePal;
-import org.w3c.dom.Text;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.datatype.BmobFile;
-
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
-import static android.content.Context.NOTIFICATION_SERVICE;
-import static android.content.Context.ALARM_SERVICE;
+import static com.baidu.ocr.sdk.utils.ImageUtil.calculateInSampleSize;
 
 
 public class SetActivity extends Fragment {
@@ -457,6 +436,22 @@ public class SetActivity extends Fragment {
                         userPic.setImageBitmap(bitmap);
 
                         // todo:
+                        String path = Environment.getExternalStorageDirectory().getPath()+"/userPic.jpg";
+
+                        bitmap = getSmallBitmap(path);
+//                        MCompressor.from()
+//                                .compressFormat(Bitmap.CompressFormat.JPEG)
+//                                .quality(80)
+//                                .greaterThan(500, CompressUnit.KB)
+//                                .fromFilePath(path)
+//                                .toFilePath(path)
+//                                .compress();
+
+//                        bitmap = compressImage(bitmap);
+//                        File file = new File(path);
+//                        qualityCompress(bitmap,file);
+
+
                         saveImage("userPic", bitmap);
                         bmobhelper.uploadPic();
                     }
@@ -553,5 +548,114 @@ public class SetActivity extends Fragment {
         }
         return null;
     }
+
+//    //质量压缩
+//    public static void compressBmpToFile(Bitmap bmp,File file){
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        int options = 80;
+//        bmp.compress(Bitmap.CompressFormat.JPEG,options,baos);
+//        while(baos.toByteArray().length/1024>100){
+//            baos.reset();
+//            options -= 10;
+//            bmp.compress(Bitmap.CompressFormat.JPEG,options,baos);
+//        }
+//        try{
+//            FileOutputStream fos = new FileOutputStream(file);
+//            fos.write(baos.toByteArray());
+//            fos.flush();
+//            fos.close();
+//        }
+//        catch(Exception e){
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    //尺寸压缩
+//    private Bitmap sizeCompress(String path, int rqsW, int rqsH) {
+//        // 用option设置返回的bitmap对象的一些属性参数
+//        final BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inJustDecodeBounds = true;// 设置仅读取Bitmap的宽高而不读取内容
+//        BitmapFactory.decodeFile(path, options);// 获取到图片的宽高，放在option里边
+//        final int height = options.outHeight;//图片的高度放在option里的outHeight属性中
+//        final int width = options.outWidth;
+//        int inSampleSize = 1;
+//        if (rqsW == 0 || rqsH == 0) {
+//            options.inSampleSize = 1;
+//        } else if (height > rqsH || width > rqsW) {
+//            final int heightRatio = Math.round((float) height / (float) rqsH);
+//            final int widthRatio = Math.round((float) width / (float) rqsW);
+//            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+//            options.inSampleSize = inSampleSize;
+//        }
+//        return BitmapFactory.decodeFile(path, options);// 主要通过option里的inSampleSize对原图片进行按比例压缩
+//    }
+//
+//    /**
+//     * 质量压缩方法
+//     *
+//     * @param image
+//     * @return
+//     */
+//    public static Bitmap compressImage(Bitmap image) {
+//
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+//        int options = 100;
+//        while (baos.toByteArray().length / 1024 > 100) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+//            baos.reset();//重置baos即清空baos
+//            //第一个参数 ：图片格式 ，第二个参数： 图片质量，100为最高，0为最差  ，第三个参数：保存压缩后的数据的流
+//            image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+//            options -= 10;//每次都减少10
+//        }
+//        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
+//        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
+//        return bitmap;
+//    }
+
+
+//    /**
+//     * 质量压缩
+//     * 设置bitmap options属性，降低图片的质量，像素不会减少
+//     * 第一个参数为需要压缩的bitmap图片对象，第二个参数为压缩后图片保存的位置
+//     * 设置options 属性0-100，来实现压缩
+//     *
+//     * @param bmp
+//     * @param file
+//     */ public static void qualityCompress(Bitmap bmp, File file) {
+//        // 0-100 100为不压缩
+//        int quality = 20;
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        // 把压缩后的数据存放到baos中
+//        bmp.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+//        try {
+//            FileOutputStream fos = new FileOutputStream(file);
+//            fos.write(baos.toByteArray());
+//            fos.flush();
+//            fos.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    /**
+     * 根据路径获得图片并压缩返回bitmap用于显示
+     *
+     * @param filePath
+     * @return
+     */
+    public static Bitmap getSmallBitmap(String filePath) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(filePath, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, 480, 800);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+
+        return BitmapFactory.decodeFile(filePath, options);
+    }
+
 
 }
