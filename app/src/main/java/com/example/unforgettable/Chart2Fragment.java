@@ -223,7 +223,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
 //          List<stageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(stageList.class);
                 List<stageList> stageList = dBhelper.getStageList();
                 date.setTime(today);
-                date.add(Calendar.DATE, -i);//i天前的日期
+                date.add(Calendar.DATE, -(30-i));//30-i天前的日期
                 Date statisticDate = date.getTime();
                 for (int m = 0; m < stageList.size(); m++) {
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
@@ -243,7 +243,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
             for(int i=0; i<30;i++){
                 List<stageList> stageList = dBhelper.getStageList();
                 date.setTime(today);
-                date.add(Calendar.DATE, -i);//i天前的日期
+                date.add(Calendar.DATE, -(30-i));//30-i天前的日期
                 Date statisticDate = date.getTime();
                 for (int m = 0; m < stageList.size(); m++) {
                     if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
