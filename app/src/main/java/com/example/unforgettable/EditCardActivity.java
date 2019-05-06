@@ -1,6 +1,7 @@
 package com.example.unforgettable;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -39,10 +40,19 @@ public class EditCardActivity extends AppCompatActivity {
     private String content; // 背面 内容
     private boolean like = false;   // 收藏
     private String tab;     // 标签
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pref = getSharedPreferences("Alert", MODE_PRIVATE);
+        int mode = pref.getInt("background", -1);
+        if (mode == -1) {
+            setTheme(R.style.AppTheme_Base_Base);
+        }
+        else {
+            setTheme(mode);
+        }
         setContentView(R.layout.activity_editcard);
 
         //设置id

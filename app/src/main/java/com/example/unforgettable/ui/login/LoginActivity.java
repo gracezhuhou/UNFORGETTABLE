@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -39,10 +40,19 @@ import cn.bmob.v3.listener.SaveListener;
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+    private SharedPreferences pref;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pref = getSharedPreferences("Alert", MODE_PRIVATE);
+        int mode = pref.getInt("background", -1);
+        if (mode == -1) {
+            setTheme(R.style.AppTheme_Base_Base);
+        }
+        else {
+            setTheme(mode);
+        }
         setContentView(R.layout.activity_login);
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);

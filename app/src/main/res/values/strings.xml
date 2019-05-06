@@ -25,5 +25,6 @@
     <string name="no_sd">SD卡找不到！</string>
     <string name="e_recording">录音准备出现异常！</string>
     <string name="e_play">播放失败!</string>
+    <string name="title_activity_appearance_change">AppearanceChange</string>
 
 </resources>

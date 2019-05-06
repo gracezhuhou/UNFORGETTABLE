@@ -48,17 +48,31 @@ public class MainActivity extends AppCompatActivity {
     private int minute;
     private String temp;
     private SharedPreferences pref;
+    private int para;
 
+    private int position;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        pref = getSharedPreferences("Alert", MODE_PRIVATE);
+        int mode = pref.getInt("background", -1);
+        if (mode == -1) {
+            setTheme(R.style.AppTheme_Base_Base);
+        }
+        else {
+            setTheme(mode);
+        }
         setContentView(R.layout.activity_main);
 
         // bmob初始化
         Bmob.initialize(this, "fff6417ec19cdbd68fa74e7d3860ad8c");
 
+
+        Intent intent2 = getIntent();
+        para = intent2.getIntExtra("para",0);
 
         initData();
         initBottomNavigation();
@@ -161,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        mBottomNavigationView.setSelectedItemId(mBottomNavigationView.getMenu().getItem(position).getItemId());
     }
 
     public void setTime() {
@@ -208,7 +223,12 @@ public class MainActivity extends AppCompatActivity {
         mFragments.add(new StatisticActivity());
         mFragments.add(new SetActivity());
         // 初始化展示MessageFragment
-        setFragmentPosition(0);
+        if(para == 0) {
+            position = 0;
+        } else if(para == 1) {
+            position = 4;
+        }
+
     };
 
     private void setFragmentPosition(int position) {
@@ -224,4 +244,5 @@ public class MainActivity extends AppCompatActivity {
         ft.show(currentFragment);
         ft.commitAllowingStateLoss();
     }
+
 }

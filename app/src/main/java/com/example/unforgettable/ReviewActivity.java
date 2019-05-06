@@ -108,26 +108,26 @@ public class ReviewActivity extends Fragment{
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (hidden) {
-            //now invisible to user
-            Log.v("复习界面", "页面隐藏");
-        } else {
+        public void onHiddenChanged(boolean hidden) {
+            super.onHiddenChanged(hidden);
+            if (hidden) {
+                //now invisible to user
+                Log.v("复习界面", "页面隐藏");
+            } else {
+                //LitePal.initialize(this.getActivity());
+                //dbhelper = new Dbhelper();
+                init();
+                //now visible to user
+                Log.v("复习界面", "刷新页面");
+            }
+        }
+
+        @Override
+        public void onResume(){
+            super.onResume();
             //LitePal.initialize(this.getActivity());
             //dbhelper = new Dbhelper();
             init();
-            //now visible to user
-            Log.v("复习界面", "刷新页面");
-        }
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        //LitePal.initialize(this.getActivity());
-        //dbhelper = new Dbhelper();
-        init();
     }
 
 
