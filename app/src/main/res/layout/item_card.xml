@@ -1,46 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentRight="true"
+    android:layout_marginLeft="@dimen/dp_10"
+    android:layout_marginRight="@dimen/dp_10"
+    android:background="@drawable/pictureframe">
 
     <TextView
-    android:id="@+id/headline"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="标题" />
+        android:id="@+id/headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/dp_20"
+        android:text="标题"
+        android:textSize="20sp"/>
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="wrap_content"
+        android:layout_height="0.5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@color/black"
+        android:layout_below="@+id/headline"/>
 
     <TextView
         android:id="@+id/content_text"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="内容" />
+        android:text="内容"
+        android:textSize="16sp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_below="@+id/view1"
+        android:layout_marginTop="@dimen/dp_10"/>
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="wrap_content"
+        android:layout_height="0.5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@color/black"
+        android:layout_below="@+id/content_text"/>
 
     <TextView
         android:id="@+id/detail_text"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="重复次数" />
+        android:text="重复次数"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_below="@+id/view2"
+        android:layout_marginTop="@dimen/dp_10"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+    <ImageButton
+        android:id="@+id/starButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_star_black"
+        android:background="@color/transparent"
+        android:layout_below="@id/view2"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginBottom="@dimen/dp_20"/>
 
-        <ImageButton
-            android:id="@+id/starButton"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/ic_star_black"/>
-        <Button
-            android:id="@+id/delButton"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="删除" />
-    </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_below="@+id/detail_text">-->
+        <!--<Button-->
+            <!--android:id="@+id/delButton"-->
+            <!--android:layout_width="180dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="删除" />-->
+    <!--</LinearLayout>-->
 
-</LinearLayout>
+</RelativeLayout>
 

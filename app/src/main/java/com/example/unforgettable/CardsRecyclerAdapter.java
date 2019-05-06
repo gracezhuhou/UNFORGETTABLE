@@ -38,7 +38,7 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
             headline = view.findViewById(R.id.headline);
             content_text = view.findViewById(R.id.content_text);
             detail_text = view.findViewById(R.id.detail_text);
-            delButton = view.findViewById(R.id.delButton);
+            //delButton = view.findViewById(R.id.delButton);
             cardView = view.findViewById(R.id.cardView);
             starButton = view.findViewById(R.id.starButton);
         }
