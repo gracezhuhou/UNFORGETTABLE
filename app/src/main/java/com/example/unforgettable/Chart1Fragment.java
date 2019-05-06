@@ -58,6 +58,7 @@ public class Chart1Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chart1, container, false);
 
         spinner = (Spinner)view.findViewById(R.id.spinner);
+        spinner.bringToFront();
         lineChart = (LineChartView)view.findViewById(R.id.chart);
         // TODO: @陈独秀
 

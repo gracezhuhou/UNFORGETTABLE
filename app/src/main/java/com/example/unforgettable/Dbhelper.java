@@ -25,22 +25,23 @@ public class Dbhelper {
     public Dbhelper(){
         LitePal.getDatabase();
 
-        //List<statusSumList> a = LitePal
-
-        for (int i = 0; i < 22; ++i) {
-            statusSumList statusRow = new statusSumList();
-            statusRow.setSpan(i);
-            statusRow.save();
-        }
-        for (int i = 1; i < 4; ++i) {
-            statusSumList statusRow = new statusSumList();
-            statusRow.setSpan(i * 30);
-            statusRow.save();
-        }
-        for (int i = 1; i < 3; ++i) {
-            statusSumList statusRow = new statusSumList();
-            statusRow.setSpan(i * 180);
-            statusRow.save();
+        List<statusSumList> statusSumList = LitePal.findAll(statusSumList.class);
+        if (statusSumList.size() == 0) {
+            for (int i = 0; i < 22; ++i) {
+                statusSumList statusRow = new statusSumList();
+                statusRow.setSpan(i);
+                statusRow.save();
+            }
+            for (int i = 1; i < 4; ++i) {
+                statusSumList statusRow = new statusSumList();
+                statusRow.setSpan(i * 30);
+                statusRow.save();
+            }
+            for (int i = 1; i < 3; ++i) {
+                statusSumList statusRow = new statusSumList();
+                statusRow.setSpan(i * 180);
+                statusRow.save();
+            }
         }
     }
 

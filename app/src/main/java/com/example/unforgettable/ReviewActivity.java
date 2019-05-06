@@ -96,7 +96,8 @@ public class ReviewActivity extends Fragment{
 //        dbhelper.addTab("英语");
 //        dbhelper.addTab("高数");
 
-        LitePal.deleteAll("memoryCardsList");
+        //LitePal.deleteAll("memoryCardsList");
+        LitePal.deleteAll("statusSumList");
 
         dbhelper.addStageList();
         dbhelper.deleteOldDayCards();   // 删去todayCardsList中之前的卡片
