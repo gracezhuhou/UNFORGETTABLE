@@ -29,6 +29,7 @@ import com.example.unforgettable.LitepalTable.tabList;
 
 import org.litepal.LitePal;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -378,7 +379,11 @@ public class ReviewActivity extends Fragment{
         detailText.setText(cardDetail);
         String addDay[] = new String[]{"+1天", "+2天", "+4天", "+7天", "+15天", "+1个月", "+3个月", "+6个月", "+1年"};
         passDayText.setText(addDay[stage]);
-        if (recentCard.isAudio()) audioBt.setVisibility(View.VISIBLE);
+
+        // 音频是否存在
+        String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + headingText.getText() + ".3gp";
+        File audioFile = new File(mFileName);
+        if (audioFile.exists()) audioBt.setVisibility(View.VISIBLE);
 
         // 显示图片
         byte[] images = recentCard.getPicture();

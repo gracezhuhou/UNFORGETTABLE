@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -323,15 +324,19 @@ public class SetActivity extends Fragment {
     private void showUser() {
         MyUser myUser = MyUser.getCurrentUser(MyUser.class);
         userName.setText(myUser.getNickname());
+        Drawable appPic = getResources().getDrawable(R.drawable.ic_logo);
         if (myUser.getPicture() != null) {
             String picUrl = myUser.getPicture().getUrl();
-            userPic.setBackgroundResource(R.drawable.ic_logo);
+            userPic.setImageDrawable(appPic);
             Picasso.get().load(picUrl).into(userPic);
         }
         else {
-            //Drawable drawable = getResources().getDrawable(R.drawable.ic_logo);
-            //userPic.setImageDrawable(drawable);
-            userPic.setBackgroundResource(R.drawable.ic_logo);
+            String picPath = Environment.getExternalStorageDirectory().getPath() + "/cardPic.jpg";
+            File picFile = new File(picPath);
+            if (picFile.exists()){
+                Picasso.get().load(picFile).into(userPic);
+            }
+            else userPic.setImageDrawable(appPic);
         }
     }
 
