@@ -91,6 +91,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
                 label = tab[pos];
                 //Toast.makeText(getActivity(), "你点击的是:"+tab[pos], Toast.LENGTH_LONG).show();
                 // TODO: @陈独秀
+                mBarChart.clear();
                 initView();
 
             }
@@ -106,6 +107,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
         super.onHiddenChanged(hidden);
         if (hidden) {
             //now invisible to user
+            mBarChart.clear();
             Log.v("学习情况", "页面隐藏");
         } else {
             //dBhelper = new Dbhelper();
@@ -118,6 +120,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
     @Override
     public void onResume(){
         super.onResume();
+        mBarChart.clear();
         //dBhelper = new Dbhelper();
         initView();
     }
