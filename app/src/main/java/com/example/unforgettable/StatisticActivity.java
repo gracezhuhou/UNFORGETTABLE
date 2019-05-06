@@ -1,12 +1,11 @@
 package com.example.unforgettable;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +43,8 @@ public class StatisticActivity extends Fragment {
         super.onActivityCreated(savedInstanceState);
         // TODO: @陈独秀  这里写监听事件
     }
+
+
     /**
      * 初始化各控件
      * @param view
@@ -65,9 +66,9 @@ public class StatisticActivity extends Fragment {
         f2 = new Chart2Fragment();
         f3 = new Chart3Fragment();
 
-        list_fragment.add(f3);
-        list_fragment.add(f2);
         list_fragment.add(f1);
+        list_fragment.add(f2);
+        list_fragment.add(f3);
 
         //将名称加载tab名字列表，正常情况下，我们应该在values/arrays.xml中进行定义然后调用
         list_title = new ArrayList<>();
