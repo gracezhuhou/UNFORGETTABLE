@@ -10,4 +10,5 @@
     <color name="pink">#E75C83</color>
     <color name="transparent">#00000000</color>
     <color name="semitransparent">#BFFFFFFF</color>
+    <color name="gray">#EBEBEB</color>
 </resources>

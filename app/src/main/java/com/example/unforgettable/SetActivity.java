@@ -76,6 +76,7 @@ public class SetActivity extends Fragment {
     private TimePickerDialog timePickerDialog;
     private TimePicker timePicker;
     private AlertDialog dialog;
+    private Button appearanceButton;
     final Calendar calendar = Calendar.getInstance(Locale.CHINA);
 
     private int hour=10;
@@ -119,6 +120,7 @@ public class SetActivity extends Fragment {
         snycButton = view.findViewById(R.id.snycButton);
         userPic = view.findViewById(R.id.userPic);
         userName = view.findViewById(R.id.userName);
+        appearanceButton = view.findViewById(R.id.change_appearance);
 
         showUser(); // 显示当前用户
 
@@ -127,15 +129,34 @@ public class SetActivity extends Fragment {
 
         set_time = view.findViewById(R.id.time);
 
-        SharedPreferences pref;
         pref = getActivity().getSharedPreferences("Alert", MODE_PRIVATE);
         temp = pref.getString("alertTime", "");
         if (temp.equals("")) {
             set_time.setText("不提醒");
+        } else {
+            set_time.setText(temp);
         }
 
         return view;
     }
+
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//    }
+//
+//    @Override
+//    public void onResume(){
+//        super.onResume();
+//        pref = getActivity().getSharedPreferences("Alert", MODE_PRIVATE);
+//        int mode = pref.getInt("background", -1);
+//        if (mode == -1) {
+//            getActivity().setTheme(R.style.AppTheme_Base_Base);
+//        }
+//        else {
+//            getActivity().setTheme(mode);
+//        }
+//    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -303,6 +324,17 @@ public class SetActivity extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), EditUserActivity.class);
+                v.getContext().startActivity(intent);
+            }
+        });
+
+        /*
+         * 换肤
+         */
+        appearanceButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), AppearanceChange.class);
                 v.getContext().startActivity(intent);
             }
         });
