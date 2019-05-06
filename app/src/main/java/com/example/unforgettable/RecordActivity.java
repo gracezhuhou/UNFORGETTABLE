@@ -146,6 +146,10 @@ public class RecordActivity extends Fragment {
         btdel = view.findViewById(R.id.bt_del);
         loading = view.findViewById(R.id.loading);
 
+        if(iv_show_picture.getDrawable() == null){
+            btdel.setVisibility(View.INVISIBLE);
+        }
+
         return view;
     }
 
@@ -248,7 +252,7 @@ public class RecordActivity extends Fragment {
             @Override
             public void onClick(View v) {
                 //初始化orc,获取token
-                if(path == ""){
+                if(iv_show_picture.getDrawable() == null){
                     Toast.makeText(getActivity(), "还未添加照片噢", Toast.LENGTH_LONG).show();
                 }
                 else{
@@ -261,13 +265,18 @@ public class RecordActivity extends Fragment {
                     //当BackgroundResource的值设置为0的时候遇有R里面没有这个值，所以默认背景图片就不会显示了
                     iv_show_picture.setImageBitmap(bitmap);
 
+                    btdel.setVisibility(View.INVISIBLE);//删除按钮隐藏
+
                     //判断是否删除成功
-                    iv_show_picture.setDrawingCacheEnabled(true);
-                    Bitmap obmp = Bitmap.createBitmap(iv_show_picture.getDrawingCache());  //获取到Bitmap的图片
-                    if(obmp != null){
+//                    iv_show_picture.setDrawingCacheEnabled(true);
+//                    Bitmap obmp = Bitmap.createBitmap(iv_show_picture.getDrawingCache());  //获取到Bitmap的图片
+//                    if(obmp != null){
+//                        Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
+//                    }
+//                    iv_show_picture.setDrawingCacheEnabled(false);
+                    if(iv_show_picture.getDrawable() == null){
                         Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
                     }
-                    iv_show_picture.setDrawingCacheEnabled(false);
                 }
             }
         });
@@ -564,6 +573,7 @@ public class RecordActivity extends Fragment {
                         //将拍摄的照片显示出来
                         Bitmap bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imageUri));
                         iv_show_picture.setImageBitmap(bitmap);
+                        btdel.setVisibility(View.VISIBLE);
                     }
                     catch (FileNotFoundException e){
                         e.printStackTrace();
@@ -641,6 +651,7 @@ public class RecordActivity extends Fragment {
                         Bitmap image = bundle.getParcelable("data");
                         //设置到ImageView上
                         iv_show_picture.setImageBitmap(image);
+                        btdel.setVisibility(View.VISIBLE);
                         //也可以进行一些保存、压缩等操作后上传
                         //String name = "";
                         path = saveImage("cardPic", image);
@@ -887,7 +898,7 @@ public class RecordActivity extends Fragment {
         options.inJustDecodeBounds = false;
 
         return BitmapFactory.decodeFile(filePath, options);
-    } 
+    }
 
 }
 
