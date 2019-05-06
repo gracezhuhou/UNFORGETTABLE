@@ -35,6 +35,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -66,7 +67,7 @@ public class SetActivity extends Fragment {
 
     private Button logoutButton;
     private Button snycButton;
-    private ImageButton userPic;
+    private ImageView userPic;
     private TextView userName;
     private Button cancel;
     private Button no;
@@ -365,11 +366,12 @@ public class SetActivity extends Fragment {
         else {
             String picPath = Environment.getExternalStorageDirectory().getPath() + "/cardPic.jpg";
             File picFile = new File(picPath);
-            if (picFile.exists()){
-                Picasso.get().load(picFile).into(userPic);
-            }
-            else userPic.setImageDrawable(appPic);
-        }
+            //if (picFile.exists()){
+            //    Picasso.get().load(picFile).into(userPic);
+            //}
+            //else
+                userPic.setImageDrawable(appPic);
+    }
     }
 
 
@@ -505,9 +507,13 @@ public class SetActivity extends Fragment {
                     // 获取图库所选图片的uri
                     Uri uri = data.getData();
                     intent1.setDataAndType(uri,"image/*");
+                    // aspectX aspectY 是宽高的比例
+                    intent1.putExtra("aspectX", 1);
+                    intent1.putExtra("aspectY", 1);
                     //  设置裁剪图片的宽高
                     intent1.putExtra("outputX", 300);
                     intent1.putExtra("outputY", 300);
+                    intent1.putExtra("scale", true);
                     // 裁剪后返回数据
                     intent1.putExtra("return-data", true);
                     // 启动intent，开始裁剪
