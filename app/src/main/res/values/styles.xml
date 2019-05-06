@@ -1,38 +1,59 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.Base.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
     <!--粉色-->
-    <style name="PinkTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.Base.Pink" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/background_pink</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">14sp</item>
+        <item name="colorPrimary">#CD3333</item>
+        <item name="colorPrimaryDark">#D8BFD8</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
     <!--蓝白-->
-    <style name="BlueTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.Base.Blue" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/background_blueandwhite</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">14sp</item>
+        <item name="colorPrimary">#4169E1</item>
+        <item name="colorPrimaryDark">#B2DFEE</item>
+        <item name="colorAccent">#5CACEE</item>
     </style>
     <!--卡通-->
-    <style name="CartoonTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.Base.Cartoon" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/background_cartoon</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">14sp</item>
+        <item name="colorPrimary">#0A0A0A</item>
+        <item name="colorPrimaryDark">#008B8B</item>
+        <item name="colorAccent">#20B2AA</item>
     </style>
     <!--渐变-->
-    <style name="GradientTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.Base.Gradient" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@drawable/background_gradient</item>
+        <item name="android:windowBackground">@drawable/background_gradient_lightbrown</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">14sp</item>
+        <item name="colorPrimary">#C67171</item>
+        <item name="colorPrimaryDark">#DEB887</item>
+        <item name="colorAccent">#EECFA1</item>
     </style>
+
+    <style name="AppTheme.Base.Base.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Base.Base.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.Base.Base.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

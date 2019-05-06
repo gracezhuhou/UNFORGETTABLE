@@ -3,6 +3,7 @@ package com.example.unforgettable;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,10 +32,19 @@ public class TablistActivity extends AppCompatActivity {
 
     private ArrayAdapter<String> adapter;
     String[] tab;   // 标签数组
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pref = getSharedPreferences("Alert", MODE_PRIVATE);
+        int mode = pref.getInt("background", -1);
+        if (mode == -1) {
+            setTheme(R.style.AppTheme_Base_Base);
+        }
+        else {
+            setTheme(mode);
+        }
         setContentView(R.layout.activity_tablist);
         LitePal.initialize(this);   // 初始化
 
