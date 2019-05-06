@@ -25,21 +25,23 @@ public class Dbhelper {
     public Dbhelper(){
         LitePal.getDatabase();
 
-//        for (int i = 0; i < 22; ++i) {
-//            statusSumList statusRow = new statusSumList();
-//            statusRow.setSpan(i);
-//            statusRow.save();
-//        }
-//        for (int i = 1; i < 4; ++i) {
-//            statusSumList statusRow = new statusSumList();
-//            statusRow.setSpan(i * 30);
-//            statusRow.save();
-//        }
-//        for (int i = 1; i < 3; ++i) {
-//            statusSumList statusRow = new statusSumList();
-//            statusRow.setSpan(i * 180);
-//            statusRow.save();
-//        }
+        //List<statusSumList> a = LitePal
+
+        for (int i = 0; i < 22; ++i) {
+            statusSumList statusRow = new statusSumList();
+            statusRow.setSpan(i);
+            statusRow.save();
+        }
+        for (int i = 1; i < 4; ++i) {
+            statusSumList statusRow = new statusSumList();
+            statusRow.setSpan(i * 30);
+            statusRow.save();
+        }
+        for (int i = 1; i < 3; ++i) {
+            statusSumList statusRow = new statusSumList();
+            statusRow.setSpan(i * 180);
+            statusRow.save();
+        }
     }
 
     /*
@@ -49,7 +51,7 @@ public class Dbhelper {
     */
 
     // 增加
-    boolean addCard(String source, String author, String heading, String content, boolean like, String tab){
+    boolean addCard(String source, String author, String heading, String content, boolean like, String tab, boolean isAudio){
         // 不可重复Heading
         if (LitePal.where("heading = ?", heading).find(memoryCardsList.class).size() != 0){
             return false;
@@ -71,6 +73,8 @@ public class Dbhelper {
         card.setLike(like);
         card.setTab(tab);
         card.setReciteDate(today());
+        card.setReciteDate(today());
+        card.setAudio(isAudio);
         if (pic != null) {
             //把图片转换字节流
             byte[] images = img(pic);

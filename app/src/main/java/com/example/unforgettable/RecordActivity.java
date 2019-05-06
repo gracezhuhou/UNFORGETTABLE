@@ -54,6 +54,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -91,6 +93,7 @@ public class RecordActivity extends Fragment {
     private MediaPlayer mPlayer = null;// 媒体播放器对象
     private String mFileName = null;// 录音存储路径
     private String TAG = getClass().getSimpleName();
+    private boolean isAudio = false;
 
 
     //拍照相关变量
@@ -121,10 +124,10 @@ public class RecordActivity extends Fragment {
         View view = inflater.inflate(R.layout.activity_record, container, false);
         LitePal.initialize(this.getActivity());   // 初始化数据库
 
-        // 设置sdcard的路径
+        // 设置音频sdcard的路径
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-            mFileName += "/wohaoshuai.3gp";
+            mFileName += "/audio.3gp";
         }
 
         //初始化SDK
@@ -147,6 +150,7 @@ public class RecordActivity extends Fragment {
         btdel = view.findViewById(R.id.bt_del);
         loading = view.findViewById(R.id.loading);
 
+        playButton.setVisibility(View.INVISIBLE);
         if(iv_show_picture.getDrawable() == null){
             btdel.setVisibility(View.INVISIBLE);
         }
@@ -181,13 +185,58 @@ public class RecordActivity extends Fragment {
                 // TODO: 选择标签
                 tab = "英语"; //暂时
 
-                dbhelper.addCard(source, author, heading, content, like, tab);  //添加记录
-                // TODO: 清空页面
-                sourceInput.setText("");
-                authorInput.setText("");
-                headingInput.setText("");
-                contentInput.setText("");
-                iv_show_picture.setImageBitmap(null);
+                //添加记录
+                if (dbhelper.addCard(source, author, heading, content, like, tab, isAudio)) {
+                    if (isAudio) {
+                        File audioFile = new File(mFileName);
+                        String fileName = heading + ".3gp";
+                        File newfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), fileName);
+                        // 文件重命名
+                        audioFile.renameTo(newfile);
+
+//                        String newFileName = getActivity().getFilesDir() + "/" + heading + ".3gp";
+//                        FileWriter fw = null;
+//                        FileReader fr = null;
+//                        try {
+//                            fr = new FileReader(mFileName);//读
+//                            fw = new FileWriter(newFileName);//写
+//                            char[] buf = new char[1024];//缓冲区
+//                            int len;
+//                            while ((len = fr.read(buf)) != -1) {
+//                                fw.write(buf, 0, len);//读几个写几个
+//                            }
+//                        } catch (IOException e) {
+//                            System.out.println(e.getMessage());
+//                        } finally {
+//                            if (fr != null) {
+//                                try {
+//                                    fr.close();
+//                                } catch (IOException e) {
+//                                    System.out.println(e.getMessage());
+//                                }
+//                            }
+//
+//                            if (fw != null) {
+//                                try {
+//                                    fw.flush();
+//                                    fw.close();
+//                                } catch (IOException e) {
+//                                    System.out.println(e.getMessage());
+//                                }
+//                            }
+//                        }
+
+                    }
+
+                    // TODO: 清空页面
+                    sourceInput.setText("");
+                    authorInput.setText("");
+                    headingInput.setText("");
+                    contentInput.setText("");
+                    iv_show_picture.setImageBitmap(null);
+                    playButton.setVisibility(View.INVISIBLE);
+                    if (file != null) deletePic();
+                }
             }
         });
         // 收藏按钮响应
@@ -199,13 +248,11 @@ public class RecordActivity extends Fragment {
                 Drawable.ConstantState drawableState_yel = getResources().getDrawable(R.drawable.ic_star_yel).getConstantState();
                 if (!drawableState.equals(drawableState_yel)) {
                     Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
-                    // 这一步必须要做,否则不会显示.
                     starButton.setImageDrawable(drawable);
                     like = true;
                 }
                 else {
                     Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
-                    // 这一步必须要做,否则不会显示.
                     starButton.setImageDrawable(drawable);
                     like = false;
                 }
@@ -216,6 +263,8 @@ public class RecordActivity extends Fragment {
         soundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isAudio = true;
+                playButton.setVisibility(View.VISIBLE);
                 initSpeech(getActivity());
             }
         });
@@ -289,29 +338,7 @@ public class RecordActivity extends Fragment {
                 if(iv_show_picture.getDrawable() == null){
                     Toast.makeText(getActivity(), "还未添加照片噢", Toast.LENGTH_LONG).show();
                 }
-                else{
-                    //删除系统缩略图
-                    getContext().getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, MediaStore.Images.Media.DATA + "=?", new String[]{path});
-                    //删除手机中图片
-                    file.delete();
-
-                    iv_show_picture.setBackgroundResource(0);
-                    //当BackgroundResource的值设置为0的时候遇有R里面没有这个值，所以默认背景图片就不会显示了
-                    iv_show_picture.setImageBitmap(bitmap);
-
-                    btdel.setVisibility(View.INVISIBLE);//删除按钮隐藏
-
-                    //判断是否删除成功
-//                    iv_show_picture.setDrawingCacheEnabled(true);
-//                    Bitmap obmp = Bitmap.createBitmap(iv_show_picture.getDrawingCache());  //获取到Bitmap的图片
-//                    if(obmp != null){
-//                        Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
-//                    }
-//                    iv_show_picture.setDrawingCacheEnabled(false);
-                    if(iv_show_picture.getDrawable() == null){
-                        Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
-                    }
-                }
+                else deletePic();
             }
         });
 
@@ -591,7 +618,6 @@ public class RecordActivity extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         switch (requestCode){
-
             case TAKE_PHOTO:// 拍照
 
                 if(resultCode == RESULT_OK){
@@ -843,10 +869,12 @@ public class RecordActivity extends Fragment {
                 contentInput.setText(sb.toString());
                 // json格式返回字符串
 //                listener.onResult(result.getJsonRes());
+                Toast.makeText(getActivity(),"文字识别完成", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onError(OCRError error) {
                 // 调用失败，返回OCRError对象
+                Toast.makeText(getActivity(),"无法识别文字", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -945,6 +973,30 @@ public class RecordActivity extends Fragment {
         return BitmapFactory.decodeFile(filePath, options);
     }
 
+    private void deletePic(){
+        //删除系统缩略图
+        getContext().getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, MediaStore.Images.Media.DATA + "=?", new String[]{path});
+        //删除手机中图片
+        file.delete();
+
+        iv_show_picture.setBackgroundResource(0);
+        //当BackgroundResource的值设置为0的时候遇有R里面没有这个值，所以默认背景图片就不会显示了
+        iv_show_picture.setImageBitmap(bitmap);
+
+        btdel.setVisibility(View.INVISIBLE);//删除按钮隐藏
+
+        //判断是否删除成功
+//                    iv_show_picture.setDrawingCacheEnabled(true);
+//                    Bitmap obmp = Bitmap.createBitmap(iv_show_picture.getDrawingCache());  //获取到Bitmap的图片
+//                    if(obmp != null){
+//                        Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
+//                    }
+//                    iv_show_picture.setDrawingCacheEnabled(false);
+        if(iv_show_picture.getDrawable() == null){
+            Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
+        }
+
+    }
 }
 
 

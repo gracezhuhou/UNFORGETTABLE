@@ -52,10 +52,10 @@ public class Bmobhelper {
                         @Override
                         public void done(BmobException e) {
                             if (e == null) {
-                                Toast.makeText(getApplicationContext(), "更新成功", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "云端更新成功", Toast.LENGTH_SHORT).show();
                             } else {
                                 Log.e("Bmob", "更新失败" + e.toString());
-                                Toast.makeText(getApplicationContext(), "更新失败", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "云端更新失败，请重新登录", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
