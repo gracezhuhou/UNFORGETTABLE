@@ -162,18 +162,23 @@ public class Dbhelper {
     List<memoryCardsList> getAllTabCards(String tabName) {
         if (tabName.equals("全部")) return getCardList();
 
-        List<memoryCardsList> AllCardList = LitePal.order("id").find(memoryCardsList.class);
+        List<memoryCardsList> TabCardList;
 
-        for (int i = 0; i < AllCardList.size(); i++) {
-            // 标签
-            String tab = AllCardList.get(i).getTab();
-            if (tab == null || !tab.equals(tabName)){
-                AllCardList.remove(i);
-                i--;
-            }
-        }
-        Log.v("数据库","获取" + tabName + "全部卡片" + AllCardList.size()+"张");
-        return AllCardList;
+        if (tabName.equals("未分类"))
+            TabCardList = LitePal.where("tabName = ? ", "").order("id").find(memoryCardsList.class);
+        else
+            TabCardList = LitePal.where("tabName = ? ", tabName).order("id").find(memoryCardsList.class);
+
+//        for (int i = 0; i < AllCardList.size(); i++) {
+//            // 标签
+//            String tab = AllCardList.get(i).getTab();
+//            if (tab == null || !tab.equals(tabName)){
+//                AllCardList.remove(i);
+//                i--;
+//            }
+//        }
+        Log.v("数据库","获取" + tabName + "全部卡片" + TabCardList.size()+"张");
+        return TabCardList;
     }
 
     // 获取某一标签应背列表

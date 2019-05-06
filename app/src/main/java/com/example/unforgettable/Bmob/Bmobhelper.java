@@ -100,7 +100,7 @@ public class Bmobhelper {
 //                    }
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "查询失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "查询失败,请重新登录", Toast.LENGTH_SHORT).show();
                     Log.e("Bmob", "查询失败："+e.getMessage());
                 }
             }
@@ -174,7 +174,7 @@ public class Bmobhelper {
                                 Toast.makeText(getApplicationContext(), "云端更新成功", Toast.LENGTH_SHORT).show();
                             } else {
                                 Log.e("Bmob", "云端更新失败" + e.toString());
-                                Toast.makeText(getApplicationContext(), "云端更新失败", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "云端更新失败,请重新登录", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -208,7 +208,7 @@ public class Bmobhelper {
                         Toast.makeText(getApplicationContext(), "云端无头像", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "查询用户失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "查询用户失败,请重新登录", Toast.LENGTH_SHORT).show();
                     Log.e("Bmob", "查询用户失败："+e.getMessage());
                 }
             }
