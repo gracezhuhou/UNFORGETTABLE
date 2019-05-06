@@ -319,9 +319,8 @@ public class RecordActivity extends Fragment {
         typeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(getActivity(),TablistActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(getActivity(),TablistActivity.class);
+                startActivityForResult(intent,1);
             }
         });
 
@@ -742,6 +741,13 @@ public class RecordActivity extends Fragment {
 //                        e.printStackTrace();
 //                    }
 //                }
+
+            case 1: //tab标签
+                if (resultCode == RESULT_OK){
+                    String returndata = data.getStringExtra("tabname");
+                    typeButton.setText(returndata);
+                    Log.d("RecordActivity", returndata);
+                }
 
                 break;
 

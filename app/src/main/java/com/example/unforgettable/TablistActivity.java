@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +35,7 @@ public class TablistActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     String[] tab;   // 标签数组
     private SharedPreferences pref;
+    protected int position_int;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,28 @@ public class TablistActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         setListener();
+
+        // 设置ListView单项选择监听器
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3)
+            {
+                String str = tab[position];
+                //updateText(str);
+                // 将点击的位置参数传递给全局变量
+                //position_int = position;
+                Intent intent = new Intent();
+                intent.putExtra("tabname",str);
+                setResult(RESULT_OK,intent);
+                finish();
+            }
+        });
+
     }
+
 
     void setListener(){
         //添加标签按钮
@@ -97,8 +121,8 @@ public class TablistActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
-        builder.show();
 
+        builder.show();
     }
 
     private void showDialog(String str) {
