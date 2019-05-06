@@ -5,7 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,18 +18,23 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.unforgettable.LitepalTable.memoryCardsList;
 import com.example.unforgettable.LitepalTable.tabList;
 
 import org.litepal.LitePal;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 
 public class ReviewActivity extends Fragment{
@@ -47,6 +55,10 @@ public class ReviewActivity extends Fragment{
     private Button forgetButton;
     private RelativeLayout remindButton;
     private ImageView cardPic;
+    private ImageButton audioBt;
+
+    private boolean mIsPlayState = false;// 是否是播放状态
+    private MediaPlayer mPlayer = null;// 媒体播放器对象
 
     // 数据库相关变量
     private Dbhelper dbhelper = new Dbhelper();
@@ -78,10 +90,13 @@ public class ReviewActivity extends Fragment{
         forgetButton = view.findViewById(R.id.forgetButton);
         remindButton = view.findViewById(R.id.remindButton);
         cardPic = view.findViewById(R.id.cardPic);
+        audioBt = view.findViewById(R.id.audioButton);
 //
 //        LitePal.deleteDatabase("MemoryCards");
 //        dbhelper.addTab("英语");
 //        dbhelper.addTab("高数");
+
+        LitePal.deleteAll("memoryCardsList");
 
         dbhelper.addStageList();
         dbhelper.deleteOldDayCards();   // 删去todayCardsList中之前的卡片
@@ -229,6 +244,30 @@ public class ReviewActivity extends Fragment{
                 // Another interface callback
             }
         });
+        // 播放按钮
+        audioBt.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Log.v("复习界面","播放按钮点击事件");
+                String heading = (String)headingText.getText();
+
+                // 判断播放按钮的状态，根据相应的状态处理事务
+                audioBt.setEnabled(false);
+                Drawable.ConstantState drawableState = audioBt.getDrawable().getConstantState();
+                Drawable.ConstantState drawableState_yel = getResources().getDrawable(R.drawable.ic_star_yel).getConstantState();
+                if (drawableState.equals(drawableState_yel)) {
+                    stopPlay();
+                    Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
+                    audioBt.setImageDrawable(drawable);
+                } else {
+                    startPlay();
+                    Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
+                    audioBt.setImageDrawable(drawable);
+                }
+                //mIsPlayState = !mIsPlayState;
+                audioBt.setEnabled(true);
+            }
+        });
 
         Log.v("复习界面","按钮监听完成");
     }
@@ -303,6 +342,7 @@ public class ReviewActivity extends Fragment{
         passButton.setVisibility(View.INVISIBLE);
         dimButton.setVisibility(View.INVISIBLE);
         forgetButton.setVisibility(View.INVISIBLE);
+        audioBt.setVisibility(View.INVISIBLE);
         cardPic.setImageBitmap(null);
         Log.v("复习界面","卡片正面显示");
     }
@@ -338,6 +378,7 @@ public class ReviewActivity extends Fragment{
         detailText.setText(cardDetail);
         String addDay[] = new String[]{"+1天", "+2天", "+4天", "+7天", "+15天", "+1个月", "+3个月", "+6个月", "+1年"};
         passDayText.setText(addDay[stage]);
+        if (recentCard.isAudio()) audioBt.setVisibility(View.VISIBLE);
 
         // 显示图片
         byte[] images = recentCard.getPicture();
@@ -347,6 +388,44 @@ public class ReviewActivity extends Fragment{
         }
 
         Log.v("复习界面","卡片背面显示");
+    }
+
+
+    /**
+     * 开始播放
+     */
+    private void startPlay() {
+        mPlayer = new MediaPlayer();
+        String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + headingText.getText() + ".3gp";
+
+        try {
+            mPlayer.setDataSource(mFileName);// 设置多媒体数据来源
+            mPlayer.prepare();
+            mPlayer.start();
+        } catch (IOException e) {
+            Log.e(TAG, getString(R.string.e_play));
+            Toast.makeText(getActivity(), "播放失败", Toast.LENGTH_SHORT).show();
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
+            audioBt.setImageDrawable(drawable);
+        }
+        // 播放完成，改变按钮状态
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                //mIsPlayState = !mIsPlayState;
+                Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
+                audioBt.setImageDrawable(drawable);
+            }
+        });
+    }
+
+    /**
+     * 停止播放
+     */
+    private void stopPlay() {
+        mPlayer.release();
+        mPlayer = null;
     }
 
 }

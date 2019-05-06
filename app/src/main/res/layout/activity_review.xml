@@ -204,5 +204,13 @@
         app:layout_constraintLeft_toLeftOf="@+id/contentText"
         app:layout_constraintTop_toTopOf="@+id/contentText" />
 
+    <ImageButton
+        android:id="@+id/audioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_star_black"
+        app:layout_constraintEnd_toEndOf="@+id/contentText"
+        app:layout_constraintTop_toTopOf="@+id/remindButton" />
+
 
 </android.support.constraint.ConstraintLayout>
