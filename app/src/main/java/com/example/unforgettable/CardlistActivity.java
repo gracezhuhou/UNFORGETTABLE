@@ -39,7 +39,6 @@ public class CardlistActivity extends Fragment {
     // 前端相关变量
     private Spinner spinner;
     private Button card_edit;
-    private Button tab_add;
     private CardsRecyclerAdapter recyclerAdapter;
     private RecyclerView cardsRecyclerView;
     private LinearLayoutManager layoutManager;
@@ -72,9 +71,6 @@ public class CardlistActivity extends Fragment {
         recyclerAdapter = new CardsRecyclerAdapter(MemoryCardsList);
         cardsRecyclerView.setAdapter(recyclerAdapter);
         cardsRecyclerView.setHasFixedSize(true);
-
-        tab_add = view.findViewById(R.id.tab_add);
-
 
         return view;
     }
@@ -132,13 +128,6 @@ public class CardlistActivity extends Fragment {
             }
         });
 
-        //添加标签按钮
-        tab_add.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                dialog_show();
-            }
-        });
     }
 
     // 设置标签下拉菜单
@@ -157,33 +146,5 @@ public class CardlistActivity extends Fragment {
         spinner.setAdapter(adapter);
     }
 
-    //添加标签框
-    protected void dialog_show(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater factory = LayoutInflater.from(getActivity());
-        final View textEntryView = factory.inflate(R.layout.activity_tab_add, null);
 
-        builder.setTitle("添加标签");
-        builder.setView(textEntryView);
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                EditText tab =  textEntryView.findViewById(R.id.ettab);
-                showDialog("标签 ："  + tab.getText().toString() );
-                dbhelper.addTab(tab.getText().toString());
-            }
-        });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                dialog.dismiss();
-            }
-        });
-        builder.show();
-
-    }
-
-    private void showDialog(String str) {
-        new AlertDialog.Builder(getActivity())
-                .setMessage(str)
-                .show();
-    }
 }

@@ -57,7 +57,6 @@
         </provider>
 
         <activity android:name=".RegisterActivity" />
-
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@drawable/background_gradient" />
