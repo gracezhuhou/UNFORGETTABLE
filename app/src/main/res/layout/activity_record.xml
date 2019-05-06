@@ -222,6 +222,14 @@
         tools:src="@tools:sample/avatars" />
 
     <Button
+        android:id="@+id/bt_del"
+        android:layout_width="83dp"
+        android:layout_height="61dp"
+        android:layout_alignParentRight="true"
+        android:text="删除"
+        tools:ignore="MissingConstraints" />
+
+    <Button
         android:id="@+id/playbutton"
         android:layout_width="@dimen/dp_75"
         android:layout_height="@dimen/dp_40"

@@ -20,6 +20,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -97,9 +98,13 @@ public class RecordActivity extends Fragment {
     private static final int LOCAL_CROP = 13;// 本地图库
 
     private ImageView iv_show_picture;
+    private Button btdel;
+    private String path = "";
     private Uri imageUri;// 拍照时的图片uri
     //调用照相机返回图片文件
     private File tempFile;
+    //调用图库返回图片文件
+    private File file;
 
     // 创建文件保存拍照的图片
     File takePhotoImage = new File(Environment.getExternalStorageDirectory(), "cardPic.jpg");
@@ -138,6 +143,7 @@ public class RecordActivity extends Fragment {
         contentInput = view.findViewById(R.id.contentInput);
         playButton = view.findViewById(R.id.playbutton);
         iv_show_picture = view.findViewById(R.id.iv_show_picture);
+        btdel = view.findViewById(R.id.bt_del);
         loading = view.findViewById(R.id.loading);
 
         return view;
@@ -237,6 +243,40 @@ public class RecordActivity extends Fragment {
             }
         });
 
+        //删除按钮监听
+        btdel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //初始化orc,获取token
+                if(path == ""){
+                    final Toast toast =  Toast.makeText(getActivity(), "还未添加照片噢", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    toast.show();
+                    //延长土司时间
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            toast.cancel();
+                        }
+                    },100000);
+                }
+                else{
+                    //删除系统缩略图
+                    getContext().getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, MediaStore.Images.Media.DATA + "=?", new String[]{path});
+                    //删除手机中图片
+                    file.delete();
+
+
+                    //Bitmap bitmap = BitmapUtil.zoomBitmap(BitmapFactory.decodeFile(path), 100, 100);
+                    //ci_edit_personal_icon.setWillNotDraw(true);
+                    iv_show_picture.setBackgroundResource(0);
+                    //当BackgroundResource的值设置为0的时候遇有R里面没有这个值，所以默认背景图片就不会显示了
+                    iv_show_picture.setImageBitmap(bitmap);
+
+                }
+            }
+        });
+
         // 标签按钮监听
         typeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -265,7 +305,6 @@ public class RecordActivity extends Fragment {
                             switch (which){
                                 // 选择了保存录音
                                 case 0:
-                                    Toast.makeText(getActivity(), "请讲话", Toast.LENGTH_LONG);
                                     final Toast toast =  Toast.makeText(getActivity(), "正在录音，请讲话", Toast.LENGTH_LONG);
                                     toast.setGravity(Gravity.CENTER,0,0);
                                     toast.show();
@@ -559,15 +598,15 @@ public class RecordActivity extends Fragment {
                     Currency();
 
 //                    loading.setVisibility(View.GONE);
-                    //若识别出字符
-                    if(content!=null){
-                        loading.setVisibility(View.GONE);
-                        Toast.makeText(getActivity(), "识别成功", Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        loading.setVisibility(View.GONE);
-                        Toast.makeText(getActivity(), "无法识别", Toast.LENGTH_LONG).show();
-                    }
+//                    //若识别出字符
+//                    if(content!=null){
+//                        loading.setVisibility(View.GONE);
+//                        Toast.makeText(getActivity(), "识别成功", Toast.LENGTH_LONG).show();
+//                    }
+//                    else {
+//                        loading.setVisibility(View.GONE);
+//                        Toast.makeText(getActivity(), "无法识别", Toast.LENGTH_LONG).show();
+//                    }
 //                    // 启动intent，开始裁剪
 //                    startActivityForResult(intent, CROP_PHOTO);
 
@@ -619,10 +658,10 @@ public class RecordActivity extends Fragment {
                         iv_show_picture.setImageBitmap(image);
                         //也可以进行一些保存、压缩等操作后上传
                         //String name = "";
-                        String path = saveImage("cardPic", image);
+                        path = saveImage("cardPic", image);
 
                         Toast.makeText(getActivity(),"图片已保存", Toast.LENGTH_SHORT).show();
-                        //File file = new File(path);
+                        file = new File(path);
                         /*
                          *上传文件的额操作
                          */
@@ -790,6 +829,18 @@ public class RecordActivity extends Fragment {
 //            }
 //        }
 //    }
+
+    private void deletePic(String path){
+        if(!TextUtils.isEmpty(path)){
+            Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+            ContentResolver contentResolver = getContext().getContentResolver();
+            String url =  MediaStore.Images.Media.DATA + "='" + path + "'";
+            //删除图片
+            contentResolver.delete(uri, url, null);
+            Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
+        }
+    }
+
 
 }
 
