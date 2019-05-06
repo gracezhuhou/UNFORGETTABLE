@@ -22,6 +22,7 @@ import com.example.unforgettable.LitepalTable.tabList;
 
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TablistActivity extends AppCompatActivity {
@@ -33,7 +34,7 @@ public class TablistActivity extends AppCompatActivity {
     private Dbhelper dbhelper = new Dbhelper();
 
     private ArrayAdapter<String> adapter;
-    String[] tab;   // 标签数组
+    ArrayList<String> tab;   // 标签数组
     private SharedPreferences pref;
     protected int position_int;
 
@@ -57,13 +58,14 @@ public class TablistActivity extends AppCompatActivity {
         // 获取所有标签
         List<tabList> tapList = dbhelper.getTabList();
         int size = tapList.size();
-        tab = new String[size];
+        tab = new ArrayList<String>();
         for (int i = 0; i < size; ++i){
-            tab[i] = tapList.get(i).getTabName();
+            tab.add(tapList.get(i).getTabName());
         }
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item , tab);  //创建一个数组适配器
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1 , tab);  //创建一个数组适配器
         listView.setAdapter(adapter);
+
 
         setListener();
 
@@ -75,7 +77,7 @@ public class TablistActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                     int position, long arg3)
             {
-                String str = tab[position];
+                String str = tab.get(position);
                 //updateText(str);
                 // 将点击的位置参数传递给全局变量
                 //position_int = position;
@@ -109,13 +111,17 @@ public class TablistActivity extends AppCompatActivity {
         builder.setTitle("添加标签");
         builder.setView(textEntryView);
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 EditText tabText =  textEntryView.findViewById(R.id.ettab);
                 showDialog("标签 ："  + tabText.getText().toString() );
                 dbhelper.addTab(tabText.getText().toString());
 
-
+                // 标签列表中动态添加新标签
+                adapter.add(tabText.getText().toString());
+                adapter.notifyDataSetChanged();
             }
+
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
