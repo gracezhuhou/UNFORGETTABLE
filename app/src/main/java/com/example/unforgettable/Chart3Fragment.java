@@ -39,7 +39,7 @@ public class Chart3Fragment extends Fragment {
 
     private List<AxisValue> mAxisXValues = new ArrayList<AxisValue>();
     private int index;//标签所在下标
-    private String label = "";
+    private String label = "全部";
     private Spinner spinner;
 
     // 数据库相关变量

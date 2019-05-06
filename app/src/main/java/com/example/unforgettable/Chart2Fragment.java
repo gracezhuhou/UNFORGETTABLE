@@ -39,7 +39,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    private String label;
+    private String label = "全部";
     private Spinner spinner;
     private BarChart mBarChart;
 
@@ -51,6 +51,9 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
     private int [][] memory = new int [4][41];
     private List<com.example.unforgettable.LitepalTable.tabList> tabList = dBhelper.getTabList();    //背诵卡片列表
     //private BarChartView chartView1;
+
+    private String [] values = new String[41];
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -146,20 +149,39 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
 
         /***XY轴的设置***/
         //X轴设置显示位置在底部
-        XAxis xAxis = mBarChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        mBarChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);//x轴位置
+        mBarChart.getXAxis().setDrawLabels(true);
+        mBarChart.getAxisRight().setEnabled(false);
+
+
+        //自定义X轴
+        for(int i = 0;i < 28; i++){
+            int temp = 30-i;
+            values[i] = temp + "天前";
+        }
+        values[28] = "前天";
+        values[29] = "昨天";
+        values[30] = "今天";
+        values[31] = "明天";
+        values[32] = "后天";
+        for(int i = 33; i<41;i++){
+            int temp = i-30;
+            values[i] = temp+"天后";
+        }
+
+        MyAxisValueFormatter formatter = new MyAxisValueFormatter(values);
+        mBarChart.getXAxis().setLabelCount(20);
+        mBarChart.getXAxis().setValueFormatter(formatter);
+
 //        xAxis.setAxisMinimum(0f);
 //        xAxis.setGranularity(1f);
 
-
         // 改变y标签的位置
         YAxis leftAxis = mBarChart.getAxisLeft();
-        leftAxis.setValueFormatter(new MyAxisValueFormatter());
+//        leftAxis.setValueFormatter(new MyAxisValueFormatter());
         leftAxis.setAxisMinimum(0f);
-        mBarChart.getAxisRight().setEnabled(false);
 
-        XAxis xLabels = mBarChart.getXAxis();
-        xLabels.setPosition(XAxis.XAxisPosition.TOP);
+
 
         Legend l = mBarChart.getLegend();
 //        l.setForm(Legend.LegendForm.SQUARE);
@@ -195,33 +217,58 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
         Calendar date = Calendar.getInstance();
         date.setTime(today);
 
-        for(int i=0; i<30;i++){
+
+        if(label.equals("全部")){
+            for(int i=0; i<30;i++){
 //          List<stageList> stageList = LitePal.where("date = ?", getOldDate(-i)).find(stageList.class);
-            List<stageList> stageList = dBhelper.getStageList();
-            date.setTime(today);
-            date.add(Calendar.DATE, -i);//i天前的日期
-            Date statisticDate = date.getTime();
-            for (int m = 0; m < stageList.size(); m++) {
-                if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
-                    stageList.remove(m);
-                    m--;
+                List<stageList> stageList = dBhelper.getStageList();
+                date.setTime(today);
+                date.add(Calendar.DATE, -i);//i天前的日期
+                Date statisticDate = date.getTime();
+                for (int m = 0; m < stageList.size(); m++) {
+                    if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
+                        stageList.remove(m);
+                        m--;
+                    }
+                }
+                for(int j=0;j<stageList.size();j++){
+                    stageList statistic = stageList.get(j);
+                    memory[0][i] = memory[0][i]+statistic.getRemember();
+                    memory[1][i] = memory[1][i]+statistic.getDim();
+                    memory[2][i] = memory[2][i]+statistic.getForget();
                 }
             }
-            for(int j=0;j<stageList.size();j++){
-                com.example.unforgettable.LitepalTable.stageList statistic = stageList.get(j);
-                memory[0][i] = memory[0][i]+statistic.getRemember();
-                memory[1][i] = memory[1][i]+statistic.getDim();
-                memory[2][i] = memory[2][i]+statistic.getForget();
+        }
+        else{
+            for(int i=0; i<30;i++){
+                List<stageList> stageList = dBhelper.getStageList();
+                date.setTime(today);
+                date.add(Calendar.DATE, -i);//i天前的日期
+                Date statisticDate = date.getTime();
+                for (int m = 0; m < stageList.size(); m++) {
+                    if (stageList.get(m).getDate().compareTo(statisticDate) != 0) {
+                        stageList.remove(m);
+                        m--;
+                    }
+                }
+                for(int j=0;j<stageList.size();j++){
+                    stageList statistic = stageList.get(j);
+                    if(statistic.getTab().equals(label)){
+                        memory[0][i] = memory[0][i]+statistic.getRemember();
+                        memory[1][i] = memory[1][i]+statistic.getDim();
+                        memory[2][i] = memory[2][i]+statistic.getForget();
+                    }
+                }
             }
         }
 
         //今天之后各天需背卡片数量
 
-        //提取今天应复习卡片
+        //提取今天当前标签下的应复习卡片
         List<stageList> todaystage = dBhelper.getStageList();
         date.setTime(today);
         for (int m = 0; m < todaystage.size(); m++) {
-            if (todaystage.get(m).getDate().compareTo(today) != 0) {
+            if (todaystage.get(m).getDate().compareTo(today) != 0 || todaystage.get(m).getTab().compareTo(label)!= 0 ) {
                 todaystage.remove(m);
                 m--;
             }
@@ -245,11 +292,11 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
         for(int i=1;i<10;i++){
             List<memoryCardsList> memoryList = dBhelper.getCardList();
             date.setTime(today);
-            date.add(Calendar.DATE, +i);//i天后的日期
+            date.add(Calendar.DATE, i);//i天后的日期
             Date statisticDate = date.getTime();
-            //获取i天后应背卡片
+            //获取i天后当前标签应背卡片
             for (int m = 0; m < memoryList.size(); m++) {
-                if (memoryList.get(m).getReciteDate().compareTo(statisticDate) != 0) {
+                if (memoryList.get(m).getReciteDate().compareTo(statisticDate) != 0 || memoryList.get(m).getTab().compareTo(label) !=0 ) {
                     memoryList.remove(m);
                     m--;
                 }
@@ -268,7 +315,13 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
 //            float val1 = (float) (Math.random() * mult) + mult / 3;
 //            float val2 = (float) (Math.random() * mult) + mult / 3;
 //            float val3 = (float) (Math.random() * mult) + mult / 3;
-            yVals1.add(new BarEntry(i, new float[]{val1, val2, val3}));
+
+            String x = "";
+            if(i<28){ x = 30-i + "天前";}
+            else if(i == 28) { x = "前天";}
+            else { x = "昨天";}
+
+            yVals1.add(new BarEntry(i, new float[]{val1, val2, val3},x));
         }
 
         //录入今天的学习情况
@@ -277,7 +330,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
             float val1 = (float) memory[3][30];
             float val2 = (float) 0;
             float val3 = (float) 0;
-            yVals1.add(new BarEntry(30, new float[]{val1, val2, val3}));
+            yVals1.add(new BarEntry(30, new float[]{val1, val2, val3},"今天"));
 
         }
         else {
@@ -285,7 +338,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
             float val1 = (float) memory[0][30];
             float val2 = (float) memory[1][30];
             float val3 = (float) memory[2][30];
-            yVals1.add(new BarEntry(30, new float[]{val1, val2, val3}));
+            yVals1.add(new BarEntry(30, new float[]{val1, val2, val3},"今天"));
         }
 
         //录入今天之后的学习情况
@@ -297,7 +350,25 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
 //            float val1 = (float) (Math.random() * mult) + mult / 3;
 //            float val2 = (float) (Math.random() * mult) + mult / 3;
 //            float val3 = (float) (Math.random() * mult) + mult / 3;
-            yVals1.add(new BarEntry(i, new float[]{val1, val2, val3}));
+            String x = "";
+            if(i == 31){ x = "明天";}
+            else if( i == 32) { x = "后天";}
+            else { x = i-30 + "天后";}
+            yVals1.add(new BarEntry(i, new float[]{val1, val2, val3},x));
+        }
+
+        //设置x轴
+        ArrayList<String> xVals = new ArrayList<String>();
+        for (int i = 0; i < 28; i++) {
+            xVals.add( 30-i + "天前");
+        }
+        xVals.add("昨天");
+        xVals.add("今天");
+        xVals.add("明天");
+        xVals.add("后天");
+
+        for(int i = 33; i<41; i++){
+            xVals.add( 30-i + "天后");
         }
 
         BarDataSet set1;
