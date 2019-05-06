@@ -170,7 +170,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
         }
 
         MyAxisValueFormatter formatter = new MyAxisValueFormatter(values);
-        mBarChart.getXAxis().setLabelCount(20);
+        //mBarChart.getXAxis().setLabelCount(20);
         mBarChart.getXAxis().setValueFormatter(formatter);
 
 //        xAxis.setAxisMinimum(0f);
@@ -316,12 +316,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
 //            float val2 = (float) (Math.random() * mult) + mult / 3;
 //            float val3 = (float) (Math.random() * mult) + mult / 3;
 
-            String x = "";
-            if(i<28){ x = 30-i + "天前";}
-            else if(i == 28) { x = "前天";}
-            else { x = "昨天";}
-
-            yVals1.add(new BarEntry(i, new float[]{val1, val2, val3},x));
+            yVals1.add(new BarEntry(i, new float[]{val1, val2, val3}));
         }
 
         //录入今天的学习情况
@@ -330,7 +325,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
             float val1 = (float) memory[3][30];
             float val2 = (float) 0;
             float val3 = (float) 0;
-            yVals1.add(new BarEntry(30, new float[]{val1, val2, val3},"今天"));
+            yVals1.add(new BarEntry(30, new float[]{val1, val2, val3}));
 
         }
         else {
@@ -338,7 +333,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
             float val1 = (float) memory[0][30];
             float val2 = (float) memory[1][30];
             float val3 = (float) memory[2][30];
-            yVals1.add(new BarEntry(30, new float[]{val1, val2, val3},"今天"));
+            yVals1.add(new BarEntry(30, new float[]{val1, val2, val3}));
         }
 
         //录入今天之后的学习情况
@@ -350,25 +345,8 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
 //            float val1 = (float) (Math.random() * mult) + mult / 3;
 //            float val2 = (float) (Math.random() * mult) + mult / 3;
 //            float val3 = (float) (Math.random() * mult) + mult / 3;
-            String x = "";
-            if(i == 31){ x = "明天";}
-            else if( i == 32) { x = "后天";}
-            else { x = i-30 + "天后";}
-            yVals1.add(new BarEntry(i, new float[]{val1, val2, val3},x));
-        }
 
-        //设置x轴
-        ArrayList<String> xVals = new ArrayList<String>();
-        for (int i = 0; i < 28; i++) {
-            xVals.add( 30-i + "天前");
-        }
-        xVals.add("昨天");
-        xVals.add("今天");
-        xVals.add("明天");
-        xVals.add("后天");
-
-        for(int i = 33; i<41; i++){
-            xVals.add( 30-i + "天后");
+            yVals1.add(new BarEntry(i, new float[]{val1, val2, val3}));
         }
 
         BarDataSet set1;
