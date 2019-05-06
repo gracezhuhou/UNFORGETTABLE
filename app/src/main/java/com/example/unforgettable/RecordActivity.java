@@ -20,7 +20,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -249,16 +248,7 @@ public class RecordActivity extends Fragment {
             public void onClick(View v) {
                 //初始化orc,获取token
                 if(path == ""){
-                    final Toast toast =  Toast.makeText(getActivity(), "还未添加照片噢", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER,0,0);
-                    toast.show();
-                    //延长土司时间
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            toast.cancel();
-                        }
-                    },100000);
+                    Toast.makeText(getActivity(), "还未添加照片噢", Toast.LENGTH_LONG).show();
                 }
                 else{
                     //删除系统缩略图
@@ -266,13 +256,17 @@ public class RecordActivity extends Fragment {
                     //删除手机中图片
                     file.delete();
 
-
-                    //Bitmap bitmap = BitmapUtil.zoomBitmap(BitmapFactory.decodeFile(path), 100, 100);
-                    //ci_edit_personal_icon.setWillNotDraw(true);
                     iv_show_picture.setBackgroundResource(0);
                     //当BackgroundResource的值设置为0的时候遇有R里面没有这个值，所以默认背景图片就不会显示了
                     iv_show_picture.setImageBitmap(bitmap);
 
+                    //判断是否删除成功
+                    iv_show_picture.setDrawingCacheEnabled(true);
+                    Bitmap obmp = Bitmap.createBitmap(iv_show_picture.getDrawingCache());  //获取到Bitmap的图片
+                    if(obmp != null){
+                        Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
+                    }
+                    iv_show_picture.setDrawingCacheEnabled(false);
                 }
             }
         });
@@ -305,16 +299,7 @@ public class RecordActivity extends Fragment {
                             switch (which){
                                 // 选择了保存录音
                                 case 0:
-                                    final Toast toast =  Toast.makeText(getActivity(), "正在录音，请讲话", Toast.LENGTH_LONG);
-                                    toast.setGravity(Gravity.CENTER,0,0);
-                                    toast.show();
-                                    //延长土司时间
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            toast.cancel();
-                                        }
-                                    },100000);
+                                    Toast.makeText(getActivity(), "正在录音，请讲话", Toast.LENGTH_LONG).show();
                                     // 判断录音按钮的状态，根据相应的状态处理事务
                                     soundButton.setText(R.string.wait_for);
                                     soundButton.setEnabled(false);
@@ -583,7 +568,6 @@ public class RecordActivity extends Fragment {
                         e.printStackTrace();
                     }
 
-                    loading.setVisibility(View.VISIBLE);
                     final Toast toast =  Toast.makeText(getActivity(), "正在识别中，请稍等...", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER,0,0);
                     toast.show();
@@ -829,18 +813,6 @@ public class RecordActivity extends Fragment {
 //            }
 //        }
 //    }
-
-    private void deletePic(String path){
-        if(!TextUtils.isEmpty(path)){
-            Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-            ContentResolver contentResolver = getContext().getContentResolver();
-            String url =  MediaStore.Images.Media.DATA + "='" + path + "'";
-            //删除图片
-            contentResolver.delete(uri, url, null);
-            Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
-        }
-    }
-
 
 }
 
