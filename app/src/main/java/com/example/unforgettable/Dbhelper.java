@@ -327,8 +327,14 @@ public class Dbhelper {
         card.setFinish(true);
         card.updateAll("heading = ?", heading);
         Log.v("数据库","归档卡片--" + heading);
+    }
 
-        // TODO: 归档的撤销
+    // 撤销归档
+    void restoreFinishCard(String heading) {
+        memoryCardsList card = findCard(heading);
+        card.setToDefault("finish");
+        card.updateAll("heading = ?", heading);
+        Log.v("数据库","归档卡片撤销--" + heading);
     }
 
     /*
