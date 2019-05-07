@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.unforgettable.Bmob.Bmobhelper;
+import com.example.unforgettable.ForgetActivity;
 import com.example.unforgettable.MainActivity;
 import com.example.unforgettable.Bmob.MyUser;
 import com.example.unforgettable.R;
@@ -65,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
         final Button registerButton = findViewById(R.id.registerButton);
+        final TextView forgetPassword = findViewById(R.id.forgetPassword);
 
         // bmob初始化
         Bmob.initialize(this, "fff6417ec19cdbd68fa74e7d3860ad8c");
@@ -108,6 +110,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(v.getContext(), RegisterActivity.class);
+                v.getContext().startActivity(intent);
+            }
+        });
+
+        // 忘记密码
+        forgetPassword.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(v.getContext(), ForgetActivity.class);
                 v.getContext().startActivity(intent);
             }
         });
