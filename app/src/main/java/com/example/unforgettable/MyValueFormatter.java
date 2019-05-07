@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 public class MyValueFormatter implements IValueFormatter {
 
     private DecimalFormat mFormat;
+    private String[] mValues;
 
     public MyValueFormatter() {
         mFormat = new DecimalFormat("###,###,###,##0.0");
@@ -16,7 +17,7 @@ public class MyValueFormatter implements IValueFormatter {
 
     @Override
     public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-        return mFormat.format(value) + " $";
+        return mFormat.format(value);
     }
 }
 
