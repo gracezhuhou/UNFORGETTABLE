@@ -132,6 +132,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
         mBarChart.getDescription().setEnabled(false);
         mBarChart.setMaxVisibleValueCount(40);
 
+
         // 扩展现在只能分别在x轴和y轴
         mBarChart.setPinchZoom(false);
         //不显示图表网格
@@ -141,13 +142,15 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
         mBarChart.setHighlightFullBarEnabled(false);
 
         mBarChart.setDrawValueAboveBar(false);
+//        mBarChart.
 
         //显示边框
         mBarChart.setDrawBorders(false);
 
+
         //设置动画效果
-//        barChart.animateY(1000,);
-//        barChart.animateX(1000,);
+        mBarChart.animateY(3000);
+//        mBarChart.animateX(3000);
 
         /***XY轴的设置***/
         //X轴设置显示位置在底部
@@ -400,6 +403,8 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
             yVals1.add(new BarEntry(i, new float[]{val1, val2, val3, val4}));
         }
 
+
+
         BarDataSet set1;
 
         if (mBarChart.getData() != null &&
@@ -412,8 +417,9 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
             set1 = new BarDataSet(yVals1, "学习情况");
 //            set1.setColors(getColors());
             //6、设置柱状图的颜色
+            set1.setDrawValues(false);
             set1.setColors(new int[]{Color.rgb(255, 192, 203), Color.rgb(176, 224, 230),
-                    Color.rgb(230, 230, 250), Color.rgb(220, 220, 220)});
+                    Color.rgb(230, 230, 250), Color.rgb(245, 245, 245)});
             set1.setStackLabels(new String[]{"忘记", "模糊", "记得", "今后每日需复习"});
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
@@ -422,6 +428,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
             BarData data = new BarData(dataSets);
             data.setValueFormatter(new MyValueFormatter());
             data.setValueTextColor(Color.WHITE);
+
 
             mBarChart.setData(data);
         }

@@ -259,6 +259,7 @@ public class Chart1Fragment extends Fragment {
             mPointValues0.add(new PointValue((float) i, memory[0][i]));
             mPointValues1.add(new PointValue((float) i, memory[1][i]));
         }
+
     }
 
     private void initLineChart() {
@@ -290,8 +291,10 @@ public class Chart1Fragment extends Fragment {
             lines.add(line1);
         }
 
+
         LineChartData data = new LineChartData();
         data.setLines(lines);
+
 
         //坐标轴
         Axis axisX = new Axis(); //X轴
@@ -316,11 +319,15 @@ public class Chart1Fragment extends Fragment {
         //设置行为属性，支持缩放、滑动以及平移
         //lineChart.setLineChartData(data);
         lineChart.setInteractive(true);
-        lineChart.setZoomType(ZoomType.HORIZONTAL);
+        lineChart.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
         lineChart.setMaxZoom((float) 2);//最大方法比例
         lineChart.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
+        lineChart.startDataAnimation(1000000);
+        lineChart.startDataAnimation();
         lineChart.setLineChartData(data);
         lineChart.setVisibility(View.VISIBLE);
+
+
         /**注：下面的7，10只是代表一个数字去类比而已
          * 当时是为了解决X轴固定数据个数。
          Viewport v = new Viewport(lineChart.getMaximumViewport());

@@ -429,7 +429,7 @@ public class Chart3Fragment extends Fragment {
         //设置行为属性，支持缩放、滑动以及平移
         //lineChart.setLineChartData(data);
         lineChart.setInteractive(true);
-        lineChart.setZoomType(ZoomType.HORIZONTAL);
+        lineChart.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
         lineChart.setMaxZoom((float) 2);//最大方法比例
         lineChart.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
         lineChart.setLineChartData(data);
