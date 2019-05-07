@@ -11,6 +11,7 @@
     <color name="transparent">#00000000</color>
     <color name="semitransparent">#BFFFFFFF</color>
     <color name="gray">#EBEBEB</color>
+    <color name="textColor">#000000</color>
 
     <color name="mistyrose">#ffe4e1</color><!--浅玫瑰色 -->
     <color name="peachpuff">#ffdab9</color><!--桃色 -->

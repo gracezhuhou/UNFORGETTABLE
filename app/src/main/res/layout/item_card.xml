@@ -67,6 +67,19 @@
         android:layout_below="@+id/view2"
         android:layout_marginTop="@dimen/dp_10"/>
 
+        <ImageButton
+            android:id="@+id/starButton"
+            android:layout_width="@dimen/dp_180"
+            android:layout_height="@dimen/dp_40"
+            android:layout_weight="1"
+            android:src="@drawable/ic_star_black"/>
+        <Button
+            android:id="@+id/delButton"
+            android:layout_width="@dimen/dp_180"
+            android:layout_height="@dimen/dp_40"
+            android:layout_weight="1"
+            android:text="删除" />
+    </LinearLayout>
     <ImageButton
         android:id="@+id/starButton"
         android:layout_width="wrap_content"
