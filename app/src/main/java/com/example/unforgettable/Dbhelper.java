@@ -327,8 +327,14 @@ public class Dbhelper {
         card.setFinish(true);
         card.updateAll("heading = ?", heading);
         Log.v("数据库","归档卡片--" + heading);
+    }
 
-        // TODO: 归档的撤销
+    // 撤销归档
+    void restoreFinishCard(String heading) {
+        memoryCardsList card = findCard(heading);
+        card.setToDefault("finish");
+        card.updateAll("heading = ?", heading);
+        Log.v("数据库","归档卡片撤销--" + heading);
     }
 
     /*
@@ -348,6 +354,12 @@ public class Dbhelper {
         tab.setTabName(tabName);
         tab.save();
         Log.v("数据库","添加标签--" + tabName);
+    }
+
+    //删除
+    void deltab(String tabName){
+        LitePal.deleteAll( tabList.class,"tabName = ?", tabName);
+        Log.v("数据库","删除标签--" + tabName);
     }
 
     // 获取标签列表

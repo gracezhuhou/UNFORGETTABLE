@@ -10,11 +10,11 @@
     <Button
         android:id="@+id/clearButton"
         style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="@dimen/dp_80"
+        android:layout_width="@dimen/dp_50"
         android:layout_height="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_4"
-        android:layout_marginEnd="84dp"
-        android:layout_marginRight="84dp"
+        android:layout_marginEnd="@dimen/dp_84"
+        android:layout_marginRight="@dimen/dp_84"
         android:gravity="center"
         android:text="清空"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView"
@@ -26,7 +26,7 @@
     <Button
         android:id="@+id/submitButton"
         style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="@dimen/dp_80"
+        android:layout_width="@dimen/dp_50"
         android:layout_height="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_4"
         android:layout_marginEnd="@dimen/dp_16"
@@ -47,8 +47,10 @@
         android:layout_marginStart="@dimen/dp_16"
         android:layout_marginLeft="@dimen/dp_16"
         android:layout_marginBottom="@dimen/dp_4"
-        android:background="@color/semitransparent"
+        android:background="?attr/semitransparent"
+        android:textColor="?attr/textContentColor"
         android:hint="来源（可选）"
+        android:paddingLeft="@dimen/common_margin"
         android:singleLine="true"
         android:textAllCaps="true"
         android:textSize="@dimen/sp_14"
@@ -64,8 +66,10 @@
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginRight="@dimen/dp_16"
         android:layout_marginBottom="@dimen/dp_4"
-        android:background="@color/semitransparent"
+        android:background="?attr/semitransparent"
+        android:textColor="?attr/textContentColor"
         android:hint="作者（可选）"
+        android:paddingLeft="@dimen/common_margin"
         android:textSize="@dimen/sp_14"
         app:layout_constraintBaseline_toBaselineOf="@+id/sourceInput"
         app:layout_constraintBottom_toTopOf="@+id/headingInput"
@@ -83,8 +87,10 @@
         android:layout_marginEnd="@dimen/dp_16"
         android:layout_marginRight="@dimen/dp_16"
         android:layout_marginBottom="@dimen/dp_8"
-        android:background="@color/semitransparent"
+        android:background="?attr/semitransparent"
+        android:textColor="?attr/textContentColor"
         android:hint="提示问题（可选）-卡片正面"
+        android:paddingLeft="@dimen/common_margin"
         android:textSize="@dimen/sp_14"
         app:layout_constraintBottom_toTopOf="@+id/typeButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -100,7 +106,7 @@
         android:layout_marginRight="@dimen/dp_16"
         android:layout_marginBottom="@dimen/dp_8"
         android:layout_marginLeft="@dimen/dp_4"
-        android:background="@color/semitransparent"
+        android:background="?attr/semitransparent"
         android:text="标签"
         app:layout_constraintBaseline_toBaselineOf="@+id/cameraButton"
         app:layout_constraintBottom_toTopOf="@+id/contentInput"
@@ -109,11 +115,6 @@
         app:layout_constraintTop_toBottomOf="@+id/headingInput" />
     <!--app:layout_constraintHorizontal_chainStyle="spread_inside"-->
     <!--app:layout_constraintBaseline_toBaselineOf="@+id/cameraButton"-->
-=======
-        <!--app:layout_constraintHorizontal_chainStyle="spread_inside"-->
-        <!--app:layout_constraintBaseline_toBaselineOf="@+id/cameraButton"-->
->>>>>>> origin/WuKaiWen_Branch
-
 
     <!--拍照记录-->
     <Button
@@ -124,7 +125,7 @@
         android:layout_marginRight="@dimen/dp_4"
         android:layout_marginLeft="@dimen/dp_8"
         android:layout_marginBottom="@dimen/dp_8"
-        android:background="@color/semitransparent"
+        android:background="?attr/semitransparent"
         android:text="拍照"
         app:layout_constraintBottom_toTopOf="@+id/contentInput"
         app:layout_constraintRight_toLeftOf="@+id/typeButton"
@@ -140,7 +141,7 @@
         android:layout_marginRight="@dimen/dp_4"
         android:layout_marginLeft="@dimen/dp_4"
         android:layout_marginBottom="@dimen/dp_8"
-        android:background="@color/semitransparent"
+        android:background="?attr/semitransparent"
         android:text="录音"
         app:layout_constraintBottom_toTopOf="@+id/contentInput"
         app:layout_constraintEnd_toStartOf="@+id/cameraButton"
@@ -156,7 +157,7 @@
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginRight="@dimen/dp_4"
         android:layout_marginBottom="@dimen/dp_8"
-        android:background="@color/semitransparent"
+        android:background="?attr/semitransparent"
         android:src="@drawable/ic_star_black"
         android:textColor="@color/transparent"
         android:textSize="@dimen/sp_8"
@@ -176,6 +177,7 @@
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginRight="@dimen/dp_16"
         android:background="@drawable/contentinput_shape"
+        android:textColor="?attr/textContentColor"
         android:gravity="top"
         android:hint="文本-卡片背面"
         android:padding="@dimen/common_margin"
@@ -240,7 +242,7 @@
         android:layout_height="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_16"
         android:layout_marginRight="@dimen/dp_16"
-        android:background="@color/semitransparent"
+        android:background="?attr/semitransparent"
         android:text="播放"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contentInput"

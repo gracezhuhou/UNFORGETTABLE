@@ -5,9 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,9 +27,12 @@ import android.widget.Toast;
 import com.example.unforgettable.Bmob.Bmobhelper;
 import com.example.unforgettable.LitepalTable.memoryCardsList;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static android.app.AlertDialog.*;
+import static android.content.ContentValues.TAG;
 import static cn.bmob.v3.Bmob.getApplicationContext;
 import static org.litepal.LitePalApplication.getContext;
 
@@ -41,6 +47,8 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
         private TextView detail_text;
         private ImageButton starButton;
         private RelativeLayout cardView;
+        private ImageButton audioButton;
+        private ImageButton fileButton;
 
         public ViewHolder(View view){
             super(view);
@@ -50,6 +58,8 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
             //delButton = view.findViewById(R.id.delButton);
             cardView = view.findViewById(R.id.cardView);
             starButton = view.findViewById(R.id.starButton);
+            audioButton = view.findViewById(R.id.audioButton);
+            fileButton = view.findViewById(R.id.fileButton);
         }
     }
 
@@ -70,9 +80,22 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
         holder.content_text.setText(cardsList.getContent());
         String str = "第" + cardsList.getRepeatTime() + "次重复";
         holder.detail_text.setText(str);
+
+        // 是否为收藏
         if (cardsList.isLike()) {
             Drawable drawable = getApplicationContext().getResources().getDrawable(R.drawable.ic_star_yel);
             holder.starButton.setImageDrawable(drawable);
+        }
+
+        // 音频是否存在
+        String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + cardsList.getHeading() + ".3gp";
+        File audioFile = new File(mFileName);
+        if (!audioFile.exists()) holder.audioButton.setVisibility(View.INVISIBLE);
+
+        // 是否已归档
+        if (cardsList.isFinish()) {
+            Drawable drawable = getApplicationContext().getResources().getDrawable(R.drawable.ic_archive_yel);//TODO:
+            holder.fileButton.setImageDrawable(drawable);
         }
 
         //点击删除按钮
@@ -130,12 +153,81 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
                 boolean like = dbhelper.changeLike(heading);
                 // 改按键颜色状态
                 if (like) {
-                    Drawable drawable = getApplicationContext().getResources().getDrawable(R.drawable.ic_star_yel);
+                    Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_star_yel);
                     holder.starButton.setImageDrawable(drawable);
                 }
                 else {
-                    Drawable drawable = getApplicationContext().getResources().getDrawable(R.drawable.ic_star_black);
+                    Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_star_black);
                     holder.starButton.setImageDrawable(drawable);
+                }
+            }
+        });
+        // 点击播放
+        holder.audioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                String heading = holder.headline.getText().toString();
+                MediaPlayer mPlayer = null;
+
+                // 判断播放按钮的状态，根据相应的状态处理事务
+                holder.audioButton.setEnabled(false);
+                Drawable.ConstantState drawableState = holder.audioButton.getDrawable().getConstantState();
+                Drawable.ConstantState drawableState_yel = getContext().getResources().getDrawable(R.drawable.ic_trumpet_yel).getConstantState();
+                if (drawableState.equals(drawableState_yel)) {
+                    // 停止播放
+                    mPlayer.release();
+                    //mPlayer = null;
+                    Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_trumpet_black);
+                    holder.audioButton.setImageDrawable(drawable);
+                } else {
+                    // 开始播放
+                    mPlayer = new MediaPlayer();
+                    String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + heading + ".3gp";
+
+                    try {
+                        mPlayer.setDataSource(mFileName);// 设置多媒体数据来源
+                        mPlayer.prepare();
+                        mPlayer.start();
+                    } catch (IOException e) {
+                        Log.e(TAG, getContext().getString(R.string.e_play));
+                        Toast.makeText(getContext(), "播放失败", Toast.LENGTH_SHORT).show();
+                        Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_trumpet_black);
+                        holder.audioButton.setImageDrawable(drawable);
+                    }
+                    // 播放完成，改变按钮状态
+                    mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            //mIsPlayState = !mIsPlayState;
+                            Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_trumpet_black);
+                            holder.audioButton.setImageDrawable(drawable);
+                        }
+                    });
+
+                    Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_trumpet_yel);
+                    holder.audioButton.setImageDrawable(drawable);
+                }
+                holder.audioButton.setEnabled(true);
+            }
+        });
+        // 点击归档
+        holder.fileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                String heading = holder.headline.getText().toString();
+                memoryCardsList card = dbhelper.findCard(heading);
+                boolean isfinish = card.isFinish();
+                // 改按键颜色状态
+                if (isfinish) {
+                    Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_archive_black);
+                    holder.fileButton.setImageDrawable(drawable);
+                    dbhelper.restoreFinishCard(heading);
+                }
+                else {
+                    Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_archive_yel);
+                    holder.fileButton.setImageDrawable(drawable);
+                    dbhelper.finishCard(heading);
                 }
             }
         });
@@ -145,4 +237,5 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
     public int getItemCount(){
         return myCardsList.size();
     }
+
 }

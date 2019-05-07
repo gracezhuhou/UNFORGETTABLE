@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,8 +57,9 @@ public class ReviewActivity extends Fragment{
     private RelativeLayout remindButton;
     private ImageView cardPic;
     private ImageButton audioBt;
+    private ScrollView scrollView;
 
-    private boolean mIsPlayState = false;// 是否是播放状态
+    //private boolean mIsPlayState = false;// 是否是播放状态
     private MediaPlayer mPlayer = null;// 媒体播放器对象
 
     // 数据库相关变量
@@ -91,6 +93,7 @@ public class ReviewActivity extends Fragment{
         remindButton = view.findViewById(R.id.remindButton);
         cardPic = view.findViewById(R.id.cardPic);
         audioBt = view.findViewById(R.id.audioButton);
+        scrollView = view.findViewById(R.id.scrollView);
 //
 //        LitePal.deleteDatabase("MemoryCards");
 //        dbhelper.addTab("英语");
@@ -345,6 +348,7 @@ public class ReviewActivity extends Fragment{
         dimButton.setVisibility(View.INVISIBLE);
         forgetButton.setVisibility(View.INVISIBLE);
         audioBt.setVisibility(View.INVISIBLE);
+        scrollView.setVisibility(View.INVISIBLE);
         cardPic.setImageBitmap(null);
         Log.v("复习界面","卡片正面显示");
     }
@@ -367,6 +371,7 @@ public class ReviewActivity extends Fragment{
         passButton.setVisibility(View.VISIBLE);
         dimButton.setVisibility(View.VISIBLE);
         forgetButton.setVisibility(View.VISIBLE);
+        scrollView.setVisibility(View.VISIBLE);
         // 隐藏
         remindButton.setVisibility(View.INVISIBLE);
 

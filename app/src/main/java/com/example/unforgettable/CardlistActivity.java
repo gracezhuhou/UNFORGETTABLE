@@ -47,7 +47,6 @@ public class CardlistActivity extends Fragment {
     private TextView headline;
     private TextView content_text;
     private TextView detail_text;
-    private ConstraintLayout constraintLayout;
     private int bt_height;
 
     // 数据库相关变量
@@ -76,7 +75,6 @@ public class CardlistActivity extends Fragment {
         recyclerAdapter = new CardsRecyclerAdapter(MemoryCardsList);
         cardsRecyclerView.setAdapter(recyclerAdapter);
         cardsRecyclerView.setHasFixedSize(true);
-        constraintLayout = view.findViewById(R.id.Constraint);
         tab_add = view.findViewById(R.id.tab_add);
 
         return view;

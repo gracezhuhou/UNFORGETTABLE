@@ -2,18 +2,11 @@ package com.example.unforgettable;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import com.example.unforgettable.Bmob.MyUser;
-
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.UpdateListener;
 
 public class AppearanceChange extends AppCompatActivity {
     Button backButton;
@@ -22,6 +15,7 @@ public class AppearanceChange extends AppCompatActivity {
     LinearLayout sampleGradient;
     LinearLayout samplePink;
     LinearLayout sampleCartoon;
+    LinearLayout sampleGot;
 
     SharedPreferences pref;
 
@@ -50,6 +44,7 @@ public class AppearanceChange extends AppCompatActivity {
         sampleGradient = findViewById(R.id.sample_gradient);
         samplePink = findViewById(R.id.sample_pink);
         sampleCartoon = findViewById(R.id.sample_cartoon);
+        sampleGot = findViewById(R.id.sample_got);
 
         setListener();
 
@@ -111,6 +106,18 @@ public class AppearanceChange extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int mode = R.style.AppTheme_Base_Cartoon;
+                editor.putInt("background", mode);
+                editor.apply();
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                intent.putExtra("para", 1);
+                v.getContext().startActivity(intent);
+                finish();
+            }
+        });
+        sampleGot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int mode = R.style.AppTheme_Base_GoT;
                 editor.putInt("background", mode);
                 editor.apply();
                 Intent intent = new Intent(v.getContext(), MainActivity.class);
