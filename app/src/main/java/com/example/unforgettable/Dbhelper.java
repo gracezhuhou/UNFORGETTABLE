@@ -350,6 +350,12 @@ public class Dbhelper {
         Log.v("数据库","添加标签--" + tabName);
     }
 
+    //删除
+    void deltab(String tabName){
+        LitePal.deleteAll( tabList.class,"tabName = ?", tabName);
+        Log.v("数据库","删除标签--" + tabName);
+    }
+
     // 获取标签列表
     List<tabList> getTabList(){
         List<tabList> tabList = LitePal.order("id").find(tabList.class);
