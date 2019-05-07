@@ -105,7 +105,7 @@ public class TablistActivity extends AppCompatActivity {
                                         String deleteText = tab.get(index);
                                         dbhelper.deltab(deleteText);
 
-                                        // 标签列表中动态添加新标签
+                                        // 标签列表中动态删除标签
                                         adapter.remove(deleteText);
                                         adapter.notifyDataSetChanged();
                                     }
