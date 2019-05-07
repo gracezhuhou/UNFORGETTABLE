@@ -14,6 +14,18 @@
         android:layout_marginLeft="@dimen/dp_8"
         android:text="添加"/>
 
+    <!--返回-->
+    <Button
+        android:id="@+id/backButton"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_4"
+        android:gravity="center"
+        android:text="返回"/>
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"

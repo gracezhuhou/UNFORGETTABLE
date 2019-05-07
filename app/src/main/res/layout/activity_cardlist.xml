@@ -21,21 +21,14 @@
             android:layout_centerHorizontal="true" />       <!--通过entries属性指定一个下拉列表项，是一个数组资源-->
 
 
-        <Button
-            android:id="@+id/card_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="编辑"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="@dimen/dp_8"/>
+        <!--<Button-->
+            <!--android:id="@+id/card_edit"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="编辑"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_marginLeft="@dimen/dp_8"/>-->
 
-        <Button
-            android:id="@+id/tab_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="添加"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_8" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

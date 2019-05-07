@@ -39,6 +39,7 @@ import static org.litepal.LitePalApplication.getContext;
 public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdapter.ViewHolder>{
     private List<memoryCardsList> myCardsList;
     private Dbhelper dbhelper = new Dbhelper();
+    private MediaPlayer mPlayer = null;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         private Button delButton;
@@ -167,7 +168,6 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
             @Override
             public void onClick(View v){
                 String heading = holder.headline.getText().toString();
-                MediaPlayer mPlayer = null;
 
                 // 判断播放按钮的状态，根据相应的状态处理事务
                 holder.audioButton.setEnabled(false);
@@ -176,7 +176,7 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
                 if (drawableState.equals(drawableState_yel)) {
                     // 停止播放
                     mPlayer.release();
-                    //mPlayer = null;
+                    mPlayer = null;
                     Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_trumpet_black);
                     holder.audioButton.setImageDrawable(drawable);
                 } else {

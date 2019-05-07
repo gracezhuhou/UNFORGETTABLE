@@ -165,9 +165,9 @@ public class Dbhelper {
         List<memoryCardsList> TabCardList;
 
         if (tabName.equals("未分类"))
-            TabCardList = LitePal.where("tabName = ? ", "").order("id").find(memoryCardsList.class);
+            TabCardList = LitePal.where("tab = ? ", "").order("id").find(memoryCardsList.class);
         else
-            TabCardList = LitePal.where("tabName = ? ", tabName).order("id").find(memoryCardsList.class);
+            TabCardList = LitePal.where("tab = ? ", tabName).order("id").find(memoryCardsList.class);
 
 //        for (int i = 0; i < AllCardList.size(); i++) {
 //            // 标签
