@@ -30,7 +30,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginRight="24dp"
             android:layout_marginBottom="45dp"
-            android:background="@color/semitransparent"></lecho.lib.hellocharts.view.LineChartView>
+            android:background="?attr/semitransparent"></lecho.lib.hellocharts.view.LineChartView>
 
         <!--<com.github.mikephil.charting.charts.PieChart-->
             <!--android:id="@+id/consume_pie_chart"-->
