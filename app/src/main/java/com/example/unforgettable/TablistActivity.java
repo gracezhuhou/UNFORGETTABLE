@@ -31,6 +31,7 @@ public class TablistActivity extends AppCompatActivity {
     // 前端相关变量
     private ListView listView;
     private Button tab_add;
+    private Button backButton;
 
     // 数据库相关变量
     private Dbhelper dbhelper = new Dbhelper();
@@ -57,6 +58,7 @@ public class TablistActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
         tab_add = findViewById(R.id.tab_add);
+        backButton = findViewById(R.id.backButton);
 
         // 获取所有标签
         List<tabList> tabList = dbhelper.getTabList();
@@ -131,6 +133,13 @@ public class TablistActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog_show();
+            }
+        });
+        // 返回按钮响应
+        backButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                finish();
             }
         });
     }
