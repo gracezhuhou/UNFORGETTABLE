@@ -16,21 +16,26 @@
 
         <Spinner
             android:id="@+id/spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="@dimen/dp_30"
+            android:layout_centerHorizontal="true"
             android:layout_alignBottom="@+id/fileButton"
-            android:layout_marginBottom="24dp"></Spinner>
+            android:background="@drawable/spinner_border"
+            android:textSize="@dimen/sp_16"></Spinner>
 
         <lecho.lib.hellocharts.view.LineChartView
             android:id="@+id/chart"
-            android:layout_width="450dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/dp_24"
+            android:layout_marginRight="@dimen/dp_24"
+            android:layout_marginBottom="@dimen/dp_36"
+            android:background="?attr/semitransparent"
             android:layout_below="@id/spinner"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginBottom="45dp"
-            android:background="?attr/semitransparent"></lecho.lib.hellocharts.view.LineChartView>
+            android:layout_marginTop="@dimen/dp_3"></lecho.lib.hellocharts.view.LineChartView>
 
         <!--<com.github.mikephil.charting.charts.PieChart-->
             <!--android:id="@+id/consume_pie_chart"-->
