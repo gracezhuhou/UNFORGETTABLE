@@ -268,7 +268,7 @@ public class Chart1Fragment extends Fragment {
         if(!mPointValues0.isEmpty()){
             Line line0 = new Line(mPointValues0).setColor(Color.parseColor("#B0E0E6"));  //折线的颜色（橙色）
             line0.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
-            line0.setCubic(true);//曲线是否平滑，即是曲线还是折线
+            line0.setCubic(false);//曲线是否平滑，即是曲线还是折线
             line0.setFilled(false);//是否填充曲线的面积
             line0.setHasLabels(false);//曲线的数据坐标是否加上备注
 //      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
