@@ -9,7 +9,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -37,6 +39,7 @@ public class TablistActivity extends AppCompatActivity {
     ArrayList<String> tab;   // 标签数组
     private SharedPreferences pref;
     protected int position_int;
+    int index = 0;// 长按删除指定数据的索引
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +59,11 @@ public class TablistActivity extends AppCompatActivity {
         tab_add = findViewById(R.id.tab_add);
 
         // 获取所有标签
-        List<tabList> tapList = dbhelper.getTabList();
-        int size = tapList.size();
+        List<tabList> tabList = dbhelper.getTabList();
+        int size = tabList.size();
         tab = new ArrayList<String>();
         for (int i = 0; i < size; ++i){
-            tab.add(tapList.get(i).getTabName());
+            tab.add(tabList.get(i).getTabName());
         }
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1 , tab);  //创建一个数组适配器
@@ -88,8 +91,39 @@ public class TablistActivity extends AppCompatActivity {
             }
         });
 
-    }
+        //长按删除
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, final int arg2, long arg3) {
+                new AlertDialog.Builder(TablistActivity.this)
+                        .setTitle("删除标签")
+                        .setPositiveButton("确认",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int which) {
+                                        index = arg2;
+                                        String deleteText = tab.get(index);
+                                        dbhelper.deltab(deleteText);
 
+                                        // 标签列表中动态添加新标签
+                                        adapter.remove(deleteText);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                })
+
+                        .setNegativeButton("取消",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).show();
+
+                return true;
+
+            }
+
+        });
+    }
 
     void setListener(){
         //添加标签按钮
@@ -99,10 +133,9 @@ public class TablistActivity extends AppCompatActivity {
                 dialog_show();
             }
         });
-        
     }
 
-    //添加标签框
+    //添加标签dialog
     protected void dialog_show(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater factory = LayoutInflater.from(this);
@@ -128,10 +161,7 @@ public class TablistActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
-
         builder.show();
-
-
     }
 
     private void showDialog(String str) {
@@ -139,4 +169,5 @@ public class TablistActivity extends AppCompatActivity {
                 .setMessage(str)
                 .show();
     }
+
 }
