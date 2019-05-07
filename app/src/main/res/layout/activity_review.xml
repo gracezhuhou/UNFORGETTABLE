@@ -27,7 +27,7 @@
         android:layout_height="@dimen/dp_22"
         android:layout_marginRight="@dimen/dp_8"
         android:background="@color/transparent"
-        android:drawableRight="@drawable/ic_archive"
+        android:drawableRight="@drawable/ic_archive_black"
         android:text=""
         android:textColor="@color/transparent"
         android:textSize="@dimen/sp_16"
