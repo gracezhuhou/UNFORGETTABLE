@@ -7,6 +7,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="textContentColor">@color/black</item>
         <item name="semitransparent">#B3FFFFFF</item>
     </style>
     <!--粉色-->
@@ -18,6 +19,7 @@
         <item name="colorPrimary">#CD3333</item>
         <item name="colorPrimaryDark">#D8BFD8</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="textContentColor">@color/black</item>
         <item name="semitransparent">#B3FFFFFF</item>
     </style>
     <!--蓝白-->
@@ -29,6 +31,7 @@
         <item name="colorPrimary">#4169E1</item>
         <item name="colorPrimaryDark">#B2DFEE</item>
         <item name="colorAccent">#5CACEE</item>
+        <item name="textContentColor">@color/black</item>
         <item name="semitransparent">#B3FFFFFF</item>
     </style>
     <!--卡通-->
@@ -40,6 +43,7 @@
         <item name="colorPrimary">#0A0A0A</item>
         <item name="colorPrimaryDark">#008B8B</item>
         <item name="colorAccent">#20B2AA</item>
+        <item name="textContentColor">@color/black</item>
         <item name="semitransparent">#B3FFFFFF</item>
     </style>
     <!--渐变-->
@@ -51,6 +55,7 @@
         <item name="colorPrimary">#C67171</item>
         <item name="colorPrimaryDark">#DEB887</item>
         <item name="colorAccent">#EECFA1</item>
+        <item name="textContentColor">@color/black</item>
         <item name="semitransparent">#B3FFFFFF</item>
     </style>
     <!--权游-->
@@ -59,12 +64,11 @@
         <item name="android:windowBackground">@drawable/background_got</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">14sp</item>
-        <item name="editTextColor">@color/white</item>
-        <item name="textcolor">@color/white</item>
+        <item name="textContentColor">@color/white</item>
         <item name="colorPrimary">#232B33</item>
         <item name="colorPrimaryDark">#415B6B</item>
         <item name="colorAccent">#74A0C7</item>
-        <item name="semitransparent">#99000102</item>
+        <item name="semitransparent">#BE01101F</item>
     </style>
     <style name="AppTheme.Base.Base.NoActionBar">
         <item name="windowActionBar">false</item>

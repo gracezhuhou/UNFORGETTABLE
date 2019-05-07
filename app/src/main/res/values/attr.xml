@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="BarChartView">
-        <attr name="textcolor" format="color"/>
+        <attr name="textContentColor" format="color"/>
         <attr name="firstBarColor" format="color"/>
         <attr name="secondeBarColor" format="color"/>
         <attr name="textMargin" format="dimension"/>

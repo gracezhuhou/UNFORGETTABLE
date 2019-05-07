@@ -30,14 +30,14 @@
 
         <ImageButton
             android:id="@+id/starButton"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp_180"
+            android:layout_height="@dimen/dp_40"
             android:layout_weight="1"
             android:src="@drawable/ic_star_black"/>
         <Button
             android:id="@+id/delButton"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp_180"
+            android:layout_height="@dimen/dp_40"
             android:layout_weight="1"
             android:text="删除" />
     </LinearLayout>
