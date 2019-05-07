@@ -24,7 +24,7 @@ public class MyAxisValueFormatter implements IAxisValueFormatter {
         //return mFormat.format(value) + " $";
         // "value" represents the position of the label on the axis (x or y)
         Log.d(TAG, "----->getFormattedValue: "+value);
-        return mValues[(int) value % mValues.length];
+        return mValues[(int) value];
     }
 
     @Override

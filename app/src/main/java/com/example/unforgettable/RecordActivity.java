@@ -54,8 +54,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -828,7 +826,7 @@ public class RecordActivity extends Fragment {
 
     //解析图片进行文字识别
     public void Currency(){
-        final StringBuffer sb=new StringBuffer();
+        final StringBuffer sbPic=new StringBuffer();
         // 通用文字识别参数设置
         GeneralBasicParams param = new GeneralBasicParams();
         //param.setDetectDirection(true);
@@ -844,11 +842,12 @@ public class RecordActivity extends Fragment {
                 // 调用成功，返回GeneralResult对象
                 for (WordSimple wordSimple : result.getWordList()) {
                     // wordSimple不包含位置信息
-                    sb.append(wordSimple.getWords());
-                    sb.append("\n");
+                    sbPic.append(wordSimple.getWords());
+                    sbPic.append("\n");
                 }
-                content = sb.toString();
-                contentInput.setText(sb.toString());
+                content = sbPic.toString();
+                contentInput.setText(sbPic.toString());
+                //TODO:
                 // json格式返回字符串
 //                listener.onResult(result.getJsonRes());
                 Toast.makeText(getActivity(),"文字识别完成", Toast.LENGTH_SHORT).show();

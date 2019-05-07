@@ -41,6 +41,8 @@
             android:id="@+id/mBarChart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_70"
+            android:layout_marginRight="@dimen/dp_40"
             android:layout_below="@id/spinner"
             android:layout_weight="1" />
 
