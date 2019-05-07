@@ -10,6 +10,7 @@
         android:required="true" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 连接网络权限，用于执行云端语音能力 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 获取手机录音机使用权限，听写、识别、语义理解需要用到此权限 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 读取网络信息状态 -->
@@ -18,7 +19,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 读取手机信息权限 -->
     <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- 读取联系人权限，上传联系人需要用到此权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 外存储写入权限， 构建语法需要用到此权限 -->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /><!-- 悬浮窗口权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 悬浮窗口权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.hardware.camera.autofocus" />
@@ -31,7 +32,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Base.Base">
-        <activity android:name=".AppearanceChange"></activity>
+        <activity android:name=".ForgetActivity"></activity>
+        <activity android:name=".AppearanceChange" />
         <activity android:name=".EditUserActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".EditCardActivity" />
@@ -49,7 +51,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
 
         <meta-data
             android:name="com.google.android.actions"
