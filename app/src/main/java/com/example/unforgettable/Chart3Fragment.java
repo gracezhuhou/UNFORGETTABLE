@@ -151,8 +151,8 @@ public class Chart3Fragment extends Fragment {
         mAxisXValues.clear();
         dBhelper = new Dbhelper();
 
-        getAxisPoints();
-        getAxisXLables();
+//        getAxisPoints();
+//        getAxisXLables();
         initLineChart();
     }
 
