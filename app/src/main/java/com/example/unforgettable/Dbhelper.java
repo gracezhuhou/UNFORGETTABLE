@@ -55,7 +55,7 @@ public class Dbhelper {
     */
 
     // 增加
-    boolean addCard(String source, String author, String heading, String content, boolean like, String tab, boolean isAudio){
+    boolean addCard(String source, String author, String heading, String content, boolean like, String tab){
         // 不可重复Heading
         if (LitePal.where("heading = ?", heading).find(memoryCardsList.class).size() != 0){
             Toast.makeText(getApplicationContext(),"标题不可重复", Toast.LENGTH_SHORT).show();
@@ -82,7 +82,7 @@ public class Dbhelper {
         card.setTab(tab);
         card.setReciteDate(today());
         card.setReciteDate(today());
-        card.setAudio(isAudio);
+        //card.setAudio(isAudio);
         if (pic != null) {
             //把图片转换字节流
             byte[] images = img(pic);
@@ -107,16 +107,26 @@ public class Dbhelper {
         if (heading.equals("") || content.equals(""))  return false;
 
         memoryCardsList card = findCard(oldHeading);
+        //获取图片
+        String picPath = Environment.getExternalStorageDirectory().getPath() + "/cardPic.jpg";
+        Bitmap pic= BitmapFactory.decodeFile(picPath);
 
         card.setSource(source);
         card.setAuthor(author);
         card.setHeading(heading);
         card.setContent(content);
         card.setTab(tab);
+        // 收藏
         if (like)
             card.setLike(like);
         else
             card.setToDefault("like");
+        //保存图片
+        if (pic != null) {
+            //把图片转换字节流
+            byte[] images = img(pic);
+            card.setPicture(images);
+        }
         card.updateAll("heading = ?", oldHeading);
         Log.v("数据库","更改卡片--" + heading);
         return true;

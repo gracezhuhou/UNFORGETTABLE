@@ -1,5 +1,6 @@
 package com.example.unforgettable;
 
+import android.app.Service;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -36,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
+import static org.litepal.LitePalApplication.getContext;
 
 
 public class ReviewActivity extends Fragment{
@@ -58,6 +61,7 @@ public class ReviewActivity extends Fragment{
     private ImageView cardPic;
     private ImageButton audioBt;
     private ScrollView scrollView;
+    private TextView authorText;
 
     //private boolean mIsPlayState = false;// 是否是播放状态
     private MediaPlayer mPlayer = null;// 媒体播放器对象
@@ -94,6 +98,7 @@ public class ReviewActivity extends Fragment{
         cardPic = view.findViewById(R.id.cardPic);
         audioBt = view.findViewById(R.id.audioButton);
         scrollView = view.findViewById(R.id.scrollView);
+        authorText = view.findViewById(R.id.authorText);
 //
 //        LitePal.deleteDatabase("MemoryCards");
 //        dbhelper.addTab("英语");
@@ -148,6 +153,8 @@ public class ReviewActivity extends Fragment{
             @Override
             public void onClick(View v){
                 like = dbhelper.changeLike((String)headingText.getText());
+                Vibrator vibrator=(Vibrator)getActivity().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,40}, -1);
 
                 // 改按键颜色状态
                 if (like) {
@@ -185,6 +192,8 @@ public class ReviewActivity extends Fragment{
                 reciteCardList.remove(0);
                 showHeading();
                 Log.v("复习界面","记住按钮点击事件");
+                Vibrator vibrator=(Vibrator)getActivity().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,50}, -1);
             }
         });
         // 模糊按钮监听
@@ -198,6 +207,8 @@ public class ReviewActivity extends Fragment{
                 reciteCardList.add(forgetCard);
                 showHeading();
                 Log.v("复习界面","模糊按钮点击事件");
+                Vibrator vibrator=(Vibrator)getActivity().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,50}, -1);
             }
         });
         // 忘记按钮监听
@@ -211,6 +222,8 @@ public class ReviewActivity extends Fragment{
                 reciteCardList.add(forgetCard);
                 showHeading();
                 Log.v("复习界面","忘记按钮点击事件");
+                Vibrator vibrator=(Vibrator)getActivity().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,50}, -1);
             }
         });
         // 归档按钮监听
@@ -221,6 +234,8 @@ public class ReviewActivity extends Fragment{
                 reciteCardList.remove(0);
                 showHeading();
                 Log.v("复习界面","归档按钮点击事件");
+                Vibrator vibrator=(Vibrator)getActivity().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,40}, -1);
             }
         });
         // 编辑按钮点击
@@ -232,6 +247,8 @@ public class ReviewActivity extends Fragment{
                 Intent intent = new Intent(v.getContext(), EditCardActivity.class);
                 intent.putExtra("heading_extra", heading);
                 v.getContext().startActivity(intent);
+                Vibrator vibrator=(Vibrator)getActivity().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,40}, -1);
             }
         });
         // 下拉菜单点击
@@ -254,6 +271,8 @@ public class ReviewActivity extends Fragment{
             public void onClick(View v){
                 Log.v("复习界面","播放按钮点击事件");
                 String heading = (String)headingText.getText();
+                Vibrator vibrator=(Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,40}, -1);
 
                 // 判断播放按钮的状态，根据相应的状态处理事务
                 audioBt.setEnabled(false);
@@ -312,12 +331,14 @@ public class ReviewActivity extends Fragment{
             headingText.setText("无背诵卡片");
             remindButton.setVisibility(View.INVISIBLE); // 隐藏
             typeText.setVisibility(View.INVISIBLE);
+            authorText.setText("");
         }
         else {
-            headingText.setText(reciteCardList.get(0).getHeading());    // 当前卡片标题
-            typeText.setText(reciteCardList.get(0).getTab());   // 当前卡片标签
+            memoryCardsList reciteCard = reciteCardList.get(0);
+            headingText.setText(reciteCard.getHeading());    // 当前卡片标题
+            typeText.setText(reciteCard.getTab());   // 当前卡片标签
             remindButton.setVisibility(View.VISIBLE);   // 显示
-            like = reciteCardList.get(0).isLike();
+            like = reciteCard.isLike();
             // 设置初始星星颜色
             // 改按键颜色状态
             if (like) {
@@ -333,6 +354,19 @@ public class ReviewActivity extends Fragment{
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                 starButton.setCompoundDrawables(null, null, drawable, null);
                // starButton.setTextColor(Color.argb(0, 0, 255, 0));
+            }
+            // 来源作者
+            String authorStr = reciteCard.getAuthor();
+            String sourceStr = reciteCard.getSource();
+            if (authorStr.equals("")) {
+                authorText.setText(sourceStr);
+            }
+            else if (sourceStr.equals("")) {
+                authorText.setText(authorStr);
+            }
+            else {
+                String str = authorStr + " · 《" + sourceStr + "》";
+                authorText.setText(str);
             }
         }
         // 隐藏

@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,6 +19,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -150,6 +152,8 @@ public class SetActivity extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 60}, -1);
                 // 上传云端
                 //bmobhelper.logout();
 
@@ -175,6 +179,8 @@ public class SetActivity extends Fragment {
                 builder.setItems(strArray, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int index) {
+                        Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                        vibrator.vibrate(new long[]{0, 40}, -1);
 //                        Toast.makeText(getActivity(),strArray[index], Toast.LENGTH_SHORT).show();
                         if (index == 0) {
                             // 上传本机数据
@@ -218,6 +224,9 @@ public class SetActivity extends Fragment {
                     @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onClick(View view) {
+                        Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                        vibrator.vibrate(new long[]{0, 40}, -1);
+
                         hour = timePicker.getHour();
                         minute = timePicker.getMinute();
                         mHour = Integer.toString(hour);
@@ -271,6 +280,10 @@ public class SetActivity extends Fragment {
                     @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onClick(View view) {
+                        // 储存提醒时间
+                        editor = getActivity().getSharedPreferences("Alert", MODE_PRIVATE).edit();
+                        editor.putString("alertTime", "");
+                        editor.apply();
                         //time = "不提醒";
                         set_time.setText("不提醒");
                         if (dialog != null && dialog.isShowing()) {
@@ -296,6 +309,9 @@ public class SetActivity extends Fragment {
         userPic.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 40}, -1);
+
                 takePhotoOrSelectPicture();
             }
         });
@@ -306,6 +322,9 @@ public class SetActivity extends Fragment {
         userName.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 40}, -1);
+
                 Intent intent = new Intent(v.getContext(), EditUserActivity.class);
                 v.getContext().startActivity(intent);
             }

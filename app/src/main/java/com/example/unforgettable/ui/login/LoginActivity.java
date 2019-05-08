@@ -1,12 +1,14 @@
 package com.example.unforgettable.ui.login;
 
 import android.app.Activity;
+import android.app.Service;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
@@ -40,6 +42,8 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FetchUserInfoListener;
 import cn.bmob.v3.listener.SaveListener;
+
+import static org.litepal.LitePalApplication.getContext;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -109,6 +113,9 @@ public class LoginActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 40}, -1);
+
                 Intent intent = new Intent(v.getContext(), RegisterActivity.class);
                 v.getContext().startActivity(intent);
             }
@@ -118,6 +125,9 @@ public class LoginActivity extends AppCompatActivity {
         forgetPassword.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 40}, -1);
+
                 Intent intent = new Intent(v.getContext(), ForgetActivity.class);
                 v.getContext().startActivity(intent);
             }
@@ -194,6 +204,9 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 50}, -1);
+
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 MyUser userlogin = new MyUser();
                 userlogin.setUsername(usernameEditText.getText().toString());
@@ -248,6 +261,8 @@ public class LoginActivity extends AppCompatActivity {
                             loadingProgressBar.setVisibility(View.INVISIBLE);
                             usernameEditText.setText("");
                             passwordEditText.setText("");
+                            Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                            vibrator.vibrate(new long[]{0, 100}, -1);
                         }
                     }
                 });
@@ -257,7 +272,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = "欢迎~" + model.getDisplayName();
-        // TODO : initiate successful logged in experience
+        // initiate successful logged in experience
         Toast.makeText(this, welcome, Toast.LENGTH_LONG).show();
 
         // 跳转界面
