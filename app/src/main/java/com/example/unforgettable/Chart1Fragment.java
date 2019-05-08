@@ -250,8 +250,9 @@ public class Chart1Fragment extends Fragment {
             }
             else {
                 float temp = (float) ((remember + (0.5 * dim)) / (remember + dim + forget));
-                memory[1][i] = 1-temp;
+                memory[1][i] = temp;
             }
+            memory[1][0] = 1;
 
         }
 
@@ -281,7 +282,7 @@ public class Chart1Fragment extends Fragment {
         if(!mPointValues1.isEmpty()){
             Line line1 = new Line(mPointValues1).setColor(Color.parseColor("#ffe4e1"));  //折线的颜色（浅玫瑰色）
             line1.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
-            line1.setCubic(true);//曲线是否平滑，即是曲线还是折线
+            line1.setCubic(false);//曲线是否平滑，即是曲线还是折线
             line1.setFilled(false);//是否填充曲线的面积
             line1.setHasLabels(false);//曲线的数据坐标是否加上备注
 //      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）

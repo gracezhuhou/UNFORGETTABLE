@@ -345,7 +345,7 @@ public class Chart3Fragment extends Fragment {
             line0.setHasLabels(false);//曲线的数据坐标是否加上备注
 //      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
             line0.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
-            line0.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
+            line0.setHasPoints(false);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
 
             lines.add(line0);
         }
@@ -358,7 +358,7 @@ public class Chart3Fragment extends Fragment {
             line1.setHasLabels(false);//曲线的数据坐标是否加上备注
 //      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
             line1.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
-            line1.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
+            line1.setHasPoints(false);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
 
             lines.add(line1);
         }
@@ -371,7 +371,7 @@ public class Chart3Fragment extends Fragment {
             line2.setHasLabels(false);//曲线的数据坐标是否加上备注
 //      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
             line2.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
-            line2.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
+            line2.setHasPoints(false);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
 
             lines.add(line2);
 
@@ -385,7 +385,7 @@ public class Chart3Fragment extends Fragment {
             line3.setHasLabels(false);//曲线的数据坐标是否加上备注
 //      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
             line3.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
-            line3.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
+            line3.setHasPoints(false);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
 
             lines.add(line3);
         }
@@ -398,7 +398,7 @@ public class Chart3Fragment extends Fragment {
             line4.setHasLabels(false);//曲线的数据坐标是否加上备注
 //      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
             line4.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
-            line4.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
+            line4.setHasPoints(false);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
 
             lines.add(line4);
 

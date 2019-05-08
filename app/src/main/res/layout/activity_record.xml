@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".RecordActivity">
 
-    <!--完成-->
+
     <Button
         android:id="@+id/clearButton"
         style="@style/Widget.AppCompat.Button.Borderless"
@@ -23,6 +23,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+    <!--完成-->
     <Button
         android:id="@+id/submitButton"
         style="@style/Widget.AppCompat.Button.Borderless"

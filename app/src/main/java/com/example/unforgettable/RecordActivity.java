@@ -1,6 +1,7 @@
 package com.example.unforgettable;
 
 import android.Manifest;
+import android.app.Service;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -64,6 +66,7 @@ import java.util.ArrayList;
 import static android.app.Activity.RESULT_OK;
 import static cn.bmob.v3.Bmob.getApplicationContext;
 import static com.baidu.ocr.sdk.utils.ImageUtil.calculateInSampleSize;
+import static org.litepal.LitePalApplication.getContext;
 
 public class RecordActivity extends Fragment {
     // 前端相关变量
@@ -104,6 +107,7 @@ public class RecordActivity extends Fragment {
     private static final int TAKE_PHOTO = 11;// 拍照
     private static final int CROP_PHOTO = 12;// 裁剪图片
     private static final int LOCAL_CROP = 13;// 本地图库
+    private static final int GET_TAB = 1;
 
     private ImageView iv_show_picture;
     private ImageButton btdel;
@@ -185,6 +189,9 @@ public class RecordActivity extends Fragment {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Vibrator vibrator=(Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,60}, -1);
+
                 getInput(); //获取用户输入内容
 
                 // 选择标签
@@ -194,7 +201,7 @@ public class RecordActivity extends Fragment {
                 else tab = typeButton.getText().toString();
 
                 //添加记录
-                if (dbhelper.addCard(source, author, heading, content, like, tab, isAudio)) {
+                if (dbhelper.addCard(source, author, heading, content, like, tab)) {
                     if (isAudio) {
                         File audioFile = new File(mFileName);
                         String fileName = heading + ".3gp";
@@ -203,9 +210,10 @@ public class RecordActivity extends Fragment {
                         audioFile.renameTo(newfile);
                     }
 
-                    // TODO: 清空页面
-                    clearAll();
+                    Toast.makeText(getActivity(), "新建卡片成功", Toast.LENGTH_SHORT).show();
 
+                    // 清空页面
+                    clearAll();
                 }
             }
         });
@@ -213,6 +221,9 @@ public class RecordActivity extends Fragment {
         starButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                Vibrator vibrator=(Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,40}, -1);
+
                 // 改收藏按键颜色状态
                 Drawable.ConstantState drawableState = starButton.getDrawable().getConstantState();
                 Drawable.ConstantState drawableState_yel = getResources().getDrawable(R.drawable.ic_star_yel).getConstantState();
@@ -233,6 +244,9 @@ public class RecordActivity extends Fragment {
         soundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 40}, -1);
+
                 if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
                 {
                     ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.RECORD_AUDIO},1);
@@ -245,6 +259,9 @@ public class RecordActivity extends Fragment {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 40}, -1);
+
                 // 判断播放按钮的状态，根据相应的状态处理事务
                 playButton.setText(R.string.wait_for);
                 playButton.setEnabled(false);
@@ -264,6 +281,9 @@ public class RecordActivity extends Fragment {
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 40}, -1);
+
                 if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
                 {
                     ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA},1);
@@ -275,36 +295,38 @@ public class RecordActivity extends Fragment {
 
 
         iv_show_picture.setOnLongClickListener(new View.OnLongClickListener() {
-                                                       @Override
-                                                       public boolean onLongClick(View v) {
-//                                                           AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-////                                                           builder.setTitle("提升");
-////                                                           builder.setMessage("");
-//                                                           builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
-//                                                               @Override
-//                                                               public void onClick(DialogInterface dialog, int which) {
-//                                                                   //删除系统缩略图
-//                                                                   getContext().getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, MediaStore.Images.Media.DATA + "=?", new String[]{path});
-//                                                                   //删除手机中图片
-//                                                                   file.delete();
+           @Override
+           public boolean onLongClick(View v) {
+               Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+               vibrator.vibrate(new long[]{0, 60}, -1);
+//               AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+////             builder.setTitle("提升");
+////             builder.setMessage("");
+//               builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+//                   @Override
+//                   public void onClick(DialogInterface dialog, int which) {
+//                       //删除系统缩略图
+//                       getContext().getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, MediaStore.Images.Media.DATA + "=?", new String[]{path});
+//                       //删除手机中图片
+//                       file.delete();
 //
-//                                                                   iv_show_picture.setBackgroundResource(0);
-//                                                                   //当BackgroundResource的值设置为0的时候遇有R里面没有这个值，所以默认背景图片就不会显示了
-//                                                                   iv_show_picture.setImageBitmap(bitmap);
+//                       iv_show_picture.setBackgroundResource(0);
+//                       //当BackgroundResource的值设置为0的时候遇有R里面没有这个值，所以默认背景图片就不会显示了
+//                       iv_show_picture.setImageBitmap(bitmap);
 //
-//                                                                   //判断是否删除成功
-//                                                                   if(iv_show_picture.getDrawable() == null){
-//                                                                       Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
-//                                                                    }
-//                                                                }
-//                                                       });
-//                                                           builder.setNegativeButton("",null);
-//                                                           builder.show();
-                                                           btdel.setVisibility(View.VISIBLE);
-                                                           btdel.bringToFront();
-                                                           return true;
-                                                       }
-                                               });
+//                       //判断是否删除成功
+//                       if(iv_show_picture.getDrawable() == null){
+//                           Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//           });
+//               builder.setNegativeButton("",null);
+//               builder.show();
+               btdel.setVisibility(View.VISIBLE);
+               btdel.bringToFront();
+               return true;
+           }
+           });
 
         //删除按钮监听
         btdel.setOnClickListener(new View.OnClickListener() {
@@ -315,6 +337,9 @@ public class RecordActivity extends Fragment {
                     Toast.makeText(getActivity(), "还未添加照片噢", Toast.LENGTH_LONG).show();
                 }
                 else deletePic();
+
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 50}, -1);
             }
         });
 
@@ -322,6 +347,9 @@ public class RecordActivity extends Fragment {
         typeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 40}, -1);
+
                 Intent intent = new Intent(getActivity(),TablistActivity.class);
                 startActivityForResult(intent,1);
             }
@@ -331,6 +359,8 @@ public class RecordActivity extends Fragment {
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 60}, -1);
                 clearAll();
             }
         });
@@ -550,6 +580,7 @@ public class RecordActivity extends Fragment {
                         switch (which){
                             // 选择了拍照
                             case 0:
+                                submitButton.setEnabled(false);
 
                                 try {
                                     // 文件存在，删除文件
@@ -729,12 +760,15 @@ public class RecordActivity extends Fragment {
 //                        e.printStackTrace();
 //                    }
 //                }
+                break;
 
-            case 1: //tab标签
+            case GET_TAB: //tab标签
                 if (resultCode == RESULT_OK){
-                    String returndata = data.getStringExtra("tabname");
-                    typeButton.setText(returndata);
-                    Log.d("RecordActivity", returndata);
+                    if (data != null) {
+                        String returndata = data.getStringExtra("tabname");
+                        typeButton.setText(returndata);
+                        Log.d("RecordActivity", returndata);
+                    }
                 }
 
                 break;
@@ -863,6 +897,7 @@ public class RecordActivity extends Fragment {
                 // json格式返回字符串
 //                listener.onResult(result.getJsonRes());
                 Toast.makeText(getActivity(),"文字识别完成", Toast.LENGTH_SHORT).show();
+                submitButton.setEnabled(true); // 可以提交
                 isReadFinish = true;
             }
             @Override
@@ -1000,6 +1035,7 @@ public class RecordActivity extends Fragment {
         contentInput.setText("");
         iv_show_picture.setImageBitmap(null);
         playButton.setVisibility(View.INVISIBLE);
+        btdel.setVisibility(View.INVISIBLE);
         String picPath = Environment.getExternalStorageDirectory().getPath() + "/cardPic.jpg";
         File picFile = new File(picPath);
         if (picFile.exists()){
