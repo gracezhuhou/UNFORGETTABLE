@@ -150,10 +150,12 @@ public class CardlistActivity extends Fragment {
         // 获取所有标签
         List<tabList> tapList = dbhelper.getTabList();
         int size = tapList.size();
-        tab = new String[size + 1];
+        tab = new String[size + 3];
         tab[0] = "全部";
+        tab[1] = "收藏";
+        tab[2] = "归档";
         for (int i = 0; i < size; ++i){
-            tab[i + 1] = tapList.get(i).getTabName();
+            tab[i + 3] = tapList.get(i).getTabName();
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item , tab);  //创建一个数组适配器
