@@ -100,30 +100,29 @@
     <!--标签-->
     <Button
         android:id="@+id/typeButton"
-        android:layout_width="@dimen/dp_75"
+        android:layout_width="@dimen/dp_76"
         android:layout_height="@dimen/dp_40"
+        android:layout_marginLeft="@dimen/dp_4"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginRight="@dimen/dp_16"
         android:layout_marginBottom="@dimen/dp_8"
-        android:layout_marginLeft="@dimen/dp_4"
         android:background="?attr/semitransparent"
         android:text="标签"
         app:layout_constraintBaseline_toBaselineOf="@+id/cameraButton"
         app:layout_constraintBottom_toTopOf="@+id/contentInput"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toEndOf="@+id/cameraButton"
         app:layout_constraintTop_toBottomOf="@+id/headingInput" />
-    <!--app:layout_constraintHorizontal_chainStyle="spread_inside"-->
-    <!--app:layout_constraintBaseline_toBaselineOf="@+id/cameraButton"-->
 
     <!--拍照记录-->
     <Button
         android:id="@+id/cameraButton"
-        android:layout_width="@dimen/dp_75"
+        android:layout_width="@dimen/dp_76"
         android:layout_height="@dimen/dp_40"
-        android:layout_marginTop="@dimen/dp_8"
-        android:layout_marginRight="@dimen/dp_4"
         android:layout_marginLeft="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginRight="5dp"
         android:layout_marginBottom="@dimen/dp_8"
         android:background="?attr/semitransparent"
         android:text="拍照"
@@ -135,7 +134,7 @@
     <!--录音-->
     <Button
         android:id="@+id/soundButton"
-        android:layout_width="@dimen/dp_75"
+        android:layout_width="@dimen/dp_76"
         android:layout_height="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginRight="@dimen/dp_4"
@@ -151,7 +150,7 @@
     <!--收藏-->
     <ImageButton
         android:id="@+id/starButton"
-        android:layout_width="@dimen/dp_75"
+        android:layout_width="@dimen/dp_76"
         android:layout_height="@dimen/dp_40"
         android:layout_marginLeft="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_8"
