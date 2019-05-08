@@ -7,11 +7,29 @@
     android:id="@+id/dialog"
     style="data-options=onClose:function(){window.location.reload(true);}">
 
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="添加标签"
+        android:textSize="@dimen/sp_20"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_10"/>
+    <View
+        android:id="@+id/view"
+        android:layout_width="@dimen/dp_330"
+        android:layout_height="0.5dp"
+        android:background="@color/black"
+        android:layout_below="@+id/text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_10"/>
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/dialogname">
+        android:id="@+id/dialogname"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/view"
+        android:layout_marginTop="@dimen/dp_10">
 
         <TextView android:layout_height="wrap_content"
             android:layout_width="wrap_content"

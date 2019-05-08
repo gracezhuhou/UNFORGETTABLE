@@ -9,7 +9,7 @@
     android:layout_marginRight="@dimen/dp_10"
     android:layout_marginTop="@dimen/dp_8"
     android:layout_marginBottom="@dimen/dp_8"
-    android:background="?attr/semitransparent">
+    android:background="@drawable/pictureframe">
 
     <TextView
         android:id="@+id/headline"
@@ -78,7 +78,8 @@
         android:layout_marginTop="@dimen/dp_10"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/dp_20"
-        android:layout_marginBottom="@dimen/dp_20"/>
+        android:layout_marginBottom="@dimen/dp_20"
+        android:paddingRight="@dimen/dp_2"/>
 
     <ImageButton
         android:id="@+id/audioButton"

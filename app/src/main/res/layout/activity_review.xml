@@ -68,7 +68,7 @@
         android:layout_marginRight="@dimen/dp_10"
         android:textColor="?attr/textContentColor"
         android:text="计网"
-        android:textSize="@dimen/sp_16"
+        android:textSize="@dimen/sp_13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/starButton" />
 
@@ -94,7 +94,7 @@
         android:layout_marginTop="@dimen/dp_8"
         android:text="记录于昨天 第n此重复"
         android:textColor="?attr/textContentColor"
-        android:textSize="@dimen/sp_16"
+        android:textSize="@dimen/sp_13"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headingText" />
     <ScrollView
