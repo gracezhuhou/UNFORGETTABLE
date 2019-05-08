@@ -135,6 +135,20 @@ public class Dbhelper {
         return cardList;
     }
 
+    // 获取收藏列表
+    public List<memoryCardsList> getLikeCardList(){
+        List<memoryCardsList> LikecardList = LitePal.where("like = ?","1").find(memoryCardsList.class);
+        Log.v("数据库","获取收藏卡片列表" + LikecardList.size() + "张");
+        return LikecardList;
+    }
+
+    // 获取归档列表
+    public List<memoryCardsList> getFinishCardList(){
+        List<memoryCardsList> FinishcardList = LitePal.where("finish = ?","1").find(memoryCardsList.class);
+        Log.v("数据库","获取归档卡片列表" + FinishcardList.size() + "张");
+        return FinishcardList;
+    }
+
     // 根据heading查找唯一卡片
     memoryCardsList findCard(String heading){
         List<memoryCardsList> cardList = LitePal.where("heading = ?", heading).find(memoryCardsList.class);
@@ -161,6 +175,9 @@ public class Dbhelper {
     // 获取某一标签下全部列表
     List<memoryCardsList> getAllTabCards(String tabName) {
         if (tabName.equals("全部")) return getCardList();
+        if (tabName.equals("收藏")) return getLikeCardList();
+        if (tabName.equals("归档")) return getFinishCardList();
+
 
         List<memoryCardsList> TabCardList;
 
