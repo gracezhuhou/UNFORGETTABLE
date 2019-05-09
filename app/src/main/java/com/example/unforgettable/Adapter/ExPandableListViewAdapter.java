@@ -29,10 +29,10 @@ public class ExPandableListViewAdapter extends BaseExpandableListAdapter {
     }
 
     // 刷新数据
-    public void flashData(ArrayList<FatherData> datas) {
-        this.data_list = datas;
-        this.notifyDataSetChanged();
-    }
+//    public void flashData(ArrayList<FatherData> datas) {
+//        this.data_list = datas;
+//        this.notifyDataSetChanged();
+//    }
 
     // 获取二级列表的内容
     @Override

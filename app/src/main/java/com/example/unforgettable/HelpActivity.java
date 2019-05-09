@@ -49,11 +49,14 @@ public class HelpActivity extends AppCompatActivity {
             public boolean onGroupClick(ExpandableListView arg0, View arg1, int arg2, long arg3) {
                 // TODO Auto-generated method stub
                 //Toast.makeText(getApplicationContext(), datas.get(arg2).getTitle(), Toast.LENGTH_LONG).show();
-               // int count =  adapter.getGroupCount();
-                myExpandableListView.collapseGroup(lastPosition);
-                lastPosition = arg2;
-                return false;
-
+                int count =  adapter.getGroupCount();
+                for (int i = 0; i < 12; ++i) {
+                    if (myExpandableListView.isGroupExpanded(i) && i != arg2) {
+                        myExpandableListView.collapseGroup(i);
+                    }
+                }
+                myExpandableListView.expandGroup(arg2);
+                return true;
             }
 
 
@@ -78,9 +81,10 @@ public class HelpActivity extends AppCompatActivity {
         if (adapter == null) {
             adapter = new ExPandableListViewAdapter(this, datas);
             myExpandableListView.setAdapter(adapter);
-        } else {
-            adapter.flashData(datas);
         }
+//        else {
+//            adapter.flashData(datas);
+//        }
     }
 
     // 定义数据
