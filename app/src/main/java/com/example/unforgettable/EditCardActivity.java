@@ -175,10 +175,10 @@ public class EditCardActivity extends AppCompatActivity {
         headingInput.setText(oldheading);
         contentInput.setText(card.getContent());
         // 标签
-        if (card.getTab().equals(""))
-            typeButton.setText("标签");
-        else
-            typeButton.setText(card.getTab());
+//        if (card.getTab().equals("无标签"))
+//            typeButton.setText("无标签");
+//        else
+        typeButton.setText(card.getTab());
         // 改收藏按键颜色状态
         if (card.isLike()) {
             Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
@@ -230,7 +230,7 @@ public class EditCardActivity extends AppCompatActivity {
 
                 // 选择标签
                 if (typeButton.getText() == "标签") {
-                    tab = "";
+                    tab = "无标签";
                 }
                 else tab = typeButton.getText().toString();
 

@@ -14,7 +14,7 @@ public class memoryCardsList extends LitePalSupport {
     private String heading; // 正面 标题
     private String content; // 背面 内容
     private boolean like;   // 收藏
-    private String tab;     // 标签
+    private String tab = "无标签";     // 标签
     private boolean finish = false; // 归档
     private int repeatTime = 0; // 重复次数
     private byte[] picture; // 图片

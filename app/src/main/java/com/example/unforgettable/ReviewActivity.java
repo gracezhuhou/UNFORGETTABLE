@@ -28,7 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.unforgettable.LitepalTable.memoryCardsList;
+import com.example.unforgettable.LitepalTable.stageList;
 import com.example.unforgettable.LitepalTable.tabList;
+import com.example.unforgettable.LitepalTable.todayCardsList;
 
 import org.litepal.LitePal;
 
@@ -109,6 +111,18 @@ public class ReviewActivity extends Fragment{
 
         dbhelper.addStageList();
         dbhelper.deleteOldDayCards();   // 删去todayCardsList中之前的卡片
+
+//        List<stageList> a = dbhelper.getStageList();
+//        for (int i = 0; i <a.size();++i)
+//            Log.v("复习界面1", a.get(i).getDate()+ "和" +a.get(i).getRemember());
+//        List<todayCardsList> b = LitePal.findAll(todayCardsList.class);
+//        for (int i = 0; i <b.size();++i)
+//            Log.v("复习界面2", b.get(i).getDate()+ "和" +b.get(i).getHeading());
+
+        List<memoryCardsList> a = dbhelper.getCardList();
+        for (int i = 0; i <a.size();++i)
+            Log.v("复习界面1", a.get(i).getHeading()+ "和" +a.get(i).getTab());
+
         //setSpinner();   // 设置标签
         init();  // 初始化背诵列表&初始界面
 
@@ -300,11 +314,10 @@ public class ReviewActivity extends Fragment{
         // 获取所有标签
         List<tabList> tapList = dbhelper.getTabList();
         int size = tapList.size();
-        tab = new String[size + 2];
+        tab = new String[size + 1];
         tab[0] = "全部";
-        tab[1] = "未分类";
         for (int i = 0; i < size; ++i){
-            tab[i + 2] = tapList.get(i).getTabName();
+            tab[i + 1] = tapList.get(i).getTabName();
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item , tab);  //创建一个数组适配器
