@@ -45,12 +45,13 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/bg_base"
                     android:layout_width="@dimen/dp_110"
                     android:layout_height="@dimen/dp_200"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
-                    android:src="@drawable/sample_base" />
+                     />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -72,12 +73,13 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/bg_cartoon"
                     android:layout_width="@dimen/dp_110"
                     android:layout_height="@dimen/dp_200"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
-                    android:src="@drawable/sample_cartoon" />
+                     />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -100,12 +102,13 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/bg_blue"
                     android:layout_width="@dimen/dp_110"
                     android:layout_height="@dimen/dp_200"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
-                    android:src="@drawable/sample_blue" />
+                     />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -128,12 +131,13 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/bg_gradient"
                     android:layout_width="@dimen/dp_110"
                     android:layout_height="@dimen/dp_200"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
-                    android:src="@drawable/sample_gradient" />
+                     />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -157,12 +161,13 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/bg_pink"
                     android:layout_width="@dimen/dp_110"
                     android:layout_height="@dimen/dp_200"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
-                    android:src="@drawable/sample_pink" />
+                     />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -183,9 +188,10 @@
                 android:layout_below="@+id/sample_gradient"
                 android:layout_marginTop="@dimen/dp_10">
                 <ImageView
+                    android:id="@+id/bg_got"
                     android:layout_width="@dimen/dp_110"
                     android:layout_height="@dimen/dp_200"
-                    android:src="@drawable/sample_got"
+
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"/>

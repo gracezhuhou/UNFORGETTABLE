@@ -20,7 +20,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/dp_20"
         android:text="标题"
-        android:textSize="20sp"/>
+        android:textSize="@dimen/sp_18"/>
 
     <View
         android:id="@+id/view1"
@@ -39,11 +39,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="内容"
-        android:textSize="16sp"
+        android:textSize="@dimen/sp_15"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/dp_20"
         android:layout_below="@+id/view1"
-        android:layout_marginTop="@dimen/dp_10"/>
+        android:layout_marginTop="@dimen/dp_10"
+        android:maxLines="1"/>
 
     <View
         android:id="@+id/view2"
@@ -62,6 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="重复次数"
+        android:textSize="@dimen/sp_12"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/dp_20"
         android:layout_below="@+id/view2"
@@ -77,14 +79,21 @@
         android:layout_marginTop="@dimen/dp_10"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/dp_20"
-        android:layout_marginBottom="@dimen/dp_20"/>
+        android:layout_marginBottom="@dimen/dp_20"
+        android:paddingRight="@dimen/dp_5"/>
 
     <ImageButton
         android:id="@+id/audioButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
-        android:src="@drawable/ic_trumpet_black" />
+        android:src="@drawable/ic_trumpet_black"
+        android:layout_below="@+id/view1"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_20"
+        android:paddingRight="4.5dp"
+        android:paddingTop="@dimen/dp_3"/>
 
     <ImageButton
         android:id="@+id/fileButton"
@@ -92,7 +101,10 @@
         android:layout_height="@dimen/dp_22"
         android:background="@color/transparent"
         android:src="@drawable/ic_archive_black"
-        android:layout_below="@id/audioButton"/>
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/dp_25"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_20" />
 
     <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->

@@ -12,7 +12,7 @@
     <color name="semitransparent">#BFFFFFFF</color>
     <color name="gray">#EBEBEB</color>
     <color name="textColor">#000000</color>
-
+    <color name="red">#EE0000</color>
     <color name="mistyrose">#ffe4e1</color><!--浅玫瑰色 -->
     <color name="peachpuff">#ffdab9</color><!--桃色 -->
     <color name="lavender">#e6e6fa</color><!--淡紫色 -->

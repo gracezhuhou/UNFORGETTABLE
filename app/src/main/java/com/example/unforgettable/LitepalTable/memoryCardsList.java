@@ -18,7 +18,7 @@ public class memoryCardsList extends LitePalSupport {
     private boolean finish = false; // 归档
     private int repeatTime = 0; // 重复次数
     private byte[] picture; // 图片
-    private boolean isAudio = false;    // 是否有录音
+    //private boolean isAudio = false;    // 是否有录音
 
     // 背诵时间
     private Date recordDate = new Date(System.currentTimeMillis());
@@ -128,11 +128,11 @@ public class memoryCardsList extends LitePalSupport {
         this.picture = picture;
     }
 
-    public boolean isAudio() {
-        return isAudio;
-    }
-
-    public void setAudio(boolean audio) {
-        isAudio = audio;
-    }
+//    public boolean isAudio() {
+//        return isAudio;
+//    }
+//
+//    public void setAudio(boolean audio) {
+//        isAudio = audio;
+//    }
 }

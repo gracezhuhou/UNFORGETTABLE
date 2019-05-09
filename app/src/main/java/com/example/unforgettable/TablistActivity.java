@@ -31,6 +31,7 @@ public class TablistActivity extends AppCompatActivity {
     // 前端相关变量
     private ListView listView;
     private Button tab_add;
+    private Button backButton;
 
     // 数据库相关变量
     private Dbhelper dbhelper = new Dbhelper();
@@ -57,6 +58,7 @@ public class TablistActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
         tab_add = findViewById(R.id.tab_add);
+        backButton = findViewById(R.id.backButton);
 
         // 获取所有标签
         List<tabList> tabList = dbhelper.getTabList();
@@ -133,6 +135,13 @@ public class TablistActivity extends AppCompatActivity {
                 dialog_show();
             }
         });
+        // 返回按钮响应
+        backButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                finish();
+            }
+        });
     }
 
     //添加标签dialog
@@ -141,13 +150,13 @@ public class TablistActivity extends AppCompatActivity {
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.activity_tab_add, null);
 
-        builder.setTitle("添加标签");
+        //builder.setTitle("添加标签");
         builder.setView(textEntryView);
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 EditText tabText =  textEntryView.findViewById(R.id.ettab);
-                showDialog("标签 ："  + tabText.getText().toString() );
+                //showDialog("标签 ："  + tabText.getText().toString() );
                 dbhelper.addTab(tabText.getText().toString());
 
                 // 标签列表中动态添加新标签

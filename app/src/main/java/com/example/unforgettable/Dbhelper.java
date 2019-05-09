@@ -55,7 +55,7 @@ public class Dbhelper {
     */
 
     // 增加
-    boolean addCard(String source, String author, String heading, String content, boolean like, String tab, boolean isAudio){
+    boolean addCard(String source, String author, String heading, String content, boolean like, String tab){
         // 不可重复Heading
         if (LitePal.where("heading = ?", heading).find(memoryCardsList.class).size() != 0){
             Toast.makeText(getApplicationContext(),"标题不可重复", Toast.LENGTH_SHORT).show();
@@ -82,7 +82,7 @@ public class Dbhelper {
         card.setTab(tab);
         card.setReciteDate(today());
         card.setReciteDate(today());
-        card.setAudio(isAudio);
+        //card.setAudio(isAudio);
         if (pic != null) {
             //把图片转换字节流
             byte[] images = img(pic);
@@ -107,16 +107,26 @@ public class Dbhelper {
         if (heading.equals("") || content.equals(""))  return false;
 
         memoryCardsList card = findCard(oldHeading);
+        //获取图片
+        String picPath = Environment.getExternalStorageDirectory().getPath() + "/cardPic.jpg";
+        Bitmap pic= BitmapFactory.decodeFile(picPath);
 
         card.setSource(source);
         card.setAuthor(author);
         card.setHeading(heading);
         card.setContent(content);
         card.setTab(tab);
+        // 收藏
         if (like)
             card.setLike(like);
         else
             card.setToDefault("like");
+        //保存图片
+        if (pic != null) {
+            //把图片转换字节流
+            byte[] images = img(pic);
+            card.setPicture(images);
+        }
         card.updateAll("heading = ?", oldHeading);
         Log.v("数据库","更改卡片--" + heading);
         return true;
@@ -133,6 +143,20 @@ public class Dbhelper {
         List<memoryCardsList> cardList = LitePal.order("id").find(memoryCardsList.class);
         Log.v("数据库","获取卡片列表" + cardList.size() + "张");
         return cardList;
+    }
+
+    // 获取收藏列表
+    public List<memoryCardsList> getLikeCardList(){
+        List<memoryCardsList> LikecardList = LitePal.where("like = ?","1").find(memoryCardsList.class);
+        Log.v("数据库","获取收藏卡片列表" + LikecardList.size() + "张");
+        return LikecardList;
+    }
+
+    // 获取归档列表
+    public List<memoryCardsList> getFinishCardList(){
+        List<memoryCardsList> FinishcardList = LitePal.where("finish = ?","1").find(memoryCardsList.class);
+        Log.v("数据库","获取归档卡片列表" + FinishcardList.size() + "张");
+        return FinishcardList;
     }
 
     // 根据heading查找唯一卡片
@@ -161,13 +185,16 @@ public class Dbhelper {
     // 获取某一标签下全部列表
     List<memoryCardsList> getAllTabCards(String tabName) {
         if (tabName.equals("全部")) return getCardList();
+        if (tabName.equals("收藏")) return getLikeCardList();
+        if (tabName.equals("归档")) return getFinishCardList();
+
 
         List<memoryCardsList> TabCardList;
 
         if (tabName.equals("未分类"))
-            TabCardList = LitePal.where("tabName = ? ", "").order("id").find(memoryCardsList.class);
+            TabCardList = LitePal.where("tab = ? ", "").order("id").find(memoryCardsList.class);
         else
-            TabCardList = LitePal.where("tabName = ? ", tabName).order("id").find(memoryCardsList.class);
+            TabCardList = LitePal.where("tab = ? ", tabName).order("id").find(memoryCardsList.class);
 
 //        for (int i = 0; i < AllCardList.size(); i++) {
 //            // 标签

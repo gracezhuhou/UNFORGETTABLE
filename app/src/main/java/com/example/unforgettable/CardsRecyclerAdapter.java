@@ -1,12 +1,16 @@
 package com.example.unforgettable;
 
 import android.app.AlertDialog;
+import android.app.Service;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Environment;
+import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +43,7 @@ import static org.litepal.LitePalApplication.getContext;
 public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdapter.ViewHolder>{
     private List<memoryCardsList> myCardsList;
     private Dbhelper dbhelper = new Dbhelper();
+    private MediaPlayer mPlayer = null;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         private Button delButton;
@@ -77,7 +82,22 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
     public void onBindViewHolder(final ViewHolder holder, final int position){
         memoryCardsList cardsList = myCardsList.get(holder.getAdapterPosition());
         holder.headline.setText(cardsList.getHeading());
-        holder.content_text.setText(cardsList.getContent());
+
+        // 设置缩略内容
+        String allContent = cardsList.getContent();
+        String content;
+        if (allContent.length()<10){
+            content = allContent;
+        }
+        else {
+            content = allContent.substring(0,10) + "...";
+        }
+        byte[] images = cardsList.getPicture();
+        if (images != null) {
+            content += "[图片]";
+        }
+        holder.content_text.setText(content);
+
         String str = "第" + cardsList.getRepeatTime() + "次重复";
         holder.detail_text.setText(str);
 
@@ -129,6 +149,8 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
                 builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Vibrator vibrator=(Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                        vibrator.vibrate(new long[]{0,50}, -1);
                         //showPopMenu(,holder.getAdapterPosition());
                         String heading = holder.headline.getText().toString();
                         myCardsList.remove(holder.getAdapterPosition());
@@ -149,6 +171,9 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
         holder.starButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
+                Vibrator vibrator=(Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,40}, -1);
+
                 String heading = holder.headline.getText().toString();
                 boolean like = dbhelper.changeLike(heading);
                 // 改按键颜色状态
@@ -167,7 +192,8 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
             @Override
             public void onClick(View v){
                 String heading = holder.headline.getText().toString();
-                MediaPlayer mPlayer = null;
+                Vibrator vibrator=(Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,40}, -1);
 
                 // 判断播放按钮的状态，根据相应的状态处理事务
                 holder.audioButton.setEnabled(false);
@@ -176,7 +202,7 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
                 if (drawableState.equals(drawableState_yel)) {
                     // 停止播放
                     mPlayer.release();
-                    //mPlayer = null;
+                    mPlayer = null;
                     Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_trumpet_black);
                     holder.audioButton.setImageDrawable(drawable);
                 } else {
@@ -215,6 +241,9 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
         holder.fileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
+                Vibrator vibrator=(Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,40}, -1);
+
                 String heading = holder.headline.getText().toString();
                 memoryCardsList card = dbhelper.findCard(heading);
                 boolean isfinish = card.isFinish();

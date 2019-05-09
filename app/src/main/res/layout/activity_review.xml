@@ -68,7 +68,7 @@
         android:layout_marginRight="@dimen/dp_10"
         android:textColor="?attr/textContentColor"
         android:text="计网"
-        android:textSize="@dimen/sp_16"
+        android:textSize="@dimen/sp_13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/starButton" />
 
@@ -81,7 +81,7 @@
         android:layout_marginTop="@dimen/dp_8"
         android:text="标题"
         android:textColor="?attr/textContentColor"
-        android:textSize="@dimen/sp_16"
+        android:textSize="@dimen/sp_18"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/typeText" />
 
@@ -91,12 +91,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_16"
         android:layout_marginLeft="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_5"
         android:text="记录于昨天 第n此重复"
         android:textColor="?attr/textContentColor"
-        android:textSize="@dimen/sp_16"
+        android:textSize="@dimen/sp_12"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headingText" />
+        app:layout_constraintTop_toBottomOf="@+id/authorText" />
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="@dimen/dp_330"
@@ -104,7 +104,7 @@
         android:layout_marginLeft="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginRight="@dimen/dp_16"
-        android:background="?attr/semitransparent"
+        android:background="@drawable/contentinput_shape"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailText" >
@@ -130,13 +130,15 @@
                 android:background="@color/transparent"
                 android:textColor="?attr/textContentColor"
                 android:text="内容"
-                android:textSize="@dimen/sp_16" />
+                android:textSize="@dimen/sp_15" />
             <ImageView
                 android:id="@+id/cardPic"
                 android:layout_width="@dimen/dp_300"
                 android:layout_height="@dimen/dp_300"
                 android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginRight="@dimen/dp_10"/>
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_15"/>
         </LinearLayout>
     </ScrollView>
 
@@ -149,7 +151,7 @@
         android:layout_marginTop="@dimen/dp_8"
         android:text="+n天"
         android:textColor="?attr/textContentColor"
-        android:textSize="@dimen/sp_16"
+        android:textSize="@dimen/sp_12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView" />
 
@@ -157,11 +159,11 @@
         android:id="@+id/dimDayText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_95"
+        android:layout_marginLeft="@dimen/dp_105"
         android:layout_marginTop="@dimen/dp_8"
         android:text="今天"
         android:textColor="?attr/textContentColor"
-        android:textSize="@dimen/sp_16"
+        android:textSize="@dimen/sp_12"
         app:layout_constraintStart_toEndOf="@+id/passDayText"
         app:layout_constraintTop_toBottomOf="@+id/scrollView" />
 
@@ -169,11 +171,11 @@
         android:id="@+id/forgetDayText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_50"
+        android:layout_marginLeft="@dimen/dp_60"
         android:layout_marginTop="@dimen/dp_8"
         android:text="今天"
         android:textColor="?attr/textContentColor"
-        android:textSize="@dimen/sp_16"
+        android:textSize="@dimen/sp_12"
         app:layout_constraintStart_toEndOf="@+id/dimDayText"
         app:layout_constraintTop_toBottomOf="@+id/scrollView" />
 
@@ -214,18 +216,17 @@
     <RelativeLayout
         android:id="@+id/remindButton"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_400"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="@dimen/dp_64">
+        android:layout_height="@dimen/dp_500"
+        app:layout_constraintTop_toBottomOf="@+id/headingText"
+        tools:layout_editor_absoluteX="0dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:text="点击显示答案"
             android:textSize="@dimen/sp_16"
-            android:layout_centerInParent="true"/>
+            android:layout_marginTop="@dimen/dp_250"/>
     </RelativeLayout>
 
     <ImageButton
@@ -235,6 +236,19 @@
         android:src="@drawable/ic_trumpet_black"
         app:layout_constraintEnd_toEndOf="@+id/scrollView"
         app:layout_constraintTop_toTopOf="@+id/remindButton" />
+
+    <TextView
+        android:id="@+id/authorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:text="TextView"
+        android:textSize="@dimen/sp_12"
+        android:textColor="?attr/textContentColor"
+        android:layout_marginTop="@dimen/dp_5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headingText" />
 
 
 </android.support.constraint.ConstraintLayout>

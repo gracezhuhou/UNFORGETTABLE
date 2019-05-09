@@ -68,14 +68,14 @@ public class CardlistActivity extends Fragment {
         setSpinner();
 
         MemoryCardsList = dbhelper.getCardList();   //列表
-        card_edit = view.findViewById(R.id.card_edit);
+        //card_edit = view.findViewById(R.id.card_edit);
         cardsRecyclerView = view.findViewById(R.id.cardsRecyclerView);
         layoutManager = new LinearLayoutManager(getActivity());
         cardsRecyclerView.setLayoutManager(layoutManager);
         recyclerAdapter = new CardsRecyclerAdapter(MemoryCardsList);
         cardsRecyclerView.setAdapter(recyclerAdapter);
         cardsRecyclerView.setHasFixedSize(true);
-        tab_add = view.findViewById(R.id.tab_add);
+        //tab_add = view.findViewById(R.id.tab_add);
 
         return view;
     }
@@ -89,10 +89,11 @@ public class CardlistActivity extends Fragment {
         } else {
             //now visible to user
             MemoryCardsList = dbhelper.getCardList();   //列表
-            //LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-            //cardsRecyclerView.setLayoutManager(layoutManager);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            cardsRecyclerView.setLayoutManager(layoutManager);
             recyclerAdapter = new CardsRecyclerAdapter(MemoryCardsList);
             cardsRecyclerView.setAdapter(recyclerAdapter);
+            //recyclerAdapter.notifyDataSetChanged();
             cardsRecyclerView.setHasFixedSize(true);
             setSpinner();
         }
@@ -103,11 +104,12 @@ public class CardlistActivity extends Fragment {
         super.onResume();
 
         MemoryCardsList = dbhelper.getCardList();   //列表
-        //LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        //cardsRecyclerView.setLayoutManager(layoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        cardsRecyclerView.setLayoutManager(layoutManager);
         recyclerAdapter = new CardsRecyclerAdapter(MemoryCardsList);
         cardsRecyclerView.setAdapter(recyclerAdapter);
         cardsRecyclerView.setHasFixedSize(true);
+        //recyclerAdapter.notifyDataSetChanged();
         setSpinner();
     }
 
@@ -121,10 +123,11 @@ public class CardlistActivity extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 MemoryCardsList = dbhelper.getAllTabCards(tab[pos]);   //获得该标签下卡片
-                //LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                //cardsRecyclerView.setLayoutManager(layoutManager);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                cardsRecyclerView.setLayoutManager(layoutManager);
                 recyclerAdapter = new CardsRecyclerAdapter(MemoryCardsList);
                 cardsRecyclerView.setAdapter(recyclerAdapter);
+                //recyclerAdapter.notifyDataSetChanged();
                 cardsRecyclerView.setHasFixedSize(true);
             }
             @Override
@@ -133,13 +136,13 @@ public class CardlistActivity extends Fragment {
             }
         });
 
-        //添加标签按钮
-        tab_add.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                dialog_show();
-            }
-        });
+//        //添加标签按钮
+//        tab_add.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                dialog_show();
+//            }
+//        });
     }
 
     // 设置标签下拉菜单
@@ -147,10 +150,12 @@ public class CardlistActivity extends Fragment {
         // 获取所有标签
         List<tabList> tapList = dbhelper.getTabList();
         int size = tapList.size();
-        tab = new String[size + 1];
+        tab = new String[size + 3];
         tab[0] = "全部";
+        tab[1] = "收藏";
+        tab[2] = "归档";
         for (int i = 0; i < size; ++i){
-            tab[i + 1] = tapList.get(i).getTabName();
+            tab[i + 3] = tapList.get(i).getTabName();
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item , tab);  //创建一个数组适配器
@@ -158,33 +163,4 @@ public class CardlistActivity extends Fragment {
         spinner.setAdapter(adapter);
     }
 
-    //添加标签框
-    protected void dialog_show(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater factory = LayoutInflater.from(getActivity());
-        final View textEntryView = factory.inflate(R.layout.activity_tab_add, null);
-
-        builder.setTitle("添加标签");
-        builder.setView(textEntryView);
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                EditText tab =  textEntryView.findViewById(R.id.ettab);
-                showDialog("标签 ："  + tab.getText().toString() );
-                dbhelper.addTab(tab.getText().toString());
-            }
-        });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                dialog.dismiss();
-            }
-        });
-        builder.show();
-
-    }
-
-    private void showDialog(String str) {
-        new AlertDialog.Builder(getActivity())
-                .setMessage(str)
-                .show();
-    }
 }

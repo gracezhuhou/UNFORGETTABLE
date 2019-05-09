@@ -44,7 +44,7 @@
         android:id="@+id/snycButton"
         android:layout_width="@dimen/dp_330"
         android:layout_height="@dimen/dp_64"
-        android:background="@color/semitransparent"
+        android:background="?attr/semitransparent"
         android:text="数据同步"
         android:textSize="@dimen/sp_16"
         android:layout_below="@+id/view"
@@ -55,7 +55,7 @@
         android:id="@+id/relativelayout"
         android:layout_width="@dimen/dp_330"
         android:layout_height="@dimen/dp_64"
-        android:background="@color/semitransparent"
+        android:background="?attr/semitransparent"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/snycButton"
         android:layout_marginTop="@dimen/dp_20">
@@ -82,34 +82,34 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/surface_management"
+        android:id="@+id/help"
         android:layout_width="@dimen/dp_330"
         android:layout_height="@dimen/dp_64"
-        android:background="@color/semitransparent"
+        android:background="?attr/semitransparent"
         android:text="帮助"
         android:textSize="@dimen/sp_16"
         android:layout_marginTop="@dimen/dp_20"
-        android:layout_below="@id/relativelayout"
+        android:layout_below="@id/change_appearance"
         android:layout_centerHorizontal="true"/>
 
     <Button
         android:id="@+id/change_appearance"
         android:layout_width="@dimen/dp_330"
         android:layout_height="@dimen/dp_64"
-        android:background="@color/semitransparent"
+        android:background="?attr/semitransparent"
         android:text="换肤"
         android:textSize="@dimen/sp_16"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/surface_management"
+        android:layout_below="@+id/relativelayout"
         android:layout_marginTop="@dimen/dp_20"/>
     <Button
         android:id="@+id/logout"
         android:layout_width="@dimen/dp_330"
         android:layout_height="@dimen/dp_64"
-        android:background="@color/semitransparent"
+        android:background="?attr/semitransparent"
         android:text="注销账户"
         android:textSize="@dimen/sp_16"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dp_20"
-        android:layout_below="@id/change_appearance"/>
+        android:layout_below="@id/help"/>
 </RelativeLayout>

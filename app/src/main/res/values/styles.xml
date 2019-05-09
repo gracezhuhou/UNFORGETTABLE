@@ -62,7 +62,7 @@
     <style name="AppTheme.Base.GoT" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/background_got</item>
-        <item name="android:textColor">#CD3333</item>
+        <item name="android:textColor">#FDFDFD</item>
         <item name="android:textSize">14sp</item>
         <item name="textContentColor">@color/white</item>
         <item name="colorPrimary">#232B33</item>

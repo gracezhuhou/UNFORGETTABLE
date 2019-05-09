@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,6 +19,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -45,6 +47,7 @@ import com.example.unforgettable.data.LoginDataSource;
 import com.example.unforgettable.data.LoginRepository;
 import com.example.unforgettable.ui.login.LoginActivity;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -77,6 +80,7 @@ public class SetActivity extends Fragment {
     private TimePicker timePicker;
     private AlertDialog dialog;
     private Button appearanceButton;
+    private Button helpButton;
     final Calendar calendar = Calendar.getInstance(Locale.CHINA);
 
     private int hour=10;
@@ -121,6 +125,7 @@ public class SetActivity extends Fragment {
         userPic = view.findViewById(R.id.userPic);
         userName = view.findViewById(R.id.userName);
         appearanceButton = view.findViewById(R.id.change_appearance);
+        helpButton = view.findViewById(R.id.help);
 
         showUser(); // 显示当前用户
 
@@ -149,6 +154,8 @@ public class SetActivity extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 60}, -1);
                 // 上传云端
                 //bmobhelper.logout();
 
@@ -174,6 +181,8 @@ public class SetActivity extends Fragment {
                 builder.setItems(strArray, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int index) {
+                        Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                        vibrator.vibrate(new long[]{0, 40}, -1);
 //                        Toast.makeText(getActivity(),strArray[index], Toast.LENGTH_SHORT).show();
                         if (index == 0) {
                             // 上传本机数据
@@ -217,6 +226,9 @@ public class SetActivity extends Fragment {
                     @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onClick(View view) {
+                        Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                        vibrator.vibrate(new long[]{0, 40}, -1);
+
                         hour = timePicker.getHour();
                         minute = timePicker.getMinute();
                         mHour = Integer.toString(hour);
@@ -270,6 +282,10 @@ public class SetActivity extends Fragment {
                     @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onClick(View view) {
+                        // 储存提醒时间
+                        editor = getActivity().getSharedPreferences("Alert", MODE_PRIVATE).edit();
+                        editor.putString("alertTime", "");
+                        editor.apply();
                         //time = "不提醒";
                         set_time.setText("不提醒");
                         if (dialog != null && dialog.isShowing()) {
@@ -295,6 +311,9 @@ public class SetActivity extends Fragment {
         userPic.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 40}, -1);
+
                 takePhotoOrSelectPicture();
             }
         });
@@ -305,6 +324,9 @@ public class SetActivity extends Fragment {
         userName.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 40}, -1);
+
                 Intent intent = new Intent(v.getContext(), EditUserActivity.class);
                 v.getContext().startActivity(intent);
             }
@@ -318,6 +340,14 @@ public class SetActivity extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), AppearanceChange.class);
                 v.getContext().startActivity(intent);
+            }
+        });
+
+        helpButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(v.getContext(), HelpActivity.class);
+                v.getContext().startActivity(intent1);
             }
         });
     }
@@ -345,14 +375,17 @@ public class SetActivity extends Fragment {
             Picasso.get().load(picUrl).into(userPic);
         }
         else {
-            String picPath = Environment.getExternalStorageDirectory().getPath() + "/cardPic.jpg";
+            String picPath = Environment.getExternalStorageDirectory().getPath() + "/userPic.jpg";
             File picFile = new File(picPath);
-            //if (picFile.exists()){
-            //    Picasso.get().load(picFile).into(userPic);
-            //}
-            //else
+            if (picFile.exists()){
+                //Picasso.get().load(picFile).into(userPic);
+                Picasso.get().load(picFile).resize(86, 86) .centerCrop().into(userPic);
+                //Bitmap bm = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(picPath), 86, 86, true);
+                //userPic.setImageBitmap(bm);
+            }
+            else
                 userPic.setImageDrawable(appPic);
-    }
+        }
     }
 
 
@@ -408,13 +441,12 @@ public class SetActivity extends Fragment {
                                 if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
                                 {
                                     ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-                                } else {
-                                    Intent intent1 = new Intent(Intent.ACTION_PICK,
-                                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                                    // 启动intent打开本地图库
-                                    startActivityForResult(intent1,LOCAL_CROP);
                                 }
+                                Intent intent1 = new Intent(Intent.ACTION_PICK,
+                                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                                // 启动intent打开本地图库
+                                startActivityForResult(intent1,LOCAL_CROP);
                                 break;
                         }
                     }
@@ -456,7 +488,7 @@ public class SetActivity extends Fragment {
                         Bitmap bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imageUri));
                         userPic.setImageBitmap(bitmap);
 
-                        // todo:
+                        // todo:压缩
                         String path = Environment.getExternalStorageDirectory().getPath()+"/userPic.jpg";
                         bitmap = getSmallBitmap(path);
 //                        MCompressor.from()
@@ -470,7 +502,6 @@ public class SetActivity extends Fragment {
 //                        bitmap = compressImage(bitmap);
 //                        File file = new File(path);
 //                        qualityCompress(bitmap,file);
-
 
                         saveImage("userPic", bitmap);
                         bmobhelper.uploadPic();
@@ -488,6 +519,14 @@ public class SetActivity extends Fragment {
                     // 获取图库所选图片的uri
                     Uri uri = data.getData();
                     intent1.setDataAndType(uri,"image/*");
+
+                    try {
+                        Bitmap bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(uri));
+                        saveImage("userPic",bitmap);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
                     // aspectX aspectY 是宽高的比例
                     intent1.putExtra("aspectX", 1);
                     intent1.putExtra("aspectY", 1);
@@ -497,10 +536,11 @@ public class SetActivity extends Fragment {
                     intent1.putExtra("scale", true);
                     // 裁剪后返回数据
                     intent1.putExtra("return-data", true);
+                    intent1.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    intent1.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                     // 启动intent，开始裁剪
                     startActivityForResult(intent1, CROP_PHOTO);
                 }
-
                 break;
             case CROP_PHOTO:// 裁剪后展示图片
                 if (data != null) {
@@ -511,12 +551,23 @@ public class SetActivity extends Fragment {
                         //设置到ImageView上
                         userPic.setImageBitmap(image);
                         //也可以进行一些保存、压缩等操作后上传
-                        String path = saveImage("userPic", image);
+                        saveImage("userPic", image);
                         bmobhelper.uploadPic();
 
                         //File file = new File(path);
                     }
                 }
+                else {
+                    String picPath = Environment.getExternalStorageDirectory().getPath() + "/userPic.jpg";
+                    File picFile = new File(picPath);
+                    if (picFile.exists()){
+                        Bitmap bm = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(picPath), 86, 86, true);
+                        //Picasso.get().load(picFile).resize(86, 86) .centerCrop().into(userPic);
+                        userPic.setImageBitmap(bm);
+                        bmobhelper.uploadPic();
+                    }
+                }
+
 //                if (resultCode == RESULT_OK) {
 //                    try {
 //                        bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imageUri));
@@ -683,3 +734,4 @@ public class SetActivity extends Fragment {
 
 
 }
+
