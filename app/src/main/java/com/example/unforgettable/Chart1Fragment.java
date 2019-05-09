@@ -267,7 +267,7 @@ public class Chart1Fragment extends Fragment {
 
         List<Line> lines = new ArrayList<Line>();
         if(!mPointValues0.isEmpty()){
-            Line line0 = new Line(mPointValues0).setColor(Color.parseColor("#B0E0E6"));  //折线的颜色（橙色）
+            Line line0 = new Line(mPointValues0).setColor(Color.parseColor("#B0E0E6"));  //折线的颜色（浅蓝色）
             line0.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
             line0.setCubic(false);//曲线是否平滑，即是曲线还是折线
             line0.setFilled(false);//是否填充曲线的面积
@@ -312,6 +312,7 @@ public class Chart1Fragment extends Fragment {
         // Y轴是根据数据的大小自动设置Y轴上限(在下面我会给出固定Y轴数据个数的解决方案)
         Axis axisY = new Axis();  //Y轴
         axisY.setName("数量");//y轴标注
+        axisY.setTextColor(Color.GRAY);
         axisY.setTextSize(5);//设置字体大小
         //axisX.setMaxLabelChars(10);
         data.setAxisYLeft(axisY);  //Y轴设置在左边

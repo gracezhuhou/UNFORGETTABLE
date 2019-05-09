@@ -301,6 +301,7 @@ public class RecordActivity extends Fragment {
                 else {//如果没有播放
                     mPlayer.start();
                     mIsPause = !mIsPause;
+
                 }
                 mIsPlayState = !mIsPlayState;
             }

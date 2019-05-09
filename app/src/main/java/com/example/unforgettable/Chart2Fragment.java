@@ -414,7 +414,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
             mBarChart.getData().notifyDataChanged();
             mBarChart.notifyDataSetChanged();
         } else {
-            set1 = new BarDataSet(yVals1, "学习情况");
+            set1 = new BarDataSet(yVals1, "");
 //            set1.setColors(getColors());
             //6、设置柱状图的颜色
             set1.setDrawValues(false);
@@ -422,13 +422,14 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
                     Color.rgb(230, 230, 250), Color.rgb(245, 245, 245)});
             set1.setStackLabels(new String[]{"忘记", "模糊", "记得", "今后每日需复习"});
 
+
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
             dataSets.add(set1);
 
             BarData data = new BarData(dataSets);
             data.setValueFormatter(new MyValueFormatter());
             data.setValueTextColor(Color.WHITE);
-
+            //data.setDrawValues(true);
 
             mBarChart.setData(data);
         }

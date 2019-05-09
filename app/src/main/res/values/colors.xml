@@ -17,5 +17,11 @@
     <color name="peachpuff">#ffdab9</color><!--桃色 -->
     <color name="lavender">#e6e6fa</color><!--淡紫色 -->
     <color name="cornsilk">#fff8dc</color><!--米绸色 -->
+    <color name="char1standard">#B0E0E6</color><!--浅蓝色 -->
+    <color name="char1self">#ffe4e1</color><!--浅玫瑰色 -->
+    <color name="char3memory">#AFEEEE</color><!--苍宝石绿 -->
+    <color name="char3day30">#f0ffff</color><!--天蓝色 -->
+    <color name="char3day60">#f08080</color><!--珊瑚色 -->
+    <color name="char3day90">#e6e6fa</color><!--淡紫色 -->
 
 </resources>
