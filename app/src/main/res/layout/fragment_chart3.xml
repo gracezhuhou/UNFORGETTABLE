@@ -21,6 +21,7 @@
             android:layout_centerHorizontal="true"
             android:layout_alignBottom="@+id/fileButton"
             android:background="@drawable/spinner_border"
+            android:textColor="?attr/textContentColor"
             android:textSize="@dimen/sp_16"></Spinner>
 
         <lecho.lib.hellocharts.view.LineChartView

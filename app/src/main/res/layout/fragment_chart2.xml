@@ -18,6 +18,7 @@
             android:entries="@array/reviewtType"
             android:background="@drawable/spinner_border"
             android:textSize="@dimen/sp_16"
+            android:textColor="?attr/textContentColor"
             android:layout_centerHorizontal="true"></Spinner>
 
 
