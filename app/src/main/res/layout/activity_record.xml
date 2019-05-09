@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RecordActivity">
+    tools:context="com.example.unforgettable.RecordActivity">
 
 
     <Button
@@ -238,20 +238,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="102dp"
-        android:layout_marginLeft="102dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginStart="@dimen/dp_4"
+        android:layout_marginLeft="@dimen/dp_4"
         android:background="@color/transparent"
         android:src="@drawable/ic_close"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contentInput" />
+        app:layout_constraintStart_toEndOf="@+id/iv_show_picture"
+        app:layout_constraintTop_toTopOf="@+id/iv_show_picture" />
 
     <Button
         android:id="@+id/playbutton"
-        android:layout_width="@dimen/dp_75"
-        android:layout_height="@dimen/dp_40"
-        android:layout_marginTop="@dimen/dp_16"
-        android:layout_marginRight="@dimen/dp_16"
+        android:layout_width="@dimen/dp_55"
+        android:layout_height="@dimen/dp_25"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:background="?attr/semitransparent"
         android:text="播放"
         android:textColor="?attr/textContentColor"
@@ -261,23 +261,28 @@
 
     <Button
         android:id="@+id/dlsound"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="删除音频"
-        tools:layout_editor_absoluteX="161dp"
-        tools:layout_editor_absoluteY="572dp"
+        android:layout_width="@dimen/dp_55"
+        android:layout_height="@dimen/dp_25"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:background="?attr/semitransparent"
+        android:text="删除音频"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playbutton"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/goon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="继续播放"
-        app:layout_constraintTop_toBottomOf="@+id/playbutton"
-        tools:layout_editor_absoluteX="303dp"
-        tools:layout_editor_absoluteY="654dp"
+        android:layout_width="@dimen/dp_55"
+        android:layout_height="@dimen/dp_25"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:background="?attr/semitransparent"
+        android:text="继续播放"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dlsound"
         tools:ignore="MissingConstraints" />
 
 

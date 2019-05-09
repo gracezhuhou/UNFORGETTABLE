@@ -43,11 +43,10 @@ import android.widget.TimePicker;
 
 import com.example.unforgettable.Bmob.Bmobhelper;
 import com.example.unforgettable.Bmob.MyUser;
-import com.example.unforgettable.data.LoginDataSource;
-import com.example.unforgettable.data.LoginRepository;
+import com.example.unforgettable.loginData.LoginDataSource;
+import com.example.unforgettable.loginData.LoginRepository;
 import com.example.unforgettable.ui.login.LoginActivity;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import java.io.File;
 import java.io.FileNotFoundException;

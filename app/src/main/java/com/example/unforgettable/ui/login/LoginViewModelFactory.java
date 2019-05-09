@@ -4,8 +4,8 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import com.example.unforgettable.data.LoginDataSource;
-import com.example.unforgettable.data.LoginRepository;
+import com.example.unforgettable.loginData.LoginDataSource;
+import com.example.unforgettable.loginData.LoginRepository;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

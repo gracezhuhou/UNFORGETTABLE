@@ -1,12 +1,6 @@
-package com.example.unforgettable.data;
+package com.example.unforgettable.loginData;
 
-import android.util.Log;
-
-import com.example.unforgettable.Bmob.MyUser;
-import com.example.unforgettable.data.model.LoggedInUser;
-
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
+import com.example.unforgettable.loginData.model.LoggedInUser;
 
 /**
  * Class that requests authentication and user information from the remote data source and

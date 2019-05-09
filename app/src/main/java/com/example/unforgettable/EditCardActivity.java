@@ -174,7 +174,11 @@ public class EditCardActivity extends AppCompatActivity {
         authorInput.setText(card.getAuthor());
         headingInput.setText(oldheading);
         contentInput.setText(card.getContent());
-        typeButton.setText(card.getTab());
+        // 标签
+        if (card.getTab().equals(""))
+            typeButton.setText("标签");
+        else
+            typeButton.setText(card.getTab());
         // 改收藏按键颜色状态
         if (card.isLike()) {
             Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
@@ -186,20 +190,7 @@ public class EditCardActivity extends AppCompatActivity {
             starButton.setImageDrawable(drawable);
             like = false;
         }
-//        Drawable.ConstantState drawableState = starButton.getDrawable().getConstantState();
-//        Drawable.ConstantState drawableState_yel = getResources().getDrawable(R.drawable.ic_star_yel).getConstantState();
-//        if (!drawableState.equals(drawableState_yel)) {
-//            Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
-//            // 这一步必须要做,否则不会显示.
-//            starButton.setImageDrawable(drawable);
-//            like = true;
-//        }
-//        else {
-//            Drawable drawable = getResources().getDrawable(R.drawable.ic_star_black);
-//            // 这一步必须要做,否则不会显示.
-//            starButton.setImageDrawable(drawable);
-//            like = false;
-//        }
+
 
         // 显示图片
         byte[] images = card.getPicture();

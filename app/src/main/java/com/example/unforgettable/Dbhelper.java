@@ -55,7 +55,7 @@ public class Dbhelper {
     */
 
     // 增加
-    boolean addCard(String source, String author, String heading, String content, boolean like, String tab){
+    public boolean addCard(String source, String author, String heading, String content, boolean like, String tab){
         // 不可重复Heading
         if (LitePal.where("heading = ?", heading).find(memoryCardsList.class).size() != 0){
             Toast.makeText(getApplicationContext(),"标题不可重复", Toast.LENGTH_SHORT).show();
@@ -98,7 +98,7 @@ public class Dbhelper {
     }
 
     // 更新（修改）
-    boolean updateCard(String oldHeading, String source, String author, String heading, String content, boolean like, String tab){
+    public boolean updateCard(String oldHeading, String source, String author, String heading, String content, boolean like, String tab){
         //检测重名,不可重复Heading
         if (!oldHeading.equals(heading))
             if (LitePal.where("heading = ?", heading).find(memoryCardsList.class).size() != 0)
@@ -133,7 +133,7 @@ public class Dbhelper {
     }
 
     // 删除卡片
-    void deleteCard(String heading){
+    public void deleteCard(String heading){
         LitePal.deleteAll(memoryCardsList.class, "heading = ?", heading);
         Log.v("数据库","删除卡片--" + heading);
     }
@@ -160,14 +160,14 @@ public class Dbhelper {
     }
 
     // 根据heading查找唯一卡片
-    memoryCardsList findCard(String heading){
+    public memoryCardsList findCard(String heading){
         List<memoryCardsList> cardList = LitePal.where("heading = ?", heading).find(memoryCardsList.class);
         memoryCardsList card = cardList.get(0);
         return card;
     }
 
     // 获取应背列表
-    List<memoryCardsList> getReciteCards() {
+    public List<memoryCardsList> getReciteCards() {
         Date current = new Date(System.currentTimeMillis());
         Date today = new Date(current.getYear(), current.getMonth(), current.getDate(), 23, 59, 59);
         List<memoryCardsList> reciteCardList = LitePal.where("finish = ?", "0").order("reciteDate").find(memoryCardsList.class);
@@ -183,7 +183,7 @@ public class Dbhelper {
     }
 
     // 获取某一标签下全部列表
-    List<memoryCardsList> getAllTabCards(String tabName) {
+    public List<memoryCardsList> getAllTabCards(String tabName) {
         if (tabName.equals("全部")) return getCardList();
         if (tabName.equals("收藏")) return getLikeCardList();
         if (tabName.equals("归档")) return getFinishCardList();
@@ -209,7 +209,7 @@ public class Dbhelper {
     }
 
     // 获取某一标签应背列表
-    List<memoryCardsList> getReciteTabCards(String tabName) {
+    public List<memoryCardsList> getReciteTabCards(String tabName) {
         if (tabName.equals("全部")) return getReciteCards();
 
         Date current = new Date(System.currentTimeMillis());
@@ -235,7 +235,7 @@ public class Dbhelper {
     }
 
     // 更改是否为收藏
-    boolean changeLike(String heading){
+    public boolean changeLike(String heading){
         memoryCardsList card = findCard(heading);
         boolean like = !card.isLike();
         if (like) {
@@ -251,7 +251,7 @@ public class Dbhelper {
     }
 
     // 重复次数+1
-    void addRepeatTime(String heading) {
+    public void addRepeatTime(String heading) {
         memoryCardsList card = findCard(heading);
         int repeatTime = card.getRepeatTime();
         card.setRepeatTime(repeatTime + 1);
@@ -260,7 +260,7 @@ public class Dbhelper {
 
     // 点击记住1 /模糊0 /遗忘-1 后
     // 更新下一次背诵时间
-    void updateReciteDate(String heading, int pass) {
+    public void updateReciteDate(String heading, int pass) {
         memoryCardsList card = findCard(heading);
         int stage = card.getStage();
 
@@ -349,7 +349,7 @@ public class Dbhelper {
     }
 
     // 更新归档单词
-    void finishCard(String heading) {
+    public void finishCard(String heading) {
         memoryCardsList card = findCard(heading);
         card.setFinish(true);
         card.updateAll("heading = ?", heading);
@@ -357,7 +357,7 @@ public class Dbhelper {
     }
 
     // 撤销归档
-    void restoreFinishCard(String heading) {
+    public void restoreFinishCard(String heading) {
         memoryCardsList card = findCard(heading);
         card.setToDefault("finish");
         card.updateAll("heading = ?", heading);
@@ -370,7 +370,7 @@ public class Dbhelper {
     *
     */
     // 添加
-    void addTab(String tabName) {
+    public void addTab(String tabName) {
         //不可重复
         if (LitePal.where("tabName = ?", tabName).find(tabList.class).size() != 0){
             return;
@@ -384,20 +384,20 @@ public class Dbhelper {
     }
 
     //删除
-    void deltab(String tabName){
+    public void deltab(String tabName){
         LitePal.deleteAll( tabList.class,"tabName = ?", tabName);
         Log.v("数据库","删除标签--" + tabName);
     }
 
     // 获取标签列表
-    List<tabList> getTabList(){
+    public List<tabList> getTabList(){
         List<tabList> tabList = LitePal.order("id").find(tabList.class);
         Log.v("数据库","获取标签" + tabList.size() + "个");
         return tabList;
     }
 
     // 获取某一标签
-    tabList getTabList(String tab){
+    public tabList getTabList(String tab){
         List<tabList> tabList = LitePal.where("tabName = ?", tab).find(tabList.class);
         Log.v("数据库","获取标签" + tabList.size() + "个");
         return tabList.get(0);
@@ -409,7 +409,7 @@ public class Dbhelper {
     *
     ******************/
     // 添加
-    void addStageList(){
+    public void addStageList(){
         //不可重复日期创建
         //Date current = new Date(System.currentTimeMillis());
         Date today = today();
@@ -446,7 +446,7 @@ public class Dbhelper {
     }
 
     // 新建记忆卡片时增加stage0
-    void addNewStage(String tab) {
+    public void addNewStage(String tab) {
         List<stageList> stageList =  LitePal.where("tab = ?", tab).find(stageList.class);
         Date today = today();
         for (int i = 0; i < stageList.size(); i++) {
@@ -506,7 +506,7 @@ public class Dbhelper {
     }
 
     // 获取stage统计列表
-    List<stageList> getStageList(){
+    public List<stageList> getStageList(){
         List<stageList> stageList = LitePal.order("id").find(stageList.class);
         Log.v("数据库","获取阶段列表" + stageList.size() + "个");
         return stageList;
@@ -538,7 +538,7 @@ public class Dbhelper {
 
     // 设置初次背诵状态
     // 并更新至StageList & statusSumList
-    void setReciteStatus(String heading, int status) {
+    public void setReciteStatus(String heading, int status) {
         //不可重复卡片
         if (LitePal.where("heading = ?", heading).find(todayCardsList.class).size() != 0){
             return;
@@ -564,14 +564,14 @@ public class Dbhelper {
     }
 
     // 获取今日卡片列表
-    List<todayCardsList> getTodayCardsList(){
+    public List<todayCardsList> getTodayCardsList(){
         List<todayCardsList> todayCardsList = LitePal.findAll(com.example.unforgettable.LitepalTable.todayCardsList.class);
         Log.v("数据库","获取今日卡片" + todayCardsList.size() + "个");
         return todayCardsList;
     }
 
     // 删去todayCardsList中之前日期的卡片
-    void deleteOldDayCards() {
+    public void deleteOldDayCards() {
         List<todayCardsList> todayCardsList = getTodayCardsList();
         int size = todayCardsList.size();
 
@@ -584,7 +584,7 @@ public class Dbhelper {
     }
 
     // 删除今日卡片
-    void deleteTodayCard(String heading){
+    public void deleteTodayCard(String heading){
         LitePal.deleteAll(todayCardsList.class, "heading = ?", heading);
         Log.v("数据库todayCardsList","删除过期卡片--" + heading);
     }
@@ -597,7 +597,7 @@ public class Dbhelper {
      * ************************/
 
     // 根据span查找唯一行
-    statusSumList findStatusRow(int span){
+    public statusSumList findStatusRow(int span){
         List<statusSumList> statusSumList = LitePal.where("span = ?", Integer.toString(span)).find(statusSumList.class);
         if (statusSumList.size() == 0)  return null;
         //statusSumList statusRow = statusSumList.get(0);
@@ -605,7 +605,7 @@ public class Dbhelper {
     }
 
     // 更新statuSumList
-    void updateStatuSumList(String heading, int status) {
+    public void updateStatuSumList(String heading, int status) {
         memoryCardsList card = findCard(heading);
         Date recordDate = card.getRecordDate();
         //Date today = new Date(System.currentTimeMillis());

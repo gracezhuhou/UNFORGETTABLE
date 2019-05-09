@@ -1,4 +1,4 @@
-package com.example.unforgettable.data;
+package com.example.unforgettable.loginData;
 
 /**
  * A generic class that holds a result success w/ data or an error exception.
