@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_8"
         app:tabGravity="fill"
+        android:textColor="?attr/textContentColor"
         app:tabMode="scrollable" />
     <!--android:background="@color/colorPrimaryDark"-->
     <!--app:tabIndicatorColor="@color/colorPrimary"-->

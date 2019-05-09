@@ -154,6 +154,9 @@ public class AppearanceChange extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                intent.putExtra("para", 1);
+                v.getContext().startActivity(intent);
                 finish();
             }
         });
