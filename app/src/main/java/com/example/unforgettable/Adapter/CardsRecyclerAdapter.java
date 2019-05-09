@@ -1,34 +1,26 @@
-package com.example.unforgettable;
+package com.example.unforgettable.Adapter;
 
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Environment;
 import android.os.Vibrator;
-import android.provider.MediaStore;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.PopupMenu;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.unforgettable.Bmob.Bmobhelper;
+import com.example.unforgettable.Dbhelper;
+import com.example.unforgettable.EditCardActivity;
 import com.example.unforgettable.LitepalTable.memoryCardsList;
 
 import java.io.File;
@@ -57,14 +49,14 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
 
         public ViewHolder(View view){
             super(view);
-            headline = view.findViewById(R.id.headline);
-            content_text = view.findViewById(R.id.content_text);
-            detail_text = view.findViewById(R.id.detail_text);
+            headline = view.findViewById(com.example.unforgettable.R.id.headline);
+            content_text = view.findViewById(com.example.unforgettable.R.id.content_text);
+            detail_text = view.findViewById(com.example.unforgettable.R.id.detail_text);
             //delButton = view.findViewById(R.id.delButton);
-            cardView = view.findViewById(R.id.cardView);
-            starButton = view.findViewById(R.id.starButton);
-            audioButton = view.findViewById(R.id.audioButton);
-            fileButton = view.findViewById(R.id.fileButton);
+            cardView = view.findViewById(com.example.unforgettable.R.id.cardView);
+            starButton = view.findViewById(com.example.unforgettable.R.id.starButton);
+            audioButton = view.findViewById(com.example.unforgettable.R.id.audioButton);
+            fileButton = view.findViewById(com.example.unforgettable.R.id.fileButton);
         }
     }
 
@@ -74,7 +66,7 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(com.example.unforgettable.R.layout.item_card, parent, false);
         return new ViewHolder(view);
     }
 
@@ -103,7 +95,7 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
 
         // 是否为收藏
         if (cardsList.isLike()) {
-            Drawable drawable = getApplicationContext().getResources().getDrawable(R.drawable.ic_star_yel);
+            Drawable drawable = getApplicationContext().getResources().getDrawable(com.example.unforgettable.R.drawable.ic_star_yel);
             holder.starButton.setImageDrawable(drawable);
         }
 
@@ -114,7 +106,7 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
 
         // 是否已归档
         if (cardsList.isFinish()) {
-            Drawable drawable = getApplicationContext().getResources().getDrawable(R.drawable.ic_archive_yel);//TODO:
+            Drawable drawable = getApplicationContext().getResources().getDrawable(com.example.unforgettable.R.drawable.ic_archive_yel);//TODO:
             holder.fileButton.setImageDrawable(drawable);
         }
 
@@ -178,11 +170,11 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
                 boolean like = dbhelper.changeLike(heading);
                 // 改按键颜色状态
                 if (like) {
-                    Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_star_yel);
+                    Drawable drawable = getContext().getResources().getDrawable(com.example.unforgettable.R.drawable.ic_star_yel);
                     holder.starButton.setImageDrawable(drawable);
                 }
                 else {
-                    Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_star_black);
+                    Drawable drawable = getContext().getResources().getDrawable(com.example.unforgettable.R.drawable.ic_star_black);
                     holder.starButton.setImageDrawable(drawable);
                 }
             }
@@ -198,12 +190,12 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
                 // 判断播放按钮的状态，根据相应的状态处理事务
                 holder.audioButton.setEnabled(false);
                 Drawable.ConstantState drawableState = holder.audioButton.getDrawable().getConstantState();
-                Drawable.ConstantState drawableState_yel = getContext().getResources().getDrawable(R.drawable.ic_trumpet_yel).getConstantState();
+                Drawable.ConstantState drawableState_yel = getContext().getResources().getDrawable(com.example.unforgettable.R.drawable.ic_trumpet_yel).getConstantState();
                 if (drawableState.equals(drawableState_yel)) {
                     // 停止播放
                     mPlayer.release();
                     mPlayer = null;
-                    Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_trumpet_black);
+                    Drawable drawable = getContext().getResources().getDrawable(com.example.unforgettable.R.drawable.ic_trumpet_black);
                     holder.audioButton.setImageDrawable(drawable);
                 } else {
                     // 开始播放
@@ -215,9 +207,9 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
                         mPlayer.prepare();
                         mPlayer.start();
                     } catch (IOException e) {
-                        Log.e(TAG, getContext().getString(R.string.e_play));
+                        Log.e(TAG, getContext().getString(com.example.unforgettable.R.string.e_play));
                         Toast.makeText(getContext(), "播放失败", Toast.LENGTH_SHORT).show();
-                        Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_trumpet_black);
+                        Drawable drawable = getContext().getResources().getDrawable(com.example.unforgettable.R.drawable.ic_trumpet_black);
                         holder.audioButton.setImageDrawable(drawable);
                     }
                     // 播放完成，改变按钮状态
@@ -226,12 +218,12 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
                         @Override
                         public void onCompletion(MediaPlayer mp) {
                             //mIsPlayState = !mIsPlayState;
-                            Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_trumpet_black);
+                            Drawable drawable = getContext().getResources().getDrawable(com.example.unforgettable.R.drawable.ic_trumpet_black);
                             holder.audioButton.setImageDrawable(drawable);
                         }
                     });
 
-                    Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_trumpet_yel);
+                    Drawable drawable = getContext().getResources().getDrawable(com.example.unforgettable.R.drawable.ic_trumpet_yel);
                     holder.audioButton.setImageDrawable(drawable);
                 }
                 holder.audioButton.setEnabled(true);
@@ -249,12 +241,12 @@ public class CardsRecyclerAdapter extends RecyclerView.Adapter<CardsRecyclerAdap
                 boolean isfinish = card.isFinish();
                 // 改按键颜色状态
                 if (isfinish) {
-                    Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_archive_black);
+                    Drawable drawable = getContext().getResources().getDrawable(com.example.unforgettable.R.drawable.ic_archive_black);
                     holder.fileButton.setImageDrawable(drawable);
                     dbhelper.restoreFinishCard(heading);
                 }
                 else {
-                    Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_archive_yel);
+                    Drawable drawable = getContext().getResources().getDrawable(com.example.unforgettable.R.drawable.ic_archive_yel);
                     holder.fileButton.setImageDrawable(drawable);
                     dbhelper.finishCard(heading);
                 }

@@ -1,4 +1,4 @@
-package com.example.unforgettable.data.model;
+package com.example.unforgettable.loginData.model;
 
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository

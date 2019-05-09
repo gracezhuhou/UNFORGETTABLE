@@ -55,6 +55,10 @@ public class RegisterActivity extends AppCompatActivity {
                 String passwordAgain = passwordInputAgain.getText().toString();
                 String email = emailInput.getText().toString();
 
+                if (password.length() <= 5) {
+                    Toast.makeText(getApplicationContext(), "密码必须>5个字符", Toast.LENGTH_LONG).show();
+                }
+
                 // 两次密码输入不一致
                 if (!password.equals(passwordAgain)) {
                     Toast.makeText(getApplicationContext(), "两次密码输入不一致", Toast.LENGTH_LONG).show();
@@ -92,6 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
                         else
                         {
                             Log.e("注册失败", "原因: ",e );
+                            Toast.makeText(getApplicationContext(),"注册失败，原因: " + e,Toast.LENGTH_LONG).show();
                         }
                     }
                 });
