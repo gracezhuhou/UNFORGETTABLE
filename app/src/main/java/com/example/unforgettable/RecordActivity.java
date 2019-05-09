@@ -66,7 +66,6 @@ import java.util.ArrayList;
 import static android.app.Activity.RESULT_OK;
 import static cn.bmob.v3.Bmob.getApplicationContext;
 import static com.baidu.ocr.sdk.utils.ImageUtil.calculateInSampleSize;
-import static org.litepal.LitePalApplication.getContext;
 
 public class RecordActivity extends Fragment {
     // 前端相关变量
@@ -81,6 +80,7 @@ public class RecordActivity extends Fragment {
     private Button playButton;
     private EditText contentInput;
     private Button clearButton;
+    private Button dlsound;
     private ProgressBar loading;
 
     // 数据库相关变量
@@ -101,6 +101,7 @@ public class RecordActivity extends Fragment {
     private String TAG = getClass().getSimpleName();
     private boolean isAudio = false;
     private boolean isReadFinish = true;
+    private File soundFile;
 
 
     //拍照相关变量
@@ -158,8 +159,10 @@ public class RecordActivity extends Fragment {
         btdel = view.findViewById(R.id.bt_del);
         loading = view.findViewById(R.id.loading);
         clearButton = view.findViewById(R.id.clearButton);
+        dlsound = view.findViewById(R.id.dlsound);
 
         playButton.setVisibility(View.INVISIBLE);
+        dlsound.setVisibility(View.INVISIBLE);
         if(iv_show_picture.getDrawable() == null){
             btdel.setVisibility(View.INVISIBLE);
         }
@@ -294,39 +297,39 @@ public class RecordActivity extends Fragment {
         });
 
 
-        iv_show_picture.setOnLongClickListener(new View.OnLongClickListener() {
-           @Override
-           public boolean onLongClick(View v) {
-               Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
-               vibrator.vibrate(new long[]{0, 60}, -1);
-//               AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-////             builder.setTitle("提升");
-////             builder.setMessage("");
-//               builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
-//                   @Override
-//                   public void onClick(DialogInterface dialog, int which) {
-//                       //删除系统缩略图
-//                       getContext().getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, MediaStore.Images.Media.DATA + "=?", new String[]{path});
-//                       //删除手机中图片
-//                       file.delete();
-//
-//                       iv_show_picture.setBackgroundResource(0);
-//                       //当BackgroundResource的值设置为0的时候遇有R里面没有这个值，所以默认背景图片就不会显示了
-//                       iv_show_picture.setImageBitmap(bitmap);
-//
-//                       //判断是否删除成功
-//                       if(iv_show_picture.getDrawable() == null){
-//                           Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
-//                        }
-//                    }
+//        iv_show_picture.setOnLongClickListener(new View.OnLongClickListener() {
+//           @Override
+//           public boolean onLongClick(View v) {
+//               Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+//               vibrator.vibrate(new long[]{0, 60}, -1);
+////               AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//////             builder.setTitle("提升");
+//////             builder.setMessage("");
+////               builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+////                   @Override
+////                   public void onClick(DialogInterface dialog, int which) {
+////                       //删除系统缩略图
+////                       getContext().getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, MediaStore.Images.Media.DATA + "=?", new String[]{path});
+////                       //删除手机中图片
+////                       file.delete();
+////
+////                       iv_show_picture.setBackgroundResource(0);
+////                       //当BackgroundResource的值设置为0的时候遇有R里面没有这个值，所以默认背景图片就不会显示了
+////                       iv_show_picture.setImageBitmap(bitmap);
+////
+////                       //判断是否删除成功
+////                       if(iv_show_picture.getDrawable() == null){
+////                           Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
+////                        }
+////                    }
+////           });
+////               builder.setNegativeButton("",null);
+////               builder.show();
+//               btdel.setVisibility(View.VISIBLE);
+//               btdel.bringToFront();
+//               return true;
+//           }
 //           });
-//               builder.setNegativeButton("",null);
-//               builder.show();
-               btdel.setVisibility(View.VISIBLE);
-               btdel.bringToFront();
-               return true;
-           }
-           });
 
         //删除按钮监听
         btdel.setOnClickListener(new View.OnClickListener() {
@@ -352,6 +355,35 @@ public class RecordActivity extends Fragment {
 
                 Intent intent = new Intent(getActivity(),TablistActivity.class);
                 startActivityForResult(intent,1);
+            }
+        });
+
+        //删除录音按钮监听
+        dlsound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 50}, -1);
+
+                //删除系统录音
+                //getContext().getContentResolver().delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, MediaStore.Images.Media.DATA + "=?", new String[]{path});
+                getContext().getContentResolver().delete(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, MediaStore.Audio.Media.DATA + "=?", new String[]{mFileName});
+                //MediaRecorder.AudioSource
+                //删除手机中录音
+                soundFile.delete();
+
+//                iv_show_picture.setBackgroundResource(0);
+//                //当BackgroundResource的值设置为0的时候遇有R里面没有这个值，所以默认背景图片就不会显示了
+//                iv_show_picture.setImageBitmap(bitmap);
+
+                dlsound.setVisibility(View.INVISIBLE);//删除按钮隐藏
+                playButton.setVisibility(View.INVISIBLE);//播放按钮隐藏
+
+                //判断是否删除成功
+               if(!soundFile.exists()){
+                     Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
+                }
+               else Toast.makeText(getActivity(), "删除失败", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -385,6 +417,7 @@ public class RecordActivity extends Fragment {
                                 case 0:
                                     isAudio = true;
                                     playButton.setVisibility(View.VISIBLE);
+                                    dlsound.setVisibility(View.VISIBLE);
                                     Toast.makeText(getActivity(), "正在录音，请讲话", Toast.LENGTH_LONG).show();
                                     // 判断录音按钮的状态，根据相应的状态处理事务
                                     soundButton.setText(R.string.wait_for);
@@ -471,6 +504,7 @@ public class RecordActivity extends Fragment {
             Toast.makeText(getApplicationContext(), R.string.no_sd, Toast.LENGTH_SHORT).show();
         } else {
             mRecorder.setOutputFile(mFileName);
+            soundFile = new File(mFileName);
             Log.d(TAG, mFileName);
         }
         // 设置所录制的声音的编码格式。
@@ -649,7 +683,7 @@ public class RecordActivity extends Fragment {
                         //将拍摄的照片显示出来
                         Bitmap bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imageUri));
                         iv_show_picture.setImageBitmap(bitmap);
-                        //btdel.setVisibility(View.VISIBLE);
+                        btdel.setVisibility(View.VISIBLE);//显示照片的同时显示删除按钮
 
                         String path = Environment.getExternalStorageDirectory().getPath()+"/cardPic.jpg";
                         bitmap = getSmallBitmap(path);
@@ -737,7 +771,7 @@ public class RecordActivity extends Fragment {
                         Bitmap image = bundle.getParcelable("data");
                         //设置到ImageView上
                         iv_show_picture.setImageBitmap(image);
-                        //btdel.setVisibility(View.VISIBLE);
+                        btdel.setVisibility(View.VISIBLE);
                         //也可以进行一些保存、压缩等操作后上传
                         //String name = "";
 
@@ -896,7 +930,11 @@ public class RecordActivity extends Fragment {
                 //TODO:
                 // json格式返回字符串
 //                listener.onResult(result.getJsonRes());
-                Toast.makeText(getActivity(),"文字识别完成", Toast.LENGTH_SHORT).show();
+                if(sbPic.toString().isEmpty()){
+                    Toast.makeText(getActivity(),"无法识别呢，请对准文字噢~", Toast.LENGTH_SHORT).show();
+                }
+                else Toast.makeText(getActivity(),"文字识别完成", Toast.LENGTH_SHORT).show();
+
                 submitButton.setEnabled(true); // 可以提交
                 isReadFinish = true;
             }
