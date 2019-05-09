@@ -30,7 +30,7 @@
         android:textSize="@dimen/sp_16"
         app:layout_constraintTop_toBottomOf="@+id/backButton" />
 
-    <ExpandableListView
+    <com.example.unforgettable.helpData.AnimatedExpandableListView
         android:id="@+id/expandablelist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
