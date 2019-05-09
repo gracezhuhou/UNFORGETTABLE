@@ -150,13 +150,13 @@ public class TablistActivity extends AppCompatActivity {
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.activity_tab_add, null);
 
-        builder.setTitle("添加标签");
+        //builder.setTitle("添加标签");
         builder.setView(textEntryView);
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 EditText tabText =  textEntryView.findViewById(R.id.ettab);
-                showDialog("标签 ："  + tabText.getText().toString() );
+                //showDialog("标签 ："  + tabText.getText().toString() );
                 dbhelper.addTab(tabText.getText().toString());
 
                 // 标签列表中动态添加新标签
