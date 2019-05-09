@@ -81,6 +81,7 @@ public class RecordActivity extends Fragment {
     private EditText contentInput;
     private Button clearButton;
     private Button dlsound;
+    private Button continueButton;
     private ProgressBar loading;
 
     // 数据库相关变量
@@ -97,6 +98,7 @@ public class RecordActivity extends Fragment {
     private boolean mIsPlayState = false;// 是否是播放状态
     private MediaRecorder mRecorder = null;// 录音操作对象
     private MediaPlayer mPlayer = null;// 媒体播放器对象
+    private boolean mIsPause = false;//是否是暂停录音状态
     private String mFileName = null;// 录音存储路径
     private String TAG = getClass().getSimpleName();
     private boolean isAudio = false;
@@ -160,9 +162,12 @@ public class RecordActivity extends Fragment {
         loading = view.findViewById(R.id.loading);
         clearButton = view.findViewById(R.id.clearButton);
         dlsound = view.findViewById(R.id.dlsound);
+        continueButton = view.findViewById(R.id.goon);
+
 
         playButton.setVisibility(View.INVISIBLE);
         dlsound.setVisibility(View.INVISIBLE);
+        continueButton.setVisibility(View.INVISIBLE);
         if(iv_show_picture.getDrawable() == null){
             btdel.setVisibility(View.INVISIBLE);
         }
@@ -266,17 +271,38 @@ public class RecordActivity extends Fragment {
                 vibrator.vibrate(new long[]{0, 40}, -1);
 
                 // 判断播放按钮的状态，根据相应的状态处理事务
+                //TODO:
                 playButton.setText(R.string.wait_for);
                 playButton.setEnabled(false);
-                if (mIsPlayState) {
-                    stopPlay();
-                    playButton.setText(R.string.start_play);
-                } else {
-                    startPlay();
+                if (mIsPlayState) {//如果正在播放
+                    mPlayer.pause();
+                    continueButton.setVisibility(View.VISIBLE);//显示继续播放按钮
+                    //stopPlay();
+                    playButton.setText("从头播放");
+                } else {//如果没有在播放
+                    startPlay();//从头播放
                     playButton.setText(R.string.stop_play);
                 }
                 mIsPlayState = !mIsPlayState;
                 playButton.setEnabled(true);
+            }
+        });
+
+        // 继续播放按钮监听
+        continueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 40}, -1);
+
+                if(mIsPlayState){//如果正在播放
+                    mPlayer.pause();
+                }
+                else {//如果没有播放
+                    mPlayer.start();
+                    mIsPause = !mIsPause;
+                }
+                mIsPlayState = !mIsPlayState;
             }
         });
 
@@ -386,7 +412,6 @@ public class RecordActivity extends Fragment {
                else Toast.makeText(getActivity(), "删除失败", Toast.LENGTH_LONG).show();
             }
         });
-
         // 清空按钮
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -545,6 +570,7 @@ public class RecordActivity extends Fragment {
             public void onCompletion(MediaPlayer mp) {
                 mIsPlayState = !mIsPlayState;
                 playButton.setText(R.string.start_play);
+                continueButton.setVisibility(View.INVISIBLE);//隐藏继续播放按钮
             }
         });
     }
