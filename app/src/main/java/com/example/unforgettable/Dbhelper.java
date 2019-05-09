@@ -28,6 +28,8 @@ public class Dbhelper {
     public Dbhelper(){
         LitePal.getDatabase();
 
+        addTab("无标签");
+
         List<statusSumList> statusSumList = LitePal.findAll(statusSumList.class);
         if (statusSumList.size() == 0) {
             for (int i = 0; i < 22; ++i) {
@@ -191,10 +193,10 @@ public class Dbhelper {
 
         List<memoryCardsList> TabCardList;
 
-        if (tabName.equals("未分类"))
-            TabCardList = LitePal.where("tab = ? ", "").order("id").find(memoryCardsList.class);
-        else
-            TabCardList = LitePal.where("tab = ? ", tabName).order("id").find(memoryCardsList.class);
+//        if (tabName.equals("未分类"))
+//            TabCardList = LitePal.where("tab = ? ", "").order("id").find(memoryCardsList.class);
+//        else
+        TabCardList = LitePal.where("tab = ? ", tabName).order("id").find(memoryCardsList.class);
 
 //        for (int i = 0; i < AllCardList.size(); i++) {
 //            // 标签
@@ -387,6 +389,18 @@ public class Dbhelper {
     public void deltab(String tabName){
         LitePal.deleteAll( tabList.class,"tabName = ?", tabName);
         Log.v("数据库","删除标签--" + tabName);
+
+        // 更新此标签的card的标签内容
+        List<memoryCardsList> cardsList = LitePal.where("tab = ?", tabName).find(memoryCardsList.class);
+        int size  = cardsList.size();
+        Log.v("数据库","标签--" + tabName+ size);
+        for (int i = 0; i < size; ++i) {
+            memoryCardsList card = cardsList.get(i);
+            String heading = card.getHeading();
+            card.setToDefault("tab");
+            card.updateAll("heading = ?", heading);
+        }
+
     }
 
     // 获取标签列表

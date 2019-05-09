@@ -204,7 +204,7 @@ public class RecordActivity extends Fragment {
 
                 // 选择标签
                 if (typeButton.getText() == "标签") {
-                    tab = "";
+                    tab = "无标签";
                 }
                 else tab = typeButton.getText().toString();
 
@@ -978,7 +978,8 @@ public class RecordActivity extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         // 释放内存资源
-        OCR.getInstance(getActivity()).release();
+        if (OCR.getInstance(getActivity()) != null)
+            OCR.getInstance(getActivity()).release();
     }
 
 //    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

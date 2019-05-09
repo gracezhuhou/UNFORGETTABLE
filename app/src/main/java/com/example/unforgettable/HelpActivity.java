@@ -48,7 +48,7 @@ public class HelpActivity extends AppCompatActivity {
         myExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView arg0, View arg1, int arg2, long arg3) {
-                // TODO Auto-generated method stub
+                // Auto-generated method stub
                 //Toast.makeText(getApplicationContext(), datas.get(arg2).getTitle(), Toast.LENGTH_LONG).show();
                 if (myExpandableListView.isGroupExpanded(arg2)) {
                     myExpandableListView.collapseGroupWithAnimation(arg2);
@@ -72,7 +72,7 @@ public class HelpActivity extends AppCompatActivity {
         myExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView arg0, View arg1, int arg2, int arg3, long arg4) {
-                // TODO Auto-generated method stub
+                // Auto-generated method stub
                 //Toast.makeText(getApplicationContext(), datas.get(arg2).getList().get(arg3).getContent(), Toast.LENGTH_LONG).show();
                 return false;
             }
