@@ -18,6 +18,8 @@ public class AppearanceChange extends AppCompatActivity {
     LinearLayout samplePink;
     LinearLayout sampleCartoon;
     LinearLayout sampleGot;
+    LinearLayout sampleGradient2;
+    LinearLayout sampleGradient3;
 
     ImageView base;
     ImageView blue;
@@ -62,6 +64,8 @@ public class AppearanceChange extends AppCompatActivity {
         got = findViewById(R.id.bg_got);
         gradient = findViewById(R.id.bg_gradient);
         cartoon = findViewById(R.id.bg_cartoon);
+        sampleGradient2 = findViewById(R.id.sample_gradient2);
+        sampleGradient3 = findViewById(R.id.sample_gradient3);
 
         base.setImageResource(R.drawable.sample_base);
         blue.setImageResource(R.drawable.sample_blue);
@@ -142,6 +146,30 @@ public class AppearanceChange extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int mode = R.style.AppTheme_Base_GoT;
+                editor.putInt("background", mode);
+                editor.apply();
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                intent.putExtra("para", 1);
+                v.getContext().startActivity(intent);
+                finish();
+            }
+        });
+        sampleGradient2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int mode = R.style.AppTheme_Base_Gradient2;
+                editor.putInt("background", mode);
+                editor.apply();
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                intent.putExtra("para", 1);
+                v.getContext().startActivity(intent);
+                finish();
+            }
+        });
+        sampleGradient3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int mode = R.style.AppTheme_Base_Gradient3;
                 editor.putInt("background", mode);
                 editor.apply();
                 Intent intent = new Intent(v.getContext(), MainActivity.class);

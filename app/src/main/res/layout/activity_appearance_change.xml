@@ -209,8 +209,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dp_40"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="@dimen/dp_40"
                 android:background="@drawable/sample_bg"
                 android:layout_below="@+id/sample_pink"
                 android:layout_marginTop="@dimen/dp_10">
@@ -218,7 +218,7 @@
                     android:id="@+id/bg_gradient2"
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="@dimen/dp_100"
-                    android:src="@drawable/sample_blue"
+                    android:src="@drawable/sample_green"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"/>
@@ -235,8 +235,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_40"
                 android:background="@drawable/sample_bg"
                 android:layout_below="@+id/sample_pink"
                 android:layout_marginTop="@dimen/dp_10">
@@ -244,14 +244,14 @@
                     android:id="@+id/bg_gradient3"
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="@dimen/dp_100"
-                    android:src="@drawable/sample_blue"
+                    android:src="@drawable/sample_yel"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="蓝色渐变色"
+                    android:text="黄色渐变色"
                     android:textSize="@dimen/sp_15"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/dp_10"/>
