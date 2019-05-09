@@ -340,6 +340,7 @@ public class SetActivity extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), AppearanceChange.class);
                 v.getContext().startActivity(intent);
+                getActivity().finish();
             }
         });
 

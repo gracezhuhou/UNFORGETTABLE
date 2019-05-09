@@ -16,6 +16,7 @@
         android:layout_marginTop="@dimen/dp_8"
         android:drawableLeft="@drawable/ic_back"
         android:text="返回"
+        android:textColor="?attr/textContentColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,6 +46,7 @@
         android:layout_marginTop="@dimen/dp_1"
         android:background="?attr/semitransparent"
         android:textColor="?attr/textContentColor"
+        android:gravity="center_vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -77,6 +79,7 @@
         android:background="?attr/semitransparent"
         android:textColor="?attr/textContentColor"
         android:hint="请输入新的用户名"
+        android:textColorHint="?attr/textContentColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -110,6 +113,7 @@
         android:textColor="?attr/textContentColor"
         android:ems="10"
         android:hint="请输入原密码"
+        android:textColorHint="?attr/textContentColor"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
@@ -128,6 +132,7 @@
         android:background="?attr/semitransparent"
         android:textColor="?attr/textContentColor"
         android:ems="10"
+        android:textColorHint="?attr/textContentColor"
         android:hint="请输入新密码"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
@@ -147,6 +152,7 @@
         android:textColor="?attr/textContentColor"
         android:ems="10"
         android:hint="请再次输入密码"
+        android:textColorHint="?attr/textContentColor"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"

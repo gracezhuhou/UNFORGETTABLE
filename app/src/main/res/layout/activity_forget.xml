@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:textColor="?attr/textContentColor"
         android:hint="@string/prompt_email"
+        android:textColorHint="?attr/textContentColor"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
         android:layout_centerHorizontal="true"
@@ -22,6 +23,7 @@
         android:layout_width="@dimen/dp_176"
         android:layout_height="@dimen/dp_45"
         android:text="发送邮件重设密码"
+        android:textColor="?attr/textContentColor"
         android:layout_below="@+id/emailInput"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dp_100"/>

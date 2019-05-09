@@ -16,6 +16,7 @@
         android:entries="@array/reviewtType"
         android:gravity="center"
         android:textSize="@dimen/sp_16"
+        android:textColor="?attr/textContentColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">       <!--通过entries属性指定一个下拉列表项，是一个数组资源-->
@@ -188,6 +189,7 @@
         android:layout_marginTop="@dimen/dp_8"
         android:background="@drawable/btn_background"
         android:text="√"
+        android:textColor="?attr/textContentColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passDayText" />
 
@@ -199,6 +201,7 @@
         android:layout_marginTop="@dimen/dp_8"
         android:background="@drawable/btn_background"
         android:text="模糊"
+        android:textColor="?attr/textContentColor"
         app:layout_constraintStart_toEndOf="@+id/passButton"
         app:layout_constraintTop_toBottomOf="@+id/passDayText" />
 
@@ -210,6 +213,7 @@
         android:layout_marginTop="@dimen/dp_8"
         android:background="@drawable/btn_background"
         android:text="忘记"
+        android:textColor="?attr/textContentColor"
         app:layout_constraintStart_toEndOf="@+id/dimButton"
         app:layout_constraintTop_toBottomOf="@+id/passDayText" />
 
@@ -225,6 +229,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="点击显示答案"
+            android:textColor="?attr/textContentColor"
             android:textSize="@dimen/sp_16"
             android:layout_marginTop="@dimen/dp_250"/>
     </RelativeLayout>

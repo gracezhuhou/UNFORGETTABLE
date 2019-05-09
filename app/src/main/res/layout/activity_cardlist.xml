@@ -18,6 +18,7 @@
             android:layout_marginTop="@dimen/dp_8"
             android:background="@drawable/spinner_border"
             android:entries="@array/reviewtType"
+            android:textColor="?attr/textContentColor"
             android:layout_centerHorizontal="true" />       <!--通过entries属性指定一个下拉列表项，是一个数组资源-->
 
 
