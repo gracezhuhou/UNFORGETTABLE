@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.unforgettable.Adapter.ExPandableListViewAdapter;
+import com.example.unforgettable.helpData.AnimatedExpandableListView;
 import com.example.unforgettable.helpData.ChildrenData;
 import com.example.unforgettable.helpData.FatherData;
 
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 public class HelpActivity extends AppCompatActivity {
     private Button backButton;
 
-    private ExpandableListView myExpandableListView;
+    private AnimatedExpandableListView myExpandableListView;
     private ExPandableListViewAdapter adapter;
     private ArrayList<FatherData> datas;
 
@@ -49,13 +50,18 @@ public class HelpActivity extends AppCompatActivity {
             public boolean onGroupClick(ExpandableListView arg0, View arg1, int arg2, long arg3) {
                 // TODO Auto-generated method stub
                 //Toast.makeText(getApplicationContext(), datas.get(arg2).getTitle(), Toast.LENGTH_LONG).show();
-                int count =  adapter.getGroupCount();
-                for (int i = 0; i < 12; ++i) {
-                    if (myExpandableListView.isGroupExpanded(i) && i != arg2) {
-                        myExpandableListView.collapseGroup(i);
-                    }
+                if (myExpandableListView.isGroupExpanded(arg2)) {
+                    myExpandableListView.collapseGroupWithAnimation(arg2);
                 }
-                myExpandableListView.expandGroup(arg2);
+                else {
+                    int count = adapter.getGroupCount();
+                    for (int i = 0; i < count; ++i) {
+                        if (myExpandableListView.isGroupExpanded(i) && i != arg2) {
+                            myExpandableListView.collapseGroupWithAnimation(i);
+                        }
+                    }
+                    myExpandableListView.expandGroupWithAnimation(arg2);
+                }
                 return true;
             }
 
@@ -92,68 +98,13 @@ public class HelpActivity extends AppCompatActivity {
         if (datas == null) {
             datas = new ArrayList<>();
         }
-//        // 一级列表中的数据
-//        FatherData fatherData1 = new FatherData();
-//        fatherData1.setTitle("用户名和邮箱有什么不同？" );
-
-
-//        FatherData fatherData2 = new FatherData();
-//        fatherData2.setTitle("用户名和邮箱有什么不同？" );
-
-//        FatherData fatherData3 = new FatherData();
-//        fatherData3.setTitle("用户名和邮箱有什么不同？" );
-//        FatherData fatherData4 = new FatherData();
-//        fatherData4.setTitle("用户名和邮箱有什么不同？" );
-//        FatherData fatherData5 = new FatherData();
-//        fatherData5.setTitle("用户名和邮箱有什么不同？" );
-//        FatherData fatherData6 = new FatherData();
-//        fatherData6.setTitle("用户名和邮箱有什么不同？" );
-//        FatherData fatherData7 = new FatherData();
-//        fatherData7.setTitle("用户名和邮箱有什么不同？" );
-//        FatherData fatherData8 = new FatherData();
-//        fatherData8.setTitle("用户名和邮箱有什么不同？" );
-//        FatherData fatherData9 = new FatherData();
-//        fatherData9.setTitle("用户名和邮箱有什么不同？" );
-//        FatherData fatherData10 = new FatherData();
-//        fatherData10.setTitle("用户名和邮箱有什么不同？" );
-//        FatherData fatherData11 = new FatherData();
-//        fatherData11.setTitle("用户名和邮箱有什么不同？" );
-//        FatherData fatherData12 = new FatherData();
-//        fatherData12.setTitle("用户名和邮箱有什么不同？" );
-//
-//        // 二级列表中的数据
-//        ArrayList<ChildrenData> itemList = new ArrayList<>();
-//        ChildrenData childrenData1 = new ChildrenData();
-//        childrenData1.setContent("内容");
-//        ChildrenData childrenData2 = new ChildrenData();
-//        childrenData2.setContent("内容");
-//        ChildrenData childrenData3 = new ChildrenData();
-//        childrenData3.setContent("内容");
-//        ChildrenData childrenData4 = new ChildrenData();
-//        childrenData4.setContent("内容");
-//        ChildrenData childrenData5 = new ChildrenData();
-//        childrenData5.setContent("内容");
-//        ChildrenData childrenData6 = new ChildrenData();
-//        childrenData6.setContent("内容");
-//        ChildrenData childrenData7 = new ChildrenData();
-//        childrenData7.setContent("内容");
-//        ChildrenData childrenData8 = new ChildrenData();
-//        childrenData8.setContent("内容");
-//        ChildrenData childrenData9 = new ChildrenData();
-//        childrenData9.setContent("内容");
-//        ChildrenData childrenData10 = new ChildrenData();
-//        childrenData10.setContent("内容");
-//        ChildrenData childrenData11 = new ChildrenData();
-//        childrenData11.setContent("内容");
-//        ChildrenData childrenData12 = new ChildrenData();
-//        childrenData12.setContent("内容");
 
         String[] father = new String[] {
                 "1",
                 "1",
-                "",
-                "",
-                ""};// 12个标题
+                "333",
+                "33333",
+                "333"};// 12个标题
 
         String[][] child = new String[][] {
                 {"1","2"},
@@ -166,12 +117,13 @@ public class HelpActivity extends AppCompatActivity {
                 {R.drawable.ic_star_yel, R.drawable.ic_star_yel, R.drawable.ic_star_yel},
                 {R.drawable.ic_star_yel, R.drawable.ic_star_yel},
                 {R.drawable.ic_star_yel, R.drawable.ic_star_yel},
-                {R.drawable.ic_star_yel, R.drawable.ic_star_yel}
+                {R.drawable.ic_star_yel, R.drawable.ic_star_yel},
+                {R.drawable.ic_star_yel}
         };
 
 
         // 一级列表中的数据
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < father.length; i++) {
             FatherData fatherData = new FatherData();
             fatherData.setTitle(father[i]);
             // 二级列表中的数据
