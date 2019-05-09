@@ -414,7 +414,7 @@ public class Chart2Fragment extends Fragment implements OnChartValueSelectedList
             mBarChart.getData().notifyDataChanged();
             mBarChart.notifyDataSetChanged();
         } else {
-            set1 = new BarDataSet(yVals1, "学习情况");
+            set1 = new BarDataSet(yVals1, "");
 //            set1.setColors(getColors());
             //6、设置柱状图的颜色
             set1.setDrawValues(false);
