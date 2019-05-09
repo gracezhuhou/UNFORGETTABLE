@@ -7,38 +7,43 @@
     tools:context="com.example.unforgettable.HelpActivity"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/backButton"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_8"
-        android:layout_marginLeft="@dimen/dp_8"
-        android:layout_marginTop="@dimen/dp_8"
-        android:drawableLeft="@drawable/ic_back"
-        android:text="返回"
-        android:textColor="?attr/textContentColor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="常见问题"
-        android:textColor="?attr/textContentColor"
-        android:textSize="@dimen/sp_16"
-        app:layout_constraintTop_toBottomOf="@+id/backButton" />
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/backButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:drawableLeft="@drawable/ic_back"
+            android:text="返回"
+            android:textColor="?attr/textContentColor"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="常见问题"
+            android:textColor="?attr/textContentColor"
+            android:textSize="@dimen/sp_17"
+            android:layout_marginTop="@dimen/dp_17"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
 
     <ExpandableListView
         android:id="@+id/expandablelist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:childDivider="#c8c7cc"
-        android:divider="@null"
+        android:childDivider="?attr/textContentColor"
         android:dividerHeight="1dp"
         android:gravity="center"
+        android:divider="@null"
         android:listSelector="#ffffff"
         android:scrollbars="none" />
+    <!--android:divider="@null"分割线为空-->
 
 </LinearLayout>

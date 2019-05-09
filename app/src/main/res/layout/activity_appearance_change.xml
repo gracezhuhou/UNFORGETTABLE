@@ -47,12 +47,12 @@
 
                 <ImageView
                     android:id="@+id/bg_base"
-                    android:layout_width="@dimen/dp_110"
-                    android:layout_height="@dimen/dp_200"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_100"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
-                     />
+                    android:background="@color/white"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -75,8 +75,8 @@
 
                 <ImageView
                     android:id="@+id/bg_cartoon"
-                    android:layout_width="@dimen/dp_110"
-                    android:layout_height="@dimen/dp_200"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_100"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
@@ -104,8 +104,8 @@
 
                 <ImageView
                     android:id="@+id/bg_blue"
-                    android:layout_width="@dimen/dp_110"
-                    android:layout_height="@dimen/dp_200"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_100"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
@@ -133,8 +133,8 @@
 
                 <ImageView
                     android:id="@+id/bg_gradient"
-                    android:layout_width="@dimen/dp_110"
-                    android:layout_height="@dimen/dp_200"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_100"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
@@ -145,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/dp_10"
-                    android:text="渐变色"
+                    android:text="橙色渐变色"
                     android:textSize="@dimen/sp_15" />
             </LinearLayout>
 
@@ -163,8 +163,8 @@
 
                 <ImageView
                     android:id="@+id/bg_pink"
-                    android:layout_width="@dimen/dp_110"
-                    android:layout_height="@dimen/dp_200"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_100"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
@@ -190,8 +190,8 @@
                 android:layout_marginTop="@dimen/dp_10">
                 <ImageView
                     android:id="@+id/bg_got"
-                    android:layout_width="@dimen/dp_110"
-                    android:layout_height="@dimen/dp_200"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_100"
 
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginLeft="@dimen/dp_10"
@@ -200,6 +200,58 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="权力的游戏"
+                    android:textSize="@dimen/sp_15"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/dp_10"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/sample_gradient2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_40"
+                android:background="@drawable/sample_bg"
+                android:layout_below="@+id/sample_pink"
+                android:layout_marginTop="@dimen/dp_10">
+                <ImageView
+                    android:id="@+id/bg_gradient2"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_100"
+                    android:src="@drawable/sample_blue"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="绿色渐变色"
+                    android:textSize="@dimen/sp_15"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/dp_10"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/sample_gradient3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="@dimen/dp_40"
+                android:background="@drawable/sample_bg"
+                android:layout_below="@+id/sample_pink"
+                android:layout_marginTop="@dimen/dp_10">
+                <ImageView
+                    android:id="@+id/bg_gradient3"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_100"
+                    android:src="@drawable/sample_blue"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="蓝色渐变色"
                     android:textSize="@dimen/sp_15"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/dp_10"/>
