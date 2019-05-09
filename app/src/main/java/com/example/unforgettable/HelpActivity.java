@@ -95,8 +95,11 @@ public class HelpActivity extends AppCompatActivity {
 //        // 一级列表中的数据
 //        FatherData fatherData1 = new FatherData();
 //        fatherData1.setTitle("用户名和邮箱有什么不同？" );
+
+
 //        FatherData fatherData2 = new FatherData();
 //        fatherData2.setTitle("用户名和邮箱有什么不同？" );
+
 //        FatherData fatherData3 = new FatherData();
 //        fatherData3.setTitle("用户名和邮箱有什么不同？" );
 //        FatherData fatherData4 = new FatherData();
@@ -145,18 +148,38 @@ public class HelpActivity extends AppCompatActivity {
 //        ChildrenData childrenData12 = new ChildrenData();
 //        childrenData12.setContent("内容");
 
+        String[] father = new String[] {
+                "1",
+                "1",
+                "",
+                "",
+                ""};// 12个标题
+
+        String[][] child = new String[][] {
+                {"1","2"},
+                {"1","2"},
+                {"1","2"},
+                {"1","2"},
+                {"2"}};// 12组内容
+
+        int[][] pic = new int[][] {
+                {R.drawable.ic_star_yel, R.drawable.ic_star_yel, R.drawable.ic_star_yel},
+                {R.drawable.ic_star_yel, R.drawable.ic_star_yel},
+                {R.drawable.ic_star_yel, R.drawable.ic_star_yel},
+                {R.drawable.ic_star_yel, R.drawable.ic_star_yel}
+        };
 
 
         // 一级列表中的数据
         for (int i = 0; i < 12; i++) {
             FatherData fatherData = new FatherData();
-            fatherData.setTitle("标题" + i);
+            fatherData.setTitle(father[i]);
             // 二级列表中的数据
             ArrayList<ChildrenData> itemList = new ArrayList<>();
-            for (int j = 0; j < 3; j++) {
+            for (int j = 0; j < child[i].length; j++) {
                 ChildrenData childrenData = new ChildrenData();
-                childrenData.setContent("内容" + j);
-                Drawable drawable = getResources().getDrawable(R.drawable.ic_star_yel);
+                childrenData.setContent(child[i][j]);
+                Drawable drawable = getResources().getDrawable(pic[i][j]);
                 childrenData.setPic(drawable);
                 itemList.add(childrenData);
             }
