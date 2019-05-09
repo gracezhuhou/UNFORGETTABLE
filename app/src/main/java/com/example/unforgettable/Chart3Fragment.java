@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.unforgettable.LitepalTable.stageList;
 import com.example.unforgettable.LitepalTable.tabList;
@@ -46,6 +47,11 @@ public class Chart3Fragment extends Fragment {
     private int index;//标签所在下标
     private String label = "全部";
     private Spinner spinner;
+    private TextView memorysize;
+    private TextView tensize;
+    private TextView thirtysize;
+    private TextView sixtysize;
+    private TextView ninetysize;
 
     // 数据库相关变量
     private Dbhelper dBhelper = new Dbhelper();
@@ -67,6 +73,13 @@ public class Chart3Fragment extends Fragment {
 
         spinner = (Spinner)view.findViewById(R.id.spinner);
         spinner.bringToFront();
+
+        memorysize = view.findViewById(R.id.memorysize);
+        tensize = view.findViewById(R.id.tensize);
+        thirtysize = view.findViewById(R.id.thirtysize);
+        sixtysize = view.findViewById(R.id.sixtysize);
+        ninetysize = view.findViewById(R.id.ninetysize);
+
         lineChart = (LineChartView)view.findViewById(R.id.chart);
         // TODO: @陈独秀
 
@@ -322,6 +335,12 @@ public class Chart3Fragment extends Fragment {
                 }
             }
         }
+
+        memorysize.setText("今天："+memory[0][59]);
+        tensize.setText("今天:" + memory[1][59]);
+        thirtysize.setText("今天："+memory[2][59]);
+        sixtysize.setText("今天："+memory[3][59]);
+        ninetysize.setText("今天："+memory[4][59]);
 
         for (int i = 0; i < 60; i++) {
             mPointValues0.add(new PointValue(i, memory[0][i]));//已加入记忆规划的全部卡片

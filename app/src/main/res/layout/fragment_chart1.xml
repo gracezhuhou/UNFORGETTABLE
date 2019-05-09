@@ -7,9 +7,7 @@
     tools:context="com.example.unforgettable.Chart1Fragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
@@ -17,15 +15,54 @@
         <lecho.lib.hellocharts.view.LineChartView
             android:id="@+id/chart"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_height="480dp"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/dp_24"
-            android:layout_marginRight="@dimen/dp_24"
-            android:layout_marginBottom="@dimen/dp_36"
-            android:background="?attr/semitransparent"
-            android:layout_marginTop="@dimen/dp_30"></lecho.lib.hellocharts.view.LineChartView>
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginRight="27dp"
+            android:layout_marginBottom="217dp"
+            android:background="?attr/semitransparent"></lecho.lib.hellocharts.view.LineChartView>
+
+        <LinearLayout
+            android:id="@+id/aibinhaosi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_below="@id/chart"
+                android:background="@color/char1standard"/>
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/imageView"
+                android:text="艾宾浩斯遗忘曲线 " />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/self"
+            android:layout_below="@id/aibinhaosi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_below="@id/chart"
+                android:background="@color/char1self"/>
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/image"
+                android:text="你的遗忘曲线 " />
+        </LinearLayout>
 
     </RelativeLayout>
 

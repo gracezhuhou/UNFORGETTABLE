@@ -27,16 +27,16 @@
         <lecho.lib.hellocharts.view.LineChartView
             android:id="@+id/chart"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="@dimen/dp_24"
-            android:layout_marginRight="@dimen/dp_24"
-            android:layout_marginBottom="@dimen/dp_36"
-            android:background="?attr/semitransparent"
+            android:layout_height="528dp"
             android:layout_below="@id/spinner"
-            android:layout_marginTop="@dimen/dp_3"></lecho.lib.hellocharts.view.LineChartView>
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_3"
+            android:layout_marginRight="27dp"
+            android:layout_marginBottom="165dp"
+            android:background="?attr/semitransparent"></lecho.lib.hellocharts.view.LineChartView>
 
         <!--<com.github.mikephil.charting.charts.PieChart-->
             <!--android:id="@+id/consume_pie_chart"-->
@@ -57,6 +57,120 @@
             <!--android:id="@+id/textView9"-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content" />-->
+
+        <LinearLayout
+            android:id="@+id/memory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@color/char3memory"/>
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/image"
+                android:text="已加入记忆规划的卡片 " />
+            <TextView
+                android:id="@+id/memorysize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ten"
+            android:layout_below="@id/memory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imageten"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@color/char1self"/>
+            <TextView
+                android:id="@+id/textten"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/imageten"
+                android:text="记忆持久度>10天的卡片 " />
+            <TextView
+                android:id="@+id/tensize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/textten"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/thirty"
+            android:layout_below="@id/ten"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imagethirty"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@color/char3day30"/>
+            <TextView
+                android:id="@+id/textthirty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/imagethirty"
+                android:text="记忆持久度>30天的卡片 " />
+            <TextView
+                android:id="@+id/thirtysize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/textthirty"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sixty"
+            android:layout_below="@id/thirty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imagesixty"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@color/char3day60"/>
+            <TextView
+                android:id="@+id/textsixty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/imagesixty"
+                android:text="记忆持久度>60天的卡片 " />
+            <TextView
+                android:id="@+id/sixtysize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/textsixty"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ninety"
+            android:layout_below="@id/sixty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imageninety"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@color/char3day90"/>
+            <TextView
+                android:id="@+id/textninety"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/imageninety"
+                android:text="记忆持久度>90天的卡片 " />
+            <TextView
+                android:id="@+id/ninetysize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/textninety"/>
+        </LinearLayout>
 
 
     </RelativeLayout>
