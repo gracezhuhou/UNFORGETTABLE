@@ -97,6 +97,9 @@ public class TablistActivity extends AppCompatActivity {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1, final int arg2, long arg3) {
+                if (tab.get(arg2).equals("无标签")) {
+                    return false;
+                }
                 new AlertDialog.Builder(TablistActivity.this)
                         .setTitle("删除标签")
                         .setPositiveButton("确认",

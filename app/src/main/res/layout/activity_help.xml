@@ -34,7 +34,7 @@
             android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 
-    <ExpandableListView
+    <com.example.unforgettable.helpData.AnimatedExpandableListView
         android:id="@+id/expandablelist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

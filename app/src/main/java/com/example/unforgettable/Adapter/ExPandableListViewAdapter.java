@@ -9,11 +9,12 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.unforgettable.helpData.AnimatedExpandableListView;
 import com.example.unforgettable.helpData.FatherData;
 
 import java.util.ArrayList;
 
-public class ExPandableListViewAdapter extends BaseExpandableListAdapter {
+public class ExPandableListViewAdapter extends AnimatedExpandableListView.AnimatedExpandableListAdapter {
     // 定义一个Context
     private Context context;
     // 定义一个LayoutInflater
@@ -48,7 +49,7 @@ public class ExPandableListViewAdapter extends BaseExpandableListAdapter {
 
     // 定义二级列表中的数据
     @Override
-    public View getChildView(int arg0, int arg1, boolean arg2, View arg3, ViewGroup arg4) {
+    public View getRealChildView(int arg0, int arg1, boolean arg2, View arg3, ViewGroup arg4) {
         // 定义一个二级列表的视图类
         HolderView childrenView;
         if (arg3 == null) {
@@ -85,7 +86,7 @@ public class ExPandableListViewAdapter extends BaseExpandableListAdapter {
 
     // 获取二级列表的数量
     @Override
-    public int getChildrenCount(int arg0) {
+    public int getRealChildrenCount(int arg0) {
         return data_list.get(arg0).getList().size();
     }
 

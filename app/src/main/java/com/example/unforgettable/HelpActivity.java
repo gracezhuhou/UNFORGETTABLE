@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.unforgettable.Adapter.ExPandableListViewAdapter;
+import com.example.unforgettable.helpData.AnimatedExpandableListView;
 import com.example.unforgettable.helpData.ChildrenData;
 import com.example.unforgettable.helpData.FatherData;
 
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 public class HelpActivity extends AppCompatActivity {
     private Button backButton;
 
-    private ExpandableListView myExpandableListView;
+    private AnimatedExpandableListView myExpandableListView;
     private ExPandableListViewAdapter adapter;
     private ArrayList<FatherData> datas;
 
@@ -60,17 +61,15 @@ public class HelpActivity extends AppCompatActivity {
                 // Auto-generated method stub
                 //Toast.makeText(getApplicationContext(), datas.get(arg2).getTitle(), Toast.LENGTH_LONG).show();
                 if (myExpandableListView.isGroupExpanded(arg2)) {
-                    myExpandableListView.collapseGroup(arg2);
+                    myExpandableListView.collapseGroupWithAnimation(arg2);
                 }
                 else {
                     int count = adapter.getGroupCount();
                     for (int i = 0; i < count; ++i) {
                         if (myExpandableListView.isGroupExpanded(i) && i != arg2) {
-                            myExpandableListView.collapseGroup(i);
+                            myExpandableListView.collapseGroupWithAnimation(i);
                         }
                     }
-                    myExpandableListView.expandGroup(arg2, true);
-
                 }
                 return true;
             }
