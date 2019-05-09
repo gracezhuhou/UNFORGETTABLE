@@ -32,7 +32,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Base.Base">
-        <activity android:name=".ForgetActivity"></activity>
+        <activity android:name=".HelpContentActivity"></activity>
+        <activity android:name=".HelpActivity" />
+        <activity android:name=".ForgetActivity" />
         <activity android:name=".AppearanceChange" />
         <activity android:name=".EditUserActivity" />
         <activity android:name=".RegisterActivity" />

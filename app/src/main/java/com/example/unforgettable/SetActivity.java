@@ -80,6 +80,7 @@ public class SetActivity extends Fragment {
     private TimePicker timePicker;
     private AlertDialog dialog;
     private Button appearanceButton;
+    private Button helpButton;
     final Calendar calendar = Calendar.getInstance(Locale.CHINA);
 
     private int hour=10;
@@ -124,6 +125,7 @@ public class SetActivity extends Fragment {
         userPic = view.findViewById(R.id.userPic);
         userName = view.findViewById(R.id.userName);
         appearanceButton = view.findViewById(R.id.change_appearance);
+        helpButton = view.findViewById(R.id.help);
 
         showUser(); // 显示当前用户
 
@@ -338,6 +340,14 @@ public class SetActivity extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), AppearanceChange.class);
                 v.getContext().startActivity(intent);
+            }
+        });
+
+        helpButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(v.getContext(), HelpActivity.class);
+                v.getContext().startActivity(intent1);
             }
         });
     }

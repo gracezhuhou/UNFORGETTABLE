@@ -365,7 +365,7 @@ public class ReviewActivity extends Fragment{
                 authorText.setText(authorStr);
             }
             else {
-                String str = authorStr + " · 《" + sourceStr + "》";
+                String str = "《" + sourceStr + "》 by " + authorStr;
                 authorText.setText(str);
             }
         }

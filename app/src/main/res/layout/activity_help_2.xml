@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HelpContentActivity">
+
+    <Button
+        android:id="@+id/backButton"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginLeft="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_16"
+        android:drawableLeft="@drawable/ic_back"
+        android:text="返回" />
+    <TextView
+        android:id="@+id/te1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="如何设置复习时间？"
+        android:textStyle="bold"
+        android:textSize="@dimen/sp_18"
+        android:textColor="?attr/textContentColor"
+        android:layout_below="@+id/backButton"
+        android:layout_marginLeft="@dimen/dp_28"/>
+    <TextView
+        android:id="@+id/te2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/te1"
+        android:text="在【设置】->【提醒时间】，点击即可进入设置时间页。选择好您想每天提醒您的“复习时间”再点击“确定”即设置成功；如果您不需要每日提醒，点击“不提醒”即可。"
+        android:textSize="@dimen/sp_15"
+        android:textColor="?attr/textContentColor"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginLeft="@dimen/dp_28"
+        android:layout_marginRight="@dimen/dp_28"/>
+
+    <ImageView
+        android:id="@+id/im1"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_100"
+        android:src="@drawable/help2_1"
+        android:layout_below="@+id/te2"
+        android:layout_centerHorizontal="true"/>
+    <ImageView
+        android:id="@+id/im2"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_250"
+        android:src="@drawable/help2_2"
+        android:layout_below="@+id/im1"
+        android:layout_centerHorizontal="true"/>
+    <ImageView
+        android:id="@+id/im3"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_100"
+        android:src="@drawable/help2_3"
+        android:layout_below="@+id/im2"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>
