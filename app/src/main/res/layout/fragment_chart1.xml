@@ -15,25 +15,32 @@
         <lecho.lib.hellocharts.view.LineChartView
             android:id="@+id/chart"
             android:layout_width="wrap_content"
-            android:layout_height="480dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:layout_marginLeft="@dimen/dp_24"
             android:layout_marginTop="@dimen/dp_30"
-            android:layout_marginRight="27dp"
-            android:layout_marginBottom="217dp"
+            android:layout_marginRight="@dimen/dp_24"
+            android:layout_marginBottom="@dimen/dp_64"
             android:background="?attr/semitransparent"></lecho.lib.hellocharts.view.LineChartView>
 
         <LinearLayout
             android:id="@+id/aibinhaosi"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
+            android:layout_height="@dimen/dp_18"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/dp_46"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/dp_24"
+            android:layout_gravity="center_vertical">
+            <View
                 android:id="@+id/imageView"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
                 android:layout_below="@id/chart"
+                android:layout_gravity="center_vertical"
                 android:background="@color/char1standard"/>
 
             <TextView
@@ -41,19 +48,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@id/imageView"
-                android:text="艾宾浩斯遗忘曲线 " />
+                android:text="艾宾浩斯遗忘曲线 "
+                android:textColor="?attr/textContentColor"
+                android:textSize="@dimen/sp_10"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_gravity="center_vertical"/>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/self"
-            android:layout_below="@id/aibinhaosi"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
+            android:layout_height="@dimen/dp_18"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/dp_28"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/dp_24"
+            android:layout_gravity="center_vertical">
+            <View
                 android:id="@+id/image"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_below="@id/chart"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center_vertical"
                 android:background="@color/char1self"/>
 
             <TextView
@@ -61,7 +77,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@id/image"
-                android:text="你的遗忘曲线 " />
+                android:text="你的遗忘曲线"
+                android:textColor="?attr/textContentColor"
+                android:textSize="@dimen/sp_10"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_gravity="center_vertical"/>
         </LinearLayout>
 
     </RelativeLayout>
