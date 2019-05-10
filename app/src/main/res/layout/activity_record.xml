@@ -13,14 +13,12 @@
         android:layout_width="@dimen/dp_70"
         android:layout_height="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_4"
-        android:layout_marginEnd="@dimen/dp_84"
-        android:layout_marginRight="@dimen/dp_84"
         android:gravity="center"
         android:text="清空"
         android:textColor="?attr/textContentColor"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView"
         app:layout_constraintBottom_toTopOf="@+id/authorInput"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/submitButton"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
