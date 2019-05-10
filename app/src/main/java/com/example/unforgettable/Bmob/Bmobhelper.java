@@ -1,8 +1,15 @@
 package com.example.unforgettable.Bmob;
 
+import android.app.AlertDialog;
+import android.app.Service;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
+import android.os.Vibrator;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.unforgettable.Dbhelper;
@@ -22,10 +29,12 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
 import static cn.bmob.v3.Bmob.getApplicationContext;
+import static org.litepal.LitePalApplication.getContext;
 
 public class Bmobhelper {
 
@@ -56,6 +65,8 @@ public class Bmobhelper {
                             } else {
                                 Log.e("Bmob", "更新失败" + e.toString());
                                 Toast.makeText(getApplicationContext(), "云端更新失败，请重新登录", Toast.LENGTH_SHORT).show();
+
+                                reLogin();
                             }
                         }
                     });
@@ -102,6 +113,7 @@ public class Bmobhelper {
                 else{
                     Toast.makeText(getApplicationContext(), "查询失败,请重新登录", Toast.LENGTH_SHORT).show();
                     Log.e("Bmob", "查询失败："+e.getMessage());
+                    reLogin();
                 }
             }
         });
@@ -175,6 +187,7 @@ public class Bmobhelper {
                             } else {
                                 Log.e("Bmob", "云端更新失败" + e.toString());
                                 Toast.makeText(getApplicationContext(), "云端更新失败,请重新登录", Toast.LENGTH_SHORT).show();
+                                reLogin();
                             }
                         }
                     });
@@ -210,6 +223,7 @@ public class Bmobhelper {
                 else{
                     Toast.makeText(getApplicationContext(), "查询用户失败,请重新登录", Toast.LENGTH_SHORT).show();
                     Log.e("Bmob", "查询用户失败："+e.getMessage());
+                    reLogin();
                 }
             }
         });
@@ -286,6 +300,54 @@ public class Bmobhelper {
             }
         });
 
+    }
+
+    private void reLogin() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        LayoutInflater factory = LayoutInflater.from(getApplicationContext());
+        final View textEntryView = factory.inflate(R.layout.activity_tab_add, null);
+
+        builder.setTitle("用户登录已失效，请输入密码重新登录");
+        builder.setView(textEntryView);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int whichButton) {
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 40}, -1);
+
+                EditText passwordText =  textEntryView.findViewById(R.id.passwordText);
+                //showDialog("标签 ："  + tabText.getText().toString() );
+                MyUser userlogin = new MyUser();
+                MyUser myUser = MyUser.getCurrentUser(MyUser.class);
+                userlogin.setUsername(myUser.getEmail());
+                userlogin.setPassword(passwordText.getText().toString());
+                userlogin.login(new SaveListener<MyUser>() {
+                    @Override
+                    public void done(MyUser myUser, BmobException e) {
+                        if (e == null) {
+                            Log.v("Bmob", myUser.getNickname() + "重新登录成功");
+                        }
+                        else {
+                            Log.e("Bmob", "登录失败，原因: ", e);
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+
+                            Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                            vibrator.vibrate(new long[]{0, 100}, -1);
+                        }
+                    }
+                });
+            }
+
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                Vibrator vibrator = (Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0, 40}, -1);
+
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
 }

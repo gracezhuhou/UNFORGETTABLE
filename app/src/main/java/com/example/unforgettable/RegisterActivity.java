@@ -67,6 +67,14 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
+                if (nickName.equals("")){
+                    Toast.makeText(getApplicationContext(), "用户名不得为空", Toast.LENGTH_LONG).show();
+                }
+
+                if (email.equals("")){
+                    Toast.makeText(getApplicationContext(), "邮箱不得为空", Toast.LENGTH_LONG).show();
+                }
+
                 // 新建bmob用户
                 MyUser user =new MyUser();
                 user.setUsername(email);
@@ -96,7 +104,13 @@ public class RegisterActivity extends AppCompatActivity {
                         else
                         {
                             Log.e("注册失败", "原因: ",e );
-                            Toast.makeText(getApplicationContext(),"注册失败，原因: " + e,Toast.LENGTH_LONG).show();
+                            if (e.getErrorCode() == 202) {
+                                Toast.makeText(getApplicationContext(),"邮箱已注册" + e,Toast.LENGTH_LONG).show();
+                            }
+                            else if (e.getErrorCode() == 301) {
+                                Toast.makeText(getApplicationContext(),"非有效邮箱" + e,Toast.LENGTH_LONG).show();
+                            }
+                            else Toast.makeText(getApplicationContext(),"注册失败，原因: " + e,Toast.LENGTH_LONG).show();
                         }
                     }
                 });
