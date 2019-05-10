@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:id="@+id/dialog"
-    style="data-options=onClose:function(){window.location.reload(true);}">
+    android:id="@+id/dialog">
 
     <TextView
         android:id="@+id/text"
