@@ -109,19 +109,10 @@ public class ReviewActivity extends Fragment{
         //LitePal.deleteAll("memoryCardsList");
         //LitePal.deleteAll("statusSumList");
 
-        dbhelper.addStageList();
-        dbhelper.deleteOldDayCards();   // 删去todayCardsList中之前的卡片
 
-//        List<stageList> a = dbhelper.getStageList();
+//        List<memoryCardsList> a = dbhelper.getCardList();
 //        for (int i = 0; i <a.size();++i)
-//            Log.v("复习界面1", a.get(i).getDate()+ "和" +a.get(i).getRemember());
-//        List<todayCardsList> b = LitePal.findAll(todayCardsList.class);
-//        for (int i = 0; i <b.size();++i)
-//            Log.v("复习界面2", b.get(i).getDate()+ "和" +b.get(i).getHeading());
-
-        List<memoryCardsList> a = dbhelper.getCardList();
-        for (int i = 0; i <a.size();++i)
-            Log.v("复习界面1", a.get(i).getHeading()+ "和" +a.get(i).getTab());
+//            Log.v("复习界面1", a.get(i).getHeading()+ "和" +a.get(i).getTab());
 
         //setSpinner();   // 设置标签
         init();  // 初始化背诵列表&初始界面
@@ -141,6 +132,13 @@ public class ReviewActivity extends Fragment{
                 init();
                 //now visible to user
                 Log.v("复习界面", "刷新页面");
+
+                List<stageList> a = dbhelper.getStageList();
+                for (int i = 0; i <a.size();++i)
+                    Log.v("复习界面1", a.get(i).getDate()+ "和"+a.get(i).getTab() + "和记住：" +a.get(i).getRemember());
+                List<todayCardsList> b = LitePal.findAll(todayCardsList.class);
+                for (int i = 0; i <b.size();++i)
+                    Log.v("复习界面2", b.get(i).getDate()+ "和" +b.get(i).getHeading());
             }
         }
 
@@ -327,6 +325,9 @@ public class ReviewActivity extends Fragment{
 
     // 初始化背诵列表 & 初始界面
     private void init() {
+        dbhelper.addStageList();
+        dbhelper.deleteOldDayCards();   // 删去todayCardsList中之前的卡片
+
         reciteCardList = dbhelper.getReciteCards();
         setSpinner();
         showHeading();
@@ -430,7 +431,7 @@ public class ReviewActivity extends Fragment{
         String dateString = formatter.format(recentCard.getRecordDate());
         String cardDetail = "记录于"+ dateString + " 第" + recentCard.getRepeatTime()+ "次重复";
         detailText.setText(cardDetail);
-        String addDay[] = new String[]{"+1天", "+2天", "+4天", "+7天", "+15天", "+1个月", "+3个月", "+6个月", "+1年"};
+        String[] addDay = new String[]{"+1天", "+2天", "+4天", "+7天", "+15天", "+1个月", "+3个月", "+6个月", "+1年"};
         passDayText.setText(addDay[stage]);
 
         // 音频是否存在
