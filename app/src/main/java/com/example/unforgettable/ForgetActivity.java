@@ -1,5 +1,6 @@
 package com.example.unforgettable;
 
+import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,10 +16,19 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 
 public class ForgetActivity extends AppCompatActivity {
+    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pref = getSharedPreferences("Alert", MODE_PRIVATE);
+        int mode = pref.getInt("background", -1);
+        if (mode == -1) {
+            setTheme(R.style.AppTheme_Base_Base);
+        }
+        else {
+            setTheme(mode);
+        }
         setContentView(R.layout.activity_forget);
 
         final EditText emailInput = findViewById(R.id.emailInput);
