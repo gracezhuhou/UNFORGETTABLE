@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class HelpActivity extends AppCompatActivity {
     private Button backButton;
 
-    private AnimatedExpandableListView myExpandableListView;
+    private ExpandableListView myExpandableListView;
     private ExPandableListViewAdapter adapter;
     private ArrayList<FatherData> datas;
 
@@ -61,15 +61,17 @@ public class HelpActivity extends AppCompatActivity {
                 // Auto-generated method stub
                 //Toast.makeText(getApplicationContext(), datas.get(arg2).getTitle(), Toast.LENGTH_LONG).show();
                 if (myExpandableListView.isGroupExpanded(arg2)) {
-                    myExpandableListView.collapseGroupWithAnimation(arg2);
+                    myExpandableListView.collapseGroup(arg2);
                 }
                 else {
                     int count = adapter.getGroupCount();
                     for (int i = 0; i < count; ++i) {
                         if (myExpandableListView.isGroupExpanded(i) && i != arg2) {
-                            myExpandableListView.collapseGroupWithAnimation(i);
+                            myExpandableListView.collapseGroup(i);
                         }
                     }
+                    myExpandableListView.expandGroup(arg2, true);
+
                 }
                 return true;
             }
@@ -121,7 +123,7 @@ public class HelpActivity extends AppCompatActivity {
                 "列表有什么作用？",
                 "标签功能的详情?",
                 "星星标志和文档标志有什么含义？",
-                };// 12个标题
+        };// 12个标题
 
         String[][] child = new String[][] {
                 {"邮箱是您在系统中的唯一识别号。它用于独立登录（Email邮箱+Password密码）。\n" +
@@ -153,7 +155,7 @@ public class HelpActivity extends AppCompatActivity {
                 {"☆是添加到收藏的意思。在【记录】界面添加记忆卡片，以及在【列表】界面，您都可以看到它。选择它之后，该记忆卡片会多一个“收藏”的标签，在【列表】->【全部】下面可以看到“收藏”，打开“收藏”，您就可以看到您标记了☆的记忆卡片。\n" +
                         "\n" +
                         "✉是添加到归档的意思，与☆类似。"},
-               };// 12组内容
+        };// 12组内容
 
         int[][] pic = new int[][] {
                 {R.drawable.help1},//1
