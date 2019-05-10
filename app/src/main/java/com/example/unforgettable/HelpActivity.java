@@ -1,15 +1,12 @@
 package com.example.unforgettable;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.example.unforgettable.Adapter.ExPandableListViewAdapter;
 import com.example.unforgettable.helpData.AnimatedExpandableListView;
@@ -21,12 +18,11 @@ import java.util.ArrayList;
 public class HelpActivity extends AppCompatActivity {
     private Button backButton;
 
-    private ExpandableListView myExpandableListView;
+    private AnimatedExpandableListView myExpandableListView;
     private ExPandableListViewAdapter adapter;
     private ArrayList<FatherData> datas;
 
     SharedPreferences pref;
-    private int lastPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +57,16 @@ public class HelpActivity extends AppCompatActivity {
                 // Auto-generated method stub
                 //Toast.makeText(getApplicationContext(), datas.get(arg2).getTitle(), Toast.LENGTH_LONG).show();
                 if (myExpandableListView.isGroupExpanded(arg2)) {
-                    myExpandableListView.collapseGroup(arg2);
+                    myExpandableListView.collapseGroupWithAnimation(arg2);
                 }
                 else {
                     int count = adapter.getGroupCount();
                     for (int i = 0; i < count; ++i) {
                         if (myExpandableListView.isGroupExpanded(i) && i != arg2) {
-                            myExpandableListView.collapseGroup(i);
+                            myExpandableListView.collapseGroupWithAnimation(i);
                         }
                     }
-                    myExpandableListView.expandGroup(arg2, true);
+                    myExpandableListView.expandGroupWithAnimation(arg2);
 
                 }
                 return true;
