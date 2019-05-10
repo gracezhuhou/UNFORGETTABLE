@@ -40,6 +40,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.unforgettable.Bmob.Bmobhelper;
 import com.example.unforgettable.Bmob.MyUser;
@@ -59,6 +60,7 @@ import java.util.TimeZone;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 import static com.baidu.ocr.sdk.utils.ImageUtil.calculateInSampleSize;
+import static org.litepal.LitePalApplication.getContext;
 
 
 public class SetActivity extends Fragment {
@@ -158,11 +160,26 @@ public class SetActivity extends Fragment {
                 // 上传云端
                 //bmobhelper.logout();
 
-                // 登出
-                loginRepository.logout();
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
-                getActivity().finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("确认");
+                builder.setMessage("您确定要登出吗？（请务必在登出前上传数据至云端）");
+                builder.setPositiveButton("登出", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Vibrator vibrator=(Vibrator)getContext().getSystemService(Service.VIBRATOR_SERVICE);
+                        vibrator.vibrate(new long[]{0,50}, -1);
+                        //showPopMenu(,holder.getAdapterPosition());
+
+                        // 登出
+                        loginRepository.logout();
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                });
+                builder.setNegativeButton("取消",null);
+                builder.show();
+
             }
         });
         /*
