@@ -325,7 +325,7 @@ public class Dbhelper {
             // 更新数据库
             Date reciteDate = new Date(System.currentTimeMillis());
             card.setReciteDate(reciteDate);
-            card.setStage(0);
+            card.setToDefault("stage");
             card.updateAll("heading = ?", heading);
             Log.v("数据库","更新未记住卡片的背诵时间至" + reciteDate);
 
@@ -337,8 +337,8 @@ public class Dbhelper {
             // 更新数据库
             Date reciteDate = new Date(System.currentTimeMillis());
             card.setReciteDate(reciteDate);
-            if (stage == 0) {
-                card.setStage(0);
+            if (stage == 0 || stage == 1) {
+                card.setToDefault("stage");
                 updateStageSum(stage, 0, card.getTab());    // 更新至StageList
             }
             else {
@@ -348,6 +348,7 @@ public class Dbhelper {
             card.updateAll("heading = ?", heading);
             Log.v("数据库","更新模糊卡片的背诵时间至" + reciteDate);
         }
+        updateMemoryStatus(card.getTab(), pass);
     }
 
     // 更新归档单词
@@ -443,16 +444,26 @@ public class Dbhelper {
             stageRow.setDate(today);
             stageRow.setTab(tab);
             int[] stageSum = getStageSum(tab);
-            stageRow.setStage0(stageSum[0]);
-            stageRow.setStage1(stageSum[1]);
-            stageRow.setStage2(stageSum[2]);
-            stageRow.setStage3(stageSum[3]);
-            stageRow.setStage4(stageSum[4]);
-            stageRow.setStage5(stageSum[5]);
-            stageRow.setStage6(stageSum[6]);
-            stageRow.setStage7(stageSum[7]);
-            stageRow.setStage8(stageSum[8]);
-            stageRow.setStage9(stageSum[9]);
+            if (stageSum[0] == 0) stageRow.setToDefault("stage0");
+            else stageRow.setStage0(stageSum[0]);
+            if (stageSum[1] == 0) stageRow.setToDefault("stage1");
+            else stageRow.setStage1(stageSum[1]);
+            if (stageSum[2] == 0) stageRow.setToDefault("stage2");
+            else stageRow.setStage2(stageSum[2]);
+            if (stageSum[3] == 0) stageRow.setToDefault("stage3");
+            else stageRow.setStage3(stageSum[3]);
+            if (stageSum[4] == 0) stageRow.setToDefault("stage4");
+            else stageRow.setStage4(stageSum[4]);
+            if (stageSum[5] == 0) stageRow.setToDefault("stage5");
+            else stageRow.setStage5(stageSum[5]);
+            if (stageSum[6] == 0) stageRow.setToDefault("stage6");
+            else stageRow.setStage6(stageSum[6]);
+            if (stageSum[7] == 0) stageRow.setToDefault("stage7");
+            else stageRow.setStage7(stageSum[7]);
+            if (stageSum[8] == 0) stageRow.setToDefault("stage8");
+            else stageRow.setStage8(stageSum[8]);
+            if (stageSum[9] == 0) stageRow.setToDefault("stage9");
+            else stageRow.setStage9(stageSum[9]);
 
             stageRow.save();
         }
@@ -485,7 +496,13 @@ public class Dbhelper {
                // if (tab.equals(todayStage.getTab())) {
                 int stageSum = todayStage.getStage(stage) - 1;
                 int newStageSum = todayStage.getStage(newStage) + 1;
-                todayStage.setStage(stage,stageSum);
+                if (stageSum == 0){
+                    String stageName = "stage" + stage;
+                    todayStage.setToDefault(stageName);
+                }
+                else {
+                    todayStage.setStage(stage,stageSum);
+                }
                 todayStage.setStage(newStage,newStageSum);
                 todayStage.updateAll("id = ?", Integer.toString(todayStage.getId()));
                // }
@@ -497,23 +514,28 @@ public class Dbhelper {
     private void updateMemoryStatus(String tab, int status) {
         //Date current = new Date(System.currentTimeMillis());
         Date today = today();
+        Log.v("数据库","开始更新记忆状态Status--" + status + ",tab:" + tab);
 
         List<stageList> stageList = LitePal.where("tab = ?", tab).find(stageList.class);
         for (int i = 0; i < stageList.size(); i++) {
             stageList todayStage = stageList.get(i);
             if (todayStage.getDate().compareTo(today) == 0) {
                 //if (tab.equals(todayStage.getTab())) {
-                    switch (status){
-                        case 1:
-                            todayStage.setRemember(todayStage.getRemember() + 1);
-                            break;
-                        case -1:
-                            todayStage.setForget(todayStage.getForget() + 1);
-                            break;
-                        case 0:
-                            todayStage.setDim(todayStage.getDim() + 1);
-                    }
-                    todayStage.updateAll("id = ?", Integer.toString(todayStage.getId()));
+                switch (status){
+                    case 1:
+                        int rememberSum = todayStage.getRemember() + 1;
+                        todayStage.setRemember(rememberSum);
+                        break;
+                    case -1:
+                        int forgetSum = todayStage.getForget() + 1;
+                        todayStage.setForget(forgetSum);
+                        break;
+                    case 0:
+                        int dimSum = todayStage.getDim() + 1;
+                        todayStage.setDim(dimSum);
+                }
+                todayStage.updateAll("id = ?", Integer.toString(todayStage.getId()));
+                Log.v("数据库","更新记忆状态Status--" + status + ",tab:" + tab);
                 //}
             }
         }
@@ -650,6 +672,7 @@ public class Dbhelper {
                 }
             }
             statusRow.updateAll("span = ?", Integer.toString(span));
+            Log.v("数据库statuSumList","更新status--" + status);
         }
     }
 

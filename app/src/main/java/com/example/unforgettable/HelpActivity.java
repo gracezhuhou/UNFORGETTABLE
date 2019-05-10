@@ -67,7 +67,6 @@ public class HelpActivity extends AppCompatActivity {
                         }
                     }
                     myExpandableListView.expandGroupWithAnimation(arg2);
-
                 }
                 return true;
             }

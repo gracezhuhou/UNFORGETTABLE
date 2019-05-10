@@ -261,7 +261,7 @@ public class EditCardActivity extends AppCompatActivity {
                         }
                     }
 
-                    Toast.makeText(getApplicationContext(), "新建卡片成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "更改卡片成功", Toast.LENGTH_SHORT).show();
                     finish();   //返回复习界面
                 }
                 Log.v("卡片编辑界面","提交按钮点击事件");
