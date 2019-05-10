@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
-    <TextView
+    <View
+        android:id="@+id/view"
+        android:layout_width="@dimen/dp_330"
+        android:layout_height="0.5dp"
+        android:background="@color/black"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_10"/>
+    <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:id="@+id/tvtab"
-        android:text="输入密码：" />
+        android:id="@+id/dialogname"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/view"
+        android:layout_marginTop="@dimen/dp_10">
 
-    <EditText
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:id="@+id/passwordText"
-        android:minWidth="200dip"/>
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/tvtab"
+            android:text="输入密码：" />
+        <EditText android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/passwordText"
+            android:minWidth="200dip"/>
+    </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

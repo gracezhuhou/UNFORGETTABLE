@@ -303,9 +303,9 @@ public class Bmobhelper {
     }
 
     private void reLogin() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-        LayoutInflater factory = LayoutInflater.from(getApplicationContext());
-        final View textEntryView = factory.inflate(R.layout.activity_tab_add, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater factory = LayoutInflater.from(getContext());
+        final View textEntryView = factory.inflate(R.layout.dialog_relogin, null);
 
         builder.setTitle("用户登录已失效，请输入密码重新登录");
         builder.setView(textEntryView);
